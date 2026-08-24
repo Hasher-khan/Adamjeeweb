@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <script src="js/auth.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adamjee CMS - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body class="font-['Inter'] antialiased min-h-screen flex text-surface-bright">
+
+    <!-- Sidebar -->
+    <aside class="w-64 glass-panel border-r border-white/10 flex flex-col hidden md:flex h-screen sticky top-0">
+        <div class="p-6 border-b border-white/10 flex items-center gap-3">
+            <div class="w-8 h-8 rounded bg-secondary flex items-center justify-center font-bold text-white shadow-lg">A</div>
+            <h1 class="text-xl font-bold tracking-tight text-white">Adamjee CMS</h1>
+        </div>
+        
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-4">Menu</p>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white font-medium transition-colors">
+                <i class="ri-dashboard-line text-lg"></i> Dashboard
+            </a>
+            <a href="admissions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors">
+                <i class="ri-article-line text-lg"></i> Admissions
+            </a>
+            <a href="faculty.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors">
+                <i class="ri-team-line text-lg"></i> Faculty
+            </a>
+            <a href="timetable.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors">
+                <i class="ri-calendar-todo-line text-lg"></i> Timetable
+            </a>
+            <a href="student-applications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors">
+                <i class="ri-user-shared-line text-lg"></i> Student Forms
+            </a>
+            
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-8">System</p>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors">
+                <i class="ri-settings-3-line text-lg"></i> Settings
+            </a>
+        </nav>
+        
+        <div class="p-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-3 py-2">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=115cb9&color=fff" alt="User" class="w-10 h-10 rounded-full border border-white/20">
+                <div>
+                    <p class="text-sm font-medium text-white">Admin User</p>
+                    <p class="text-xs text-white/50">admin@adamjee.edu</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-h-screen overflow-hidden relative z-10">
+        
+        <!-- Header -->
+        <header class="glass-panel border-b border-white/10 px-8 py-5 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button class="md:hidden text-white/70 hover:text-white">
+                    <i class="ri-menu-2-line text-2xl"></i>
+                </button>
+                <h2 class="text-2xl font-semibold text-white">Overview</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition">
+                    <i class="ri-notification-3-line"></i>
+                </button>
+                <a href="../index.html" target="_blank" class="px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium text-sm transition shadow-lg shadow-secondary/20 flex items-center gap-2">
+                    <i class="ri-external-link-line"></i> View Site
+                </a>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="flex-1 p-8 overflow-y-auto">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Stat Cards -->
+                <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.1s;">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-white/60 mb-1">Total Applications</p>
+                            <h3 id="total-applications" class="text-3xl font-bold text-white">—</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">
+                            <i class="ri-file-text-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-white/40">Saved student forms</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.2s;">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-white/60 mb-1">Awaiting Review</p>
+                            <h3 id="pending-applications" class="text-3xl font-bold text-white">—</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">
+                            <i class="ri-file-text-line"></i>
+                        </div>
+                    </div>
+                    <a href="student-applications.html" class="text-sm text-secondary-fixed-dim hover:text-white transition">Open student forms</a>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.3s;">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-white/60 mb-1">Faculty</p>
+                            <h3 id="faculty-members" class="text-3xl font-bold text-white">—</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl">
+                            <i class="ri-team-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-white/40">Active members</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.4s;">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-white/60 mb-1">Approved</p>
+                            <h3 id="approved-applications" class="text-3xl font-bold text-white">—</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center text-xl">
+                            <i class="ri-checkbox-circle-line"></i>
+                        </div>
+                    </div>
+                    <p id="dashboard-updated" class="text-sm text-white/40">Connecting to CMS…</p>
+                </div>
+            </div>
+
+            <!-- Recent Activity & Quick Actions -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <div class="lg:col-span-2 glass-panel rounded-2xl p-6 fade-in" style="animation-delay: 0.5s;">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold text-white">Recent Activity</h3>
+                        <a href="student-applications.html" class="text-sm text-secondary-fixed-dim hover:text-white transition">View all forms</a>
+                    </div>
+                    <div id="recent-activity" class="space-y-4"><p class="text-sm text-white/50 py-5 text-center">Loading real activity…</p></div>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6 fade-in" style="animation-delay: 0.6s;">
+                    <h3 class="text-lg font-semibold text-white mb-6">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <a href="admissions.html" class="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-white/10 flex items-center justify-center text-white">
+                                    <i class="ri-article-line"></i>
+                                </div>
+                                <span class="font-medium text-sm text-white">Edit Admissions</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all"></i>
+                        </a>
+                        <a href="faculty.html" class="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-white/10 flex items-center justify-center text-white">
+                                    <i class="ri-team-line"></i>
+                                </div>
+                                <span class="font-medium text-sm text-white">Manage Faculty</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all"></i>
+                        </a>
+                        <a href="timetable.html" class="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-white/10 flex items-center justify-center text-white">
+                                    <i class="ri-calendar-todo-line"></i>
+                                </div>
+                                <span class="font-medium text-sm text-white">Update Timetable</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script>
+        const activityIcons = {
+            submitted: 'ri-file-add-line text-blue-400 bg-blue-500/20',
+            approved: 'ri-checkbox-circle-line text-green-400 bg-green-500/20',
+            rejected: 'ri-close-circle-line text-red-400 bg-red-500/20'
+        };
+        function escapeHtml(value = '') { return String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]); }
+        function relativeTime(date) { const seconds = Math.max(0, Math.floor((Date.now() - new Date(date)) / 1000)); if (seconds < 60) return 'Just now'; if (seconds < 3600) return `${Math.floor(seconds / 60)} min ago`; if (seconds < 86400) return `${Math.floor(seconds / 3600)} hr ago`; return `${Math.floor(seconds / 86400)} days ago`; }
+        function renderActivity(items) {
+            const container = document.getElementById('recent-activity');
+            if (!items.length) { container.innerHTML = '<div class="py-8 text-center text-white/50"><i class="ri-inbox-2-line text-3xl"></i><p class="mt-3">No student activity yet.</p><a href="../admissions.html#application-form" target="_blank" class="inline-block mt-3 text-secondary-fixed-dim hover:text-white text-sm">Open admission form</a></div>'; return; }
+            container.innerHTML = items.map(item => { const icon = activityIcons[item.type] || activityIcons.submitted; return `<div class="flex gap-4 items-start p-3 rounded-xl hover:bg-white/5 transition"><div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${icon.split(' ').slice(1).join(' ')}"><i class="${icon.split(' ').slice(0, 2).join(' ')}"></i></div><div><p class="text-white text-sm font-medium">${escapeHtml(item.title)}</p><p class="text-white/50 text-xs mt-1">${escapeHtml(item.detail)}</p><p class="text-white/30 text-xs mt-2">${relativeTime(item.at)}</p></div></div>`; }).join('');
+        }
+        async function refreshDashboard() {
+            const data = await fetchDashboardData();
+            const updated = document.getElementById('dashboard-updated');
+            if (!data) { updated.textContent = 'CMS connection unavailable'; updated.className = 'text-sm text-red-300'; return; }
+            document.getElementById('total-applications').textContent = data.stats.totalApplications;
+            document.getElementById('pending-applications').textContent = data.stats.pendingApplications;
+            document.getElementById('approved-applications').textContent = data.stats.approvedApplications;
+            document.getElementById('faculty-members').textContent = data.stats.facultyMembers;
+            updated.textContent = `Live data · Updated ${new Intl.DateTimeFormat('en-PK', { timeStyle: 'short' }).format(new Date(data.generatedAt))}`;
+            updated.className = 'text-sm text-green-300';
+            renderActivity(data.activity);
+        }
+        refreshDashboard();
+        setInterval(refreshDashboard, 10000);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <script src="js/auth.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Applications - Adamjee CMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="font-['Inter'] antialiased min-h-screen flex text-surface-bright">
+    <aside class="w-64 glass-panel border-r border-white/10 flex-col hidden md:flex h-screen sticky top-0">
+        <div class="p-6 border-b border-white/10 flex items-center gap-3"><div class="w-8 h-8 rounded bg-secondary flex items-center justify-center font-bold text-white">A</div><h1 class="text-xl font-bold text-white">Adamjee CMS</h1></div>
+        <nav class="flex-1 p-4 space-y-2">
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-4">Menu</p>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium"><i class="ri-dashboard-line text-lg"></i> Dashboard</a>
+            <a href="admissions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium"><i class="ri-article-line text-lg"></i> Admissions</a>
+            <a href="faculty.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium"><i class="ri-team-line text-lg"></i> Faculty</a>
+            <a href="timetable.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium"><i class="ri-calendar-todo-line text-lg"></i> Timetable</a>
+            <a href="student-applications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white font-medium"><i class="ri-user-shared-line text-lg"></i> Student Forms</a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 min-w-0 p-5 md:p-8 overflow-y-auto">
+        <header class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 mb-8">
+            <div><p class="text-secondary-fixed-dim font-medium text-sm mb-1">Admissions workspace</p><h2 class="text-3xl font-bold text-white">Student applications</h2><p class="text-white/50 mt-2">Review every submitted form, then approve or reject it with a clear audit trail.</p></div>
+            <button id="refresh-btn" class="px-4 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium text-sm transition"><i class="ri-refresh-line mr-1"></i> Refresh</button>
+        </header>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <section class="xl:col-span-2 glass-panel rounded-2xl overflow-hidden">
+                <div class="p-5 border-b border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div><h3 class="font-semibold text-white">Application inbox</h3><p id="application-count" class="text-sm text-white/50 mt-1">Loading applications…</p></div>
+                    <select id="status-filter" class="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-secondary"><option value="All">All statuses</option><option value="Pending">Pending</option><option value="Approved">Approved</option><option value="Rejected">Rejected</option></select>
+                </div>
+                <div id="application-list" class="divide-y divide-white/10"><div class="p-10 text-center text-white/50"><i class="ri-loader-4-line animate-spin text-2xl"></i><p class="mt-3">Loading student forms…</p></div></div>
+            </section>
+
+            <aside class="space-y-6">
+                <section class="glass-panel rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-5"><div class="w-10 h-10 rounded-xl bg-green-500/15 text-green-400 flex items-center justify-center text-xl"><i class="ri-google-line"></i></div><div><h3 class="font-semibold text-white">Google Sheets sync</h3><p class="text-xs text-white/50">Approved forms only</p></div></div>
+                    <label for="google-script-url" class="block text-sm text-white/70 mb-2">Apps Script Web App URL</label>
+                    <input id="google-script-url" type="url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-secondary">
+                    <p class="text-xs text-white/45 mt-3 leading-5">When an admin approves a form, the complete application is sent to this deployed Google Apps Script URL.</p>
+                    <button id="save-settings-btn" class="mt-4 w-full px-4 py-2.5 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium text-sm transition"><i class="ri-save-3-line mr-1"></i> Save sync setting</button>
+                    <p id="settings-message" class="hidden mt-3 text-xs"></p>
+                </section>
+                <section class="glass-panel rounded-2xl p-6"><h3 class="font-semibold text-white mb-3">How approvals work</h3><ol class="space-y-3 text-sm text-white/60"><li class="flex gap-3"><span class="text-secondary-fixed-dim font-bold">1</span><span>Students submit an application on the public Admissions page.</span></li><li class="flex gap-3"><span class="text-secondary-fixed-dim font-bold">2</span><span>It appears here with a <strong class="text-amber-300">Pending</strong> status.</span></li><li class="flex gap-3"><span class="text-secondary-fixed-dim font-bold">3</span><span>Approval records the decision and sends the form to Google Sheets.</span></li></ol></section>
+            </aside>
+        </div>
+    </main>
+    <div id="notice" class="hidden fixed bottom-6 right-6 max-w-sm rounded-xl px-4 py-3 text-sm shadow-2xl z-50"></div>
+    <script src="js/api.js"></script>
+    <script>
+        let applications = [];
+        const escapeHtml = (value = '') => String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
+        const formatDate = (value) => value ? new Intl.DateTimeFormat('en-PK', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value)) : '—';
+        function notice(message, success = true) { const el = document.getElementById('notice'); el.textContent = message; el.className = `fixed bottom-6 right-6 max-w-sm rounded-xl px-4 py-3 text-sm shadow-2xl z-50 ${success ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`; setTimeout(() => el.classList.add('hidden'), 4000); }
+        function statusBadge(status) { const colors = { Pending: 'bg-amber-500/15 text-amber-300 border-amber-400/20', Approved: 'bg-green-500/15 text-green-300 border-green-400/20', Rejected: 'bg-red-500/15 text-red-300 border-red-400/20' }; return `<span class="inline-flex px-2.5 py-1 rounded-full border text-xs font-semibold ${colors[status] || colors.Pending}">${escapeHtml(status)}</span>`; }
+        function renderApplications() {
+            const filter = document.getElementById('status-filter').value;
+            const shown = applications.filter(app => filter === 'All' || app.status === filter);
+            document.getElementById('application-count').textContent = `${applications.length} total · ${applications.filter(app => app.status === 'Pending').length} awaiting review`;
+            const list = document.getElementById('application-list');
+            if (!shown.length) { list.innerHTML = '<div class="p-10 text-center text-white/50"><i class="ri-inbox-2-line text-3xl"></i><p class="mt-3">No applications match this filter.</p></div>'; return; }
+            list.innerHTML = shown.map(app => `<article class="p-5 hover:bg-white/[0.03] transition"><div class="flex flex-col md:flex-row md:justify-between gap-4"><div><div class="flex flex-wrap items-center gap-3"><h4 class="font-semibold text-white text-lg">${escapeHtml(app.studentName)}</h4>${statusBadge(app.status)}</div><p class="text-sm text-white/50 mt-1">${escapeHtml(app.program)} · Class ${escapeHtml(app.currentClass)} · Submitted ${formatDate(app.submittedAt)}</p></div><div class="flex items-center gap-2">${app.status === 'Pending' ? `<button data-action="Approve" data-id="${escapeHtml(app.id)}" class="action-btn px-3 py-2 rounded-lg bg-green-500/15 hover:bg-green-500 text-green-300 hover:text-white font-medium text-sm transition"><i class="ri-check-line"></i> Approve</button><button data-action="Reject" data-id="${escapeHtml(app.id)}" class="action-btn px-3 py-2 rounded-lg bg-red-500/15 hover:bg-red-500 text-red-300 hover:text-white font-medium text-sm transition"><i class="ri-close-line"></i> Reject</button>` : `<span class="text-xs ${app.syncedToGoogle ? 'text-green-300' : 'text-white/40'}">${app.status === 'Approved' ? (app.syncedToGoogle ? 'Synced to Google' : 'Google sync not configured/failed') : 'Decision recorded'}</span>`}</div></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm mt-5 pt-4 border-t border-white/10"><p><span class="text-white/40">Father:</span> <span class="text-white/80">${escapeHtml(app.fatherName)}</span></p><p><span class="text-white/40">Phone:</span> <span class="text-white/80">${escapeHtml(app.phone)}</span></p><p><span class="text-white/40">Previous school:</span> <span class="text-white/80">${escapeHtml(app.prevSchool)}</span></p><p><span class="text-white/40">Reference:</span> <span class="text-white/80">${escapeHtml(app.id)}</span></p>${app.message ? `<p class="sm:col-span-2"><span class="text-white/40">Student note:</span> <span class="text-white/80">${escapeHtml(app.message)}</span></p>` : ''}</div></article>`).join('');
+        }
+        async function loadApplications() { const result = await fetchStudentApplications(); if (result === null) { document.getElementById('application-list').innerHTML = '<div class="p-10 text-center text-red-300">Could not load applications. Start the backend and refresh this page.</div>'; return; } applications = result.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt)); renderApplications(); }
+        async function loadSettings() { const settings = await fetchSettings(); if (settings) document.getElementById('google-script-url').value = settings.googleScriptUrl || ''; }
+        document.getElementById('status-filter').addEventListener('change', renderApplications);
+        document.getElementById('refresh-btn').addEventListener('click', loadApplications);
+        document.getElementById('application-list').addEventListener('click', async event => { const button = event.target.closest('.action-btn'); if (!button) return; const action = button.dataset.action; if (!confirm(`${action} this student application? This decision cannot be changed.`)) return; button.disabled = true; const result = await actionStudentApplication(button.dataset.id, action); if (!result.success) { notice(result.message || 'Unable to update application.', false); button.disabled = false; return; } notice(action === 'Approve' && result.application.syncedToGoogle ? 'Approved and saved to Google Sheets.' : result.message); await loadApplications(); });
+        document.getElementById('save-settings-btn').addEventListener('click', async () => { const button = document.getElementById('save-settings-btn'); button.disabled = true; const result = await saveSettings({ googleScriptUrl: document.getElementById('google-script-url').value.trim() }); button.disabled = false; const message = document.getElementById('settings-message'); message.textContent = result.success ? 'Google Apps Script URL saved.' : (result.message || 'Could not save setting.'); message.className = `mt-3 text-xs ${result.success ? 'text-green-300' : 'text-red-300'}`; });
+        Promise.all([loadApplications(), loadSettings()]);
+    </script>
+</body>
+</html>

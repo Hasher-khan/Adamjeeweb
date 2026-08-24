@@ -1,0 +1,266 @@
+{
+  "admissions": {
+    "title": "Admissions 2026-2027",
+    "deadline": "2026-09-30",
+    "fee": "1500",
+    "instructions": "Welcome to the Adamjee admissions portal. Please ensure all documents are attested before submission.",
+    "documents": [
+      "Previous Academic Transcripts",
+      "Copy of CNIC / B-Form"
+    ]
+  },
+  "faculty": {
+    "title": "Our Expert Faculty",
+    "description": "Discover the distinguished educators guiding our students to academic excellence in competitive board examinations.",
+    "teachers": []
+  },
+  "timetable": {
+    "title": "Class Timetable",
+    "semester": "Fall 2026",
+    "announcement": "Classes begin on September 15th.",
+    "classes": {
+      "9th": {
+        "label": "9th Grade (Matric)",
+        "schedule": {
+          "monday": [
+            {
+              "time": "03:00 PM - 04:00 PM",
+              "subject": "Mathematics",
+              "teacher": "Sir Tariq Mehmood",
+              "room": "Room 1",
+              "type": "class"
+            },
+            {
+              "time": "04:00 PM - 05:00 PM",
+              "subject": "Physics",
+              "teacher": "Sir Ahmed Raza",
+              "room": "Room 2",
+              "type": "class"
+            },
+            {
+              "time": "05:00 PM - 05:30 PM",
+              "subject": "Prayer & Refreshment Break",
+              "teacher": "",
+              "room": "",
+              "type": "break"
+            },
+            {
+              "time": "05:30 PM - 06:30 PM",
+              "subject": "English",
+              "teacher": "Miss Sana Khan",
+              "room": "Room 2",
+              "type": "class"
+            }
+          ],
+          "tuesday": [
+            {
+              "time": "03:00 PM - 04:00 PM",
+              "subject": "Chemistry",
+              "teacher": "Miss Fatima Ali",
+              "room": "Room 104",
+              "type": "class"
+            },
+            {
+              "time": "04:00 PM - 05:00 PM",
+              "subject": "Biology",
+              "teacher": "Sir Imran Shah",
+              "room": "Room 103",
+              "type": "class"
+            },
+            {
+              "time": "05:00 PM - 05:30 PM",
+              "subject": "Prayer & Refreshment Break",
+              "teacher": "",
+              "room": "",
+              "type": "break"
+            },
+            {
+              "time": "05:30 PM - 06:30 PM",
+              "subject": "Urdu",
+              "teacher": "Miss Amna Qazi",
+              "room": "Room 201",
+              "type": "class"
+            }
+          ],
+          "wednesday": [],
+          "thursday": [],
+          "friday": [],
+          "saturday": []
+        }
+      },
+      "10th": {
+        "label": "10th Grade (Matric)",
+        "schedule": {
+          "monday": [
+            {
+              "time": "03:00 PM - 04:00 PM",
+              "subject": "Physics",
+              "teacher": "Sir Ahmed Raza",
+              "room": "Room 101",
+              "type": "class"
+            },
+            {
+              "time": "04:00 PM - 05:00 PM",
+              "subject": "Chemistry",
+              "teacher": "Miss Fatima Ali",
+              "room": "Room 104",
+              "type": "class"
+            },
+            {
+              "time": "05:00 PM - 05:30 PM",
+              "subject": "Prayer & Refreshment Break",
+              "teacher": "",
+              "room": "",
+              "type": "break"
+            },
+            {
+              "time": "05:30 PM - 06:30 PM",
+              "subject": "Mathematics",
+              "teacher": "Sir Tariq Mehmood",
+              "room": "Room 102",
+              "type": "class"
+            },
+            {
+              "time": "06:30 PM - 07:30 PM",
+              "subject": "English (Optional)",
+              "teacher": "Miss Sana Khan",
+              "room": "Room 205",
+              "type": "class"
+            }
+          ],
+          "tuesday": [
+            {
+              "time": "03:00 PM - 04:00 PM",
+              "subject": "Biology",
+              "teacher": "Sir Imran Shah",
+              "room": "Room 103",
+              "type": "class"
+            },
+            {
+              "time": "04:00 PM - 05:00 PM",
+              "subject": "Urdu",
+              "teacher": "Miss Amna Qazi",
+              "room": "Room 201",
+              "type": "class"
+            },
+            {
+              "time": "05:00 PM - 05:30 PM",
+              "subject": "Prayer & Refreshment Break",
+              "teacher": "",
+              "room": "",
+              "type": "break"
+            },
+            {
+              "time": "05:30 PM - 06:30 PM",
+              "subject": "Computer Science",
+              "teacher": "Sir Zain Abbas",
+              "room": "Lab 1",
+              "type": "class"
+            }
+          ],
+          "wednesday": [],
+          "thursday": [],
+          "friday": [],
+          "saturday": []
+        }
+      },
+      "11th": {
+        "label": "11th Grade (Intermediate)",
+        "schedule": {
+          "monday": [
+            {
+              "time": "03:00 PM - 04:00 PM",
+              "subject": "Mathematics",
+              "teacher": "Sir Tariq Mehmood",
+              "room": "Room 102",
+              "type": "class"
+            },
+            {
+              "time": "04:00 PM - 05:00 PM",
+              "subject": "Physics",
+              "teacher": "Sir Ahmed Raza",
+              "room": "Room 101",
+              "type": "class"
+            },
+            {
+              "time": "05:00 PM - 05:30 PM",
+              "subject": "Prayer & Refreshment Break",
+              "teacher": "",
+              "room": "",
+              "type": "break"
+            },
+            {
+              "time": "05:30 PM - 06:30 PM",
+              "subject": "English",
+              "teacher": "Miss Sana Khan",
+              "room": "Room 205",
+              "type": "class"
+            }
+          ],
+          "tuesday": [],
+          "wednesday": [],
+          "thursday": [],
+          "friday": [],
+          "saturday": []
+        }
+      },
+      "12th": {
+        "label": "12th Grade (Intermediate)",
+        "schedule": {
+          "monday": [
+            {
+              "time": "03:00 PM - 04:00 PM",
+              "subject": "Physics",
+              "teacher": "Sir Ahmed Raza",
+              "room": "Room 101",
+              "type": "class"
+            },
+            {
+              "time": "04:00 PM - 05:00 PM",
+              "subject": "Mathematics",
+              "teacher": "Sir Tariq Mehmood",
+              "room": "Room 102",
+              "type": "class"
+            },
+            {
+              "time": "05:00 PM - 05:30 PM",
+              "subject": "Prayer & Refreshment Break",
+              "teacher": "",
+              "room": "",
+              "type": "break"
+            },
+            {
+              "time": "05:30 PM - 06:30 PM",
+              "subject": "Chemistry",
+              "teacher": "Miss Fatima Ali",
+              "room": "Room 104",
+              "type": "class"
+            }
+          ],
+          "tuesday": [],
+          "wednesday": [],
+          "thursday": [],
+          "friday": [],
+          "saturday": []
+        }
+      }
+    }
+  },
+  "settings": {
+    "googleScriptUrl": ""
+  },
+  "student_applications": [
+    {
+      "id": "App-1787587621699",
+      "status": "Pending",
+      "submittedAt": "2026-08-24T16:07:01.699Z",
+      "studentName": "hasher",
+      "fatherName": "fazil",
+      "phone": "03432870908",
+      "prevSchool": "qrs",
+      "currentClass": "12",
+      "program": "computer",
+      "message": "sir please cancel my addmision kindly"
+    }
+  ]
+}

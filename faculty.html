@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Faculty - Adamjee Coaching Maymar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="tailwind-config.js"></script>
+<script src="firebase-config.js"></script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center w-full px-gutter py-md max-w-container-max mx-auto bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm transition-all duration-300 hidden md:flex" id="mainHeader">
+<div class="flex items-center gap-md">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">Adamjee Coaching Maymar</span>
+</div>
+<nav class="flex items-center gap-lg">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-3 py-2 rounded-lg text-label-md font-label-md" href="index.html">Home</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-3 py-2 rounded-lg text-label-md font-label-md" href="timetable.html">Programs</a>
+<a aria-current="page" class="text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary pb-1 px-3 py-2 text-label-md font-label-md scale-95 transition-transform duration-150" href="faculty.html">Faculty</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-3 py-2 rounded-lg text-label-md font-label-md" onclick="showComingSoonModal(event)" href="javascript:void(0)">Results</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-3 py-2 rounded-lg text-label-md font-label-md" href="admissions.html">Admissions</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="bg-primary hover:bg-primary-container text-on-primary text-label-md font-label-md px-6 py-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+            Apply Now
+        </button>
+<a href="admin/index.html" id="adminPanelBtn" title="Admin Panel" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-on-primary transition-all duration-200 text-label-sm font-label-sm font-semibold shadow-sm hover:shadow-md group">
+    <span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:rotate-12" style="font-variation-settings:'FILL' 1;">admin_panel_settings</span>
+    Admin Panel
+    <span class="inline-flex items-center justify-center w-2 h-2 rounded-full bg-green-500 animate-pulse ml-0.5" title="System Online"></span>
+</a>
+</div>
+</header>
+<!-- SideNavBar (Mobile) -->
+<aside class="fixed inset-y-0 left-0 w-64 h-full bg-surface z-50 flex flex-col md:hidden transform -translate-x-full transition-transform duration-300 shadow-xl" id="mobileNav">
+<div class="p-gutter border-b border-outline-variant/30">
+<span class="text-headline-md font-headline-md font-bold text-primary block">Adamjee Coaching</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Maymar Campus</span>
+</div>
+<nav class="flex-1 overflow-y-auto py-md flex flex-col gap-sm px-sm">
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="javascript:void(0)">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+                Home
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="javascript:void(0)">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">school</span>
+                Programs
+            </a>
+<a class="flex items-center gap-3 bg-secondary-container/20 text-on-secondary-container rounded-lg px-4 py-3 font-semibold text-label-md font-label-md scale-98 transition-transform" href="javascript:void(0)">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+                Faculty
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="javascript:void(0)">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">workspace_premium</span>
+                Results
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="javascript:void(0)">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person_add</span>
+                Admissions
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="javascript:void(0)">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">contact_support</span>
+                Contact
+            </a>
+</nav>
+<div class="p-gutter border-t border-outline-variant/30">
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary text-label-md font-label-md px-6 py-3 rounded-lg shadow-sm transition-all duration-200">
+                Apply Now
+            </button>
+</div>
+</aside>
+<!-- Mobile Header Toggle (Visible only on mobile) -->
+<div class="md:hidden flex justify-between items-center p-md bg-surface border-b border-outline-variant/30 sticky top-0 z-40">
+<span class="text-headline-md font-headline-md font-bold text-primary">Adamjee Maymar</span>
+<button aria-label="Toggle Menu" class="p-2 text-on-surface" id="menuToggle">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-md md:px-xl py-xl md:py-xxl flex flex-col gap-xl">
+<!-- Page Header & Filter Section -->
+<section class="flex flex-col gap-lg bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/30 shadow-[0_4px_15px_rgba(0,33,71,0.04)]">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
+<div class="max-w-2xl">
+<h1 class="text-display-hero-mobile md:text-display-hero font-display-hero-mobile md:font-display-hero text-primary mb-sm">Our Expert Faculty</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Discover the distinguished educators guiding our students to academic excellence in competitive board examinations.</p>
+</div>
+<div class="w-full md:w-auto flex flex-col gap-xs">
+<label class="text-label-sm font-label-sm text-on-surface-variant" for="subjectFilter">Filter by Subject</label>
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<select class="w-full pl-10 pr-4 py-2 bg-surface border border-outline-variant rounded-lg text-body-md font-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none appearance-none cursor-pointer transition-shadow" id="subjectFilter">
+<option value="all">All Subjects</option>
+<option value="physics">Physics</option>
+<option value="chemistry">Chemistry</option>
+<option value="mathematics">Mathematics</option>
+<option value="biology">Biology</option>
+<option value="english">English</option>
+<option value="computer_science">Computer Science</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Faculty Grid - Rendered dynamically by JS -->
+<section id="faculty-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-lg">
+    <!-- Teacher cards injected by JS -->
+</section>
+<div id="faculty-empty" class="hidden text-center py-20 text-on-surface-variant">
+    <span class="material-symbols-outlined text-[48px] text-outline-variant mb-sm block">group_off</span>
+    <p class="text-body-lg font-body-lg">No faculty members found for this subject.</p>
+</div>
+
+</main>
+<!-- Footer -->
+<footer class="w-full py-xxl px-gutter flex flex-col md:flex-row justify-between items-start max-w-container-max mx-auto bg-primary dark:bg-surface-container-lowest border-t border-outline/20 mt-auto">
+<div class="flex flex-col gap-sm mb-lg md:mb-0">
+<span class="text-headline-md font-headline-md font-bold text-on-primary dark:text-on-surface">Adamjee Coaching</span>
+<span class="text-body-md font-body-md text-on-primary/80 dark:text-on-surface-variant">© 2024 Adamjee Coaching Maymar. All rights reserved.</span>
+</div>
+<nav class="flex flex-col md:flex-row gap-md md:gap-xl">
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="timetable.html">Programs</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="javascript:void(0)">About</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="javascript:void(0)">Contact</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="javascript:void(0)">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="javascript:void(0)">Terms of Service</a>
+</nav>
+</footer>
+<script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                const isClosed = mobileNav.classList.contains('-translate-x-full');
+                if (isClosed) {
+                    mobileNav.classList.remove('-translate-x-full');
+                } else {
+                    mobileNav.classList.add('-translate-x-full');
+                }
+            });
+        }
+
+        // ---- Dynamic Faculty Rendering ----
+        let allTeachers = [];
+
+        function renderFaculty(filter = 'all') {
+            const grid = document.getElementById('faculty-grid');
+            const emptyState = document.getElementById('faculty-empty');
+            const filtered = filter === 'all'
+                ? allTeachers
+                : allTeachers.filter(t => t.subject.toLowerCase().replace(' ', '_') === filter || t.subject.toLowerCase() === filter);
+
+            grid.innerHTML = '';
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            filtered.forEach(t => {
+                const photoHtml = t.photo
+                    ? `<img alt="${t.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" src="${t.photo}" />`
+                    : `<span class="material-symbols-outlined text-[64px] text-outline-variant">person</span>`;
+
+                const article = document.createElement('article');
+                article.className = 'bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-[0_8px_25px_rgba(0,33,71,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col';
+                article.innerHTML = `
+                    <div class="aspect-square w-full relative overflow-hidden bg-surface-container flex items-center justify-center">
+                        ${photoHtml}
+                        <div class="absolute top-3 left-3 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+                            <span class="material-symbols-outlined text-[14px]">school</span> ${t.subject}
+                        </div>
+                    </div>
+                    <div class="p-lg flex flex-col flex-1 border-l-4 border-transparent group-hover:border-primary transition-colors">
+                        <h3 class="text-headline-md font-headline-md text-on-surface mb-1">${t.name}</h3>
+                        <p class="text-label-md font-label-md text-secondary font-medium mb-4">${t.designation}</p>
+                        <div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6 mt-auto">
+                            <span class="material-symbols-outlined text-outline">history</span>
+                            <span>${t.experience}</span>
+                        </div>
+                        <button class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary rounded-lg text-label-md font-label-md transition-colors duration-200 flex items-center justify-center gap-2">
+                            View Profile
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(article);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('http://localhost:3000/api/faculty');
+                if (res.ok) {
+                    const data = await res.json();
+                    // Update page heading
+                    if (data.title) {
+                        const h1 = document.querySelector('h1');
+                        if (h1) h1.innerText = data.title;
+                        document.title = data.title + ' - Adamjee Coaching';
+                    }
+                    if (data.description) {
+                        const desc = document.querySelector('p.text-body-lg');
+                        if (desc) desc.innerText = data.description;
+                    }
+                    allTeachers = data.teachers || [];
+                    renderFaculty('all');
+                }
+            } catch (e) {
+                console.error('Faculty fetch error:', e);
+            }
+
+            // Subject filter
+            const filterEl = document.getElementById('subjectFilter');
+            if (filterEl) {
+                filterEl.addEventListener('change', () => renderFaculty(filterEl.value));
+            }
+        });
+    </script>
+
+    <div id="comingSoonModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity">
+        <div class="bg-surface p-xl rounded-xl shadow-2xl text-center max-w-md w-full mx-4 border border-outline-variant/30">
+            <span class="material-symbols-outlined text-secondary text-[48px] mb-md" style="font-variation-settings: 'FILL' 1;">campaign</span>
+            <h2 class="text-headline-md font-headline-md text-primary mb-sm">Coming Soon</h2>
+            <p class="text-body-md font-body-md text-on-surface-variant mb-lg">The results portal is currently under development. Please check back later!</p>
+            <button onclick="hideComingSoonModal()" class="bg-primary text-on-primary px-lg py-sm rounded-lg hover:bg-primary-container transition-colors font-label-md w-full">Got it</button>
+        </div>
+    </div>
+    <script>
+        function showComingSoonModal(e) {
+            if(e) e.preventDefault();
+            const modal = document.getElementById('comingSoonModal');
+            if(modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+        function hideComingSoonModal() {
+            const modal = document.getElementById('comingSoonModal');
+            if(modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+    </script>
+    
+    <!-- Floating Admin Access Button -->
+    <a href="admin/index.html" title="Go to Admin Panel"
+       style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;align-items:center;gap:8px;background:#002147;color:#fff;padding:10px 16px;border-radius:12px;font-family:Inter,sans-serif;font-size:13px;font-weight:600;text-decoration:none;box-shadow:0 4px 20px rgba(0,33,71,0.35);transition:transform 0.2s,box-shadow 0.2s;"
+       onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(0,33,71,0.45)'"
+       onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,33,71,0.35)'">
+        <span class="material-symbols-outlined" style="font-size:18px;">admin_panel_settings</span>
+        Admin Panel
+    </a>
+</body>
+    </html>

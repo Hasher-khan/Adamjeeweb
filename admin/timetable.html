@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <script src="js/auth.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Timetable - Adamjee CMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .tab-btn { transition: all 0.2s ease; }
+        .tab-btn.active { background: rgba(17, 92, 185, 0.4); border-color: #115cb9; color: white; }
+        .day-tab.active { background: rgba(255,255,255,0.15); color: white; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #115cb9; box-shadow: 0 0 0 1px #115cb9; }
+    </style>
+</head>
+<body class="font-['Inter'] antialiased min-h-screen flex text-surface-bright">
+
+    <!-- Sidebar -->
+    <aside class="w-64 glass-panel border-r border-white/10 flex flex-col hidden md:flex h-screen sticky top-0">
+        <div class="p-6 border-b border-white/10 flex items-center gap-3">
+            <div class="w-8 h-8 rounded bg-secondary flex items-center justify-center font-bold text-white shadow-lg">A</div>
+            <h1 class="text-xl font-bold tracking-tight text-white">Adamjee CMS</h1>
+        </div>
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-4">Menu</p>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-dashboard-line text-lg"></i> Dashboard</a>
+            <a href="admissions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-article-line text-lg"></i> Admissions</a>
+            <a href="faculty.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-team-line text-lg"></i> Faculty</a>
+            <a href="timetable.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white font-medium transition-colors"><i class="ri-calendar-todo-line text-lg"></i> Timetable</a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-h-screen overflow-hidden relative z-10">
+        <!-- Header -->
+        <header class="glass-panel border-b border-white/10 px-8 py-5 flex items-center justify-between sticky top-0 z-20">
+            <div>
+                <h2 class="text-2xl font-semibold text-white">Timetable Management</h2>
+                <p class="text-sm text-white/50 mt-0.5">Manage schedules per class and per day</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="http://localhost:8080/timetable.html" target="_blank" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium text-sm transition flex items-center gap-2">
+                    <i class="ri-external-link-line"></i> View Live
+                </a>
+                <button id="save-btn" class="px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium text-sm transition shadow-lg shadow-secondary/20 flex items-center gap-2">
+                    <i class="ri-save-3-line"></i> Save Changes
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-6xl mx-auto space-y-6">
+
+                <!-- General Settings -->
+                <div class="glass-panel rounded-2xl p-6 fade-in">
+                    <h3 class="text-base font-semibold text-white mb-4 flex items-center gap-2"><i class="ri-settings-3-line text-secondary"></i> General Settings</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs text-white/50 mb-1.5">Page Title</label>
+                            <input id="inp-title" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-white/50 mb-1.5">Semester / Session</label>
+                            <input id="inp-semester" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-white/50 mb-1.5">Announcement Note</label>
+                            <input id="inp-announcement" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class + Day Schedule Builder -->
+                <div class="glass-panel rounded-2xl overflow-hidden fade-in" style="animation-delay: 0.1s;">
+                    <!-- Class Tabs -->
+                    <div class="border-b border-white/10 px-6 pt-5">
+                        <div class="flex items-center gap-2 mb-4">
+                            <i class="ri-graduation-cap-line text-secondary"></i>
+                            <h3 class="text-base font-semibold text-white">Schedule by Class</h3>
+                        </div>
+                        <div class="flex gap-2 flex-wrap" id="class-tabs">
+                            <button class="tab-btn active px-4 py-2 rounded-lg border border-white/10 text-sm font-medium text-white/70" data-class="9th">9th Grade (Matric)</button>
+                            <button class="tab-btn px-4 py-2 rounded-lg border border-white/10 text-sm font-medium text-white/70" data-class="10th">10th Grade (Matric)</button>
+                            <button class="tab-btn px-4 py-2 rounded-lg border border-white/10 text-sm font-medium text-white/70" data-class="11th">11th Grade (Inter)</button>
+                            <button class="tab-btn px-4 py-2 rounded-lg border border-white/10 text-sm font-medium text-white/70" data-class="12th">12th Grade (Inter)</button>
+                        </div>
+                    </div>
+
+                    <!-- Day Tabs -->
+                    <div class="border-b border-white/10 px-6 py-3 bg-white/2">
+                        <div class="flex gap-1 flex-wrap" id="day-tabs">
+                            <button class="day-tab active px-3 py-1.5 rounded text-xs font-medium text-white/60 hover:text-white transition" data-day="monday">Monday</button>
+                            <button class="day-tab px-3 py-1.5 rounded text-xs font-medium text-white/60 hover:text-white transition" data-day="tuesday">Tuesday</button>
+                            <button class="day-tab px-3 py-1.5 rounded text-xs font-medium text-white/60 hover:text-white transition" data-day="wednesday">Wednesday</button>
+                            <button class="day-tab px-3 py-1.5 rounded text-xs font-medium text-white/60 hover:text-white transition" data-day="thursday">Thursday</button>
+                            <button class="day-tab px-3 py-1.5 rounded text-xs font-medium text-white/60 hover:text-white transition" data-day="friday">Friday</button>
+                            <button class="day-tab px-3 py-1.5 rounded text-xs font-medium text-white/60 hover:text-white transition" data-day="saturday">Saturday</button>
+                        </div>
+                    </div>
+
+                    <!-- Table Area -->
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <p id="schedule-label" class="text-sm text-white/50">Showing: <span class="text-white font-medium">9th Grade — Monday</span></p>
+                            <button id="add-row-btn" class="text-sm bg-secondary/20 hover:bg-secondary/40 border border-secondary/30 text-secondary-fixed-dim px-3 py-1.5 rounded flex items-center gap-1.5 transition">
+                                <i class="ri-add-line"></i> Add Row
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto rounded-xl border border-white/10">
+                            <table class="w-full text-left" id="schedule-table">
+                                <thead>
+                                    <tr class="bg-white/5 text-xs text-white/40 uppercase tracking-wider">
+                                        <th class="py-3 px-4 font-medium w-48">Time Slot</th>
+                                        <th class="py-3 px-4 font-medium">Subject / Activity</th>
+                                        <th class="py-3 px-4 font-medium">Teacher</th>
+                                        <th class="py-3 px-4 font-medium w-32">Room</th>
+                                        <th class="py-3 px-4 font-medium w-24 text-center">Type</th>
+                                        <th class="py-3 px-4 w-12"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="schedule-body" class="divide-y divide-white/5">
+                                    <!-- Rows generated by JS -->
+                                </tbody>
+                            </table>
+                            <div id="empty-state" class="hidden py-12 text-center text-white/30">
+                                <i class="ri-calendar-line text-3xl mb-2 block"></i>
+                                <p class="text-sm">No classes for this day. Click <strong class="text-white/50">Add Row</strong> to start.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script>
+        let timetableData = {};
+        let activeClass = '9th';
+        let activeDay = 'monday';
+
+        const CLASSES = ['9th', '10th', '11th', '12th'];
+        const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const CLASS_LABELS = { '9th': '9th Grade', '10th': '10th Grade', '11th': '11th Grade', '12th': '12th Grade' };
+        const DAY_LABELS = { monday: 'Monday', tuesday: 'Tuesday', wednesday: 'Wednesday', thursday: 'Thursday', friday: 'Friday', saturday: 'Saturday' };
+
+        function getSchedule() {
+            return timetableData?.classes?.[activeClass]?.schedule?.[activeDay] || [];
+        }
+
+        function setSchedule(rows) {
+            if (!timetableData.classes) timetableData.classes = {};
+            if (!timetableData.classes[activeClass]) timetableData.classes[activeClass] = { label: CLASS_LABELS[activeClass] + ' Grade', schedule: {} };
+            if (!timetableData.classes[activeClass].schedule) timetableData.classes[activeClass].schedule = {};
+            timetableData.classes[activeClass].schedule[activeDay] = rows;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('schedule-body');
+            const emptyState = document.getElementById('empty-state');
+            const rows = getSchedule();
+            tbody.innerHTML = '';
+
+            if (rows.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                rows.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-white/3 transition-colors group';
+                    tr.innerHTML = `
+                        <td class="py-2.5 px-4">
+                            <input type="text" value="${row.time}" 
+                                onchange="updateRow(${index}, 'time', this.value)"
+                                class="w-full bg-white/5 border border-white/10 rounded px-2.5 py-1.5 text-white text-sm focus:border-secondary focus:ring-0">
+                        </td>
+                        <td class="py-2.5 px-4">
+                            <input type="text" value="${row.subject}" 
+                                onchange="updateRow(${index}, 'subject', this.value)"
+                                class="w-full bg-white/5 border border-white/10 rounded px-2.5 py-1.5 text-white text-sm focus:border-secondary focus:ring-0">
+                        </td>
+                        <td class="py-2.5 px-4">
+                            <input type="text" value="${row.teacher}" 
+                                onchange="updateRow(${index}, 'teacher', this.value)"
+                                placeholder="—"
+                                class="w-full bg-white/5 border border-white/10 rounded px-2.5 py-1.5 text-white text-sm focus:border-secondary focus:ring-0">
+                        </td>
+                        <td class="py-2.5 px-4">
+                            <input type="text" value="${row.room}" 
+                                onchange="updateRow(${index}, 'room', this.value)"
+                                placeholder="—"
+                                class="w-full bg-white/5 border border-white/10 rounded px-2.5 py-1.5 text-white text-sm focus:border-secondary focus:ring-0">
+                        </td>
+                        <td class="py-2.5 px-4 text-center">
+                            <select onchange="updateRow(${index}, 'type', this.value)"
+                                class="bg-black/50 border border-white/10 rounded px-2 py-1.5 text-white text-xs focus:border-secondary">
+                                <option value="class" ${row.type === 'class' ? 'selected' : ''}>🎓 Class</option>
+                                <option value="break" ${row.type === 'break' ? 'selected' : ''}>☕ Break</option>
+                            </select>
+                        </td>
+                        <td class="py-2.5 px-4 text-right">
+                            <button onclick="deleteRow(${index})" 
+                                class="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-300 p-1.5 rounded hover:bg-red-500/20 transition-all">
+                                <i class="ri-delete-bin-line text-sm"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('schedule-label').innerHTML = `Showing: <span class="text-white font-medium">${CLASS_LABELS[activeClass]} Grade — ${DAY_LABELS[activeDay]}</span>`;
+        }
+
+        window.updateRow = (index, field, value) => {
+            const rows = getSchedule();
+            rows[index][field] = value;
+            setSchedule(rows);
+        };
+
+        window.deleteRow = (index) => {
+            const rows = getSchedule();
+            rows.splice(index, 1);
+            setSchedule(rows);
+            renderTable();
+        };
+
+        // Class tab switching
+        document.getElementById('class-tabs').addEventListener('click', (e) => {
+            const btn = e.target.closest('.tab-btn');
+            if (!btn) return;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeClass = btn.dataset.class;
+            renderTable();
+        });
+
+        // Day tab switching
+        document.getElementById('day-tabs').addEventListener('click', (e) => {
+            const btn = e.target.closest('.day-tab');
+            if (!btn) return;
+            document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeDay = btn.dataset.day;
+            renderTable();
+        });
+
+        // Add row
+        document.getElementById('add-row-btn').addEventListener('click', () => {
+            const rows = getSchedule();
+            rows.push({ time: "00:00 PM - 00:00 PM", subject: "New Subject", teacher: "", room: "", type: "class" });
+            setSchedule(rows);
+            renderTable();
+        });
+
+        // Save
+        document.getElementById('save-btn').addEventListener('click', async () => {
+            const saveBtn = document.getElementById('save-btn');
+            const orig = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="ri-loader-4-line animate-spin"></i> Saving...';
+
+            const payload = {
+                title: document.getElementById('inp-title').value,
+                semester: document.getElementById('inp-semester').value,
+                announcement: document.getElementById('inp-announcement').value,
+                classes: timetableData.classes
+            };
+
+            const res = await saveTimetableData(payload);
+            if (res && res.success) {
+                saveBtn.innerHTML = '<i class="ri-check-line"></i> Saved!';
+            } else {
+                saveBtn.innerHTML = '<i class="ri-error-warning-line"></i> Error';
+            }
+            setTimeout(() => saveBtn.innerHTML = orig, 2000);
+        });
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const data = await fetchTimetableData();
+            if (data) {
+                timetableData = data;
+                document.getElementById('inp-title').value = data.title || '';
+                document.getElementById('inp-semester').value = data.semester || '';
+                document.getElementById('inp-announcement').value = data.announcement || '';
+                renderTable();
+            }
+        });
+    </script>
+</body>
+</html>

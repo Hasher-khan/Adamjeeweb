@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Adamjee Coaching Maymar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="tailwind-config.js"></script>
+<script src="firebase-config.js"></script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        .premium-shadow {
+            box-shadow: 0 4px 15px rgba(0, 33, 71, 0.08);
+        }
+        
+        .premium-shadow-hover:hover {
+            box-shadow: 0 8px 25px rgba(0, 33, 71, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .gold-highlight {
+            color: #C5A059; /* Custom gold for highlight as per brand */
+        }
+        .gold-bg {
+            background-color: #C5A059;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-secondary/20 selection:text-secondary">
+<nav class="hidden md:flex sticky top-0 z-50 flex justify-between items-center w-full px-gutter py-md max-w-container-max mx-auto bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm transition-transform duration-150">
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+            Adamjee Coaching Maymar
+        </div>
+<div class="flex items-center space-x-lg">
+<a class="text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary pb-1 text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="index.html">Home</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="timetable.html">Programs</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="faculty.html">Faculty</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" onclick="showComingSoonModal(event)" href="javascript:void(0)">Results</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="admissions.html">Admissions</a>
+<a href="student-login.html" class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md hover:bg-primary-container transition-colors">Student Login</a>
+    <a href="admin/index.html" id="adminPanelBtn" title="Admin Panel" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-on-primary transition-all duration-200 text-label-sm font-label-sm font-semibold shadow-sm hover:shadow-md group">
+        <span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:rotate-12" style="font-variation-settings:'FILL' 1;">admin_panel_settings</span>
+        Admin Panel
+        <span class="inline-flex items-center justify-center w-2 h-2 rounded-full bg-green-500 animate-pulse ml-0.5" title="System Online"></span>
+    </a>
+</div>
+</nav>
+<main class="w-full">
+<section class="max-w-container-max mx-auto px-gutter py-xxl grid grid-cols-1 md:grid-cols-2 gap-xl items-center min-h-[80vh]">
+<div class="flex flex-col space-y-lg relative z-10">
+<div class="inline-flex items-center space-x-sm bg-surface-container-highest px-md py-sm rounded-full w-fit">
+<span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Admissions Open 2024-25</span>
+</div>
+<h1 class="font-display-hero text-display-hero text-primary">
+<span class="gold-highlight">Adamjee Coaching</span> Maymar
+                </h1>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">
+                    Building Knowledge. Shaping Futures.
+                </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Join Karachi's premier coaching network. We provide expert faculty, comprehensive study materials, and a proven track record of academic excellence for secondary and higher secondary students.
+                </p>
+<div class="flex flex-col sm:flex-row gap-md pt-sm">
+<a href="admissions.html#application-form" class="gold-bg text-primary px-lg py-md rounded-lg font-label-md text-label-md hover:bg-opacity-90 transition-colors premium-shadow w-full sm:w-auto text-center font-bold">Apply for Admission</a>
+<a href="timetable.html" class="bg-surface border-2 border-secondary text-secondary px-lg py-md rounded-lg font-label-md text-label-md hover:bg-secondary hover:text-on-secondary transition-colors w-full sm:w-auto text-center font-semibold">Explore Programs</a>
+</div>
+<div class="pt-lg flex items-center space-x-md border-t border-outline-variant/30 mt-sm">
+<div class="flex -space-x-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait photograph of a confident young South Asian male student wearing a neat school uniform, smiling gently in a bright, modern classroom setting with soft natural lighting and a high-key professional academic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsonMw65BKTZXzR4XqRITWDOUSZnbVcnmIO7iLr2Z9zQleZT8r2JgfjpXX9J9pvyATSMYHs4qjgnBzX_YqKypYaEAswM9yko2b8ZGfL5HvE9bnPpDI_ZqsCo0R7fSRlq5yvzS7Ol5Kc8xAWga6fl26fomDTrkv9nhH9yaWjhZDRWUy6ph1ETSHTiLqJ3bbO7HBJSmHKDkDLOe3hPKTuYhE4TjLmgjzaWEqtRcvTKpysOp-ojimvNg6OA"/>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait photograph of an intelligent South Asian female student in a white uniform shirt, holding a textbook, looking engaged in a well-lit library environment with shallow depth of field emphasizing a serious educational mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzQBDS1ODS2xyIy55u787M3GPVWLY11HlGbbfMz5smBri3cCR2OIsDqx57V6ZmnLupxZ88rvowraSzdoqBftTL50j5TWGW7revL8_BwghZBBhMR97_ApD1zYhCtynysfYdyPCxRWBoiUGw8C5CMoeesA8tyHHmoRr_eTigFnGa6Eh7zk1n_WL8398tggYWOveoh9ndDWC16b3RJ_1IPwC4S7Wf_vlSXWQ_oVVf8__V7fBWD-9nwpkNNA"/>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a thoughtful parent, a South Asian professional man in his 40s, standing in a brightly lit modern educational facility corridor, expressing trust and satisfaction with the academic environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmkbYpa7vtdEhVho_U_s5cu8i24-p_k_Cpc8-pnnKUaUDw2sYxrsBGJjnX3n8BvTLYdNZC-b_nS620k13KEmmvRzOxe068d46Be01q4WHPkrJ_fGCY8rWal9HdkiB5S63ylrwFb-DRn6re5PyLC6uAta7mjtSEuFYZWRWsIiZtG_dka88vil2EtUlmBMLTox-TclE58qd9UvdPOoI1vbOL4eUZCzsbLDtGHUvisGCMh7HphsgLf7aHYw"/>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface flex items-center justify-center bg-secondary text-on-secondary font-label-sm text-label-sm">
+                            +5k
+                        </div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Trusted by Students &amp; Parents</p>
+</div>
+</div>
+<div class="relative h-[500px] rounded-xl overflow-hidden premium-shadow">
+<div class="absolute inset-0 bg-primary/5 z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A wide, high-quality photograph of a modern, well-lit classroom filled with attentive students sitting at neat wooden desks facing a whiteboard. The environment is clean, professional, and academic, featuring cool natural lighting and a serious, achievement-oriented aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp-Qi1X8QGjaaSSYDDGViZjpqz3k61INGYmUe6hpv2up_UBVkU_tcjLBHfM5digFbsfrwbZrLwEFj_5szELFS2NtbHneHSEongiiRqNmhri5FgfO2lC7uwKg6LTAG_XoHG8IX8HMrFODAIYctKpJRWwY1xdt_tnX9PvHFTwfrRofuc4bzY9V30LdCtdjz0bonznH6EGTh1IdzxQU88q3WyxLp-MT8jiAOEyCqRp_MK9j6qYn6-ySLziQ"/>
+<div class="absolute -bottom-6 -left-6 w-32 h-32 rounded-full gold-bg opacity-20 blur-2xl"></div>
+<div class="absolute -top-6 -right-6 w-40 h-40 rounded-full bg-secondary opacity-20 blur-3xl"></div>
+</div>
+</section>
+</main>
+<footer class="w-full py-xxl px-gutter flex flex-col md:flex-row justify-between items-start max-w-container-max mx-auto bg-primary dark:bg-surface-container-lowest border-t border-outline/20">
+<div class="flex flex-col space-y-md">
+<div class="text-headline-md font-headline-md font-bold text-on-primary dark:text-on-surface">Adamjee Coaching</div>
+<p class="text-on-primary/80 dark:text-on-surface-variant text-label-sm font-label-sm">© 2024 Adamjee Coaching Maymar. All rights reserved.</p>
+</div>
+<div class="flex space-x-lg mt-lg md:mt-0">
+<a class="text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4 text-label-sm font-label-sm" href="timetable.html">Programs</a>
+<a class="text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4 text-label-sm font-label-sm" href="javascript:void(0)">About</a>
+<a class="text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4 text-label-sm font-label-sm" href="javascript:void(0)">Contact</a>
+<a class="text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4 text-label-sm font-label-sm" href="javascript:void(0)">Privacy Policy</a>
+</div>
+</footer>
+
+    <div id="comingSoonModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity">
+        <div class="bg-surface p-xl rounded-xl shadow-2xl text-center max-w-md w-full mx-4 border border-outline-variant/30">
+            <span class="material-symbols-outlined text-secondary text-[48px] mb-md" style="font-variation-settings: 'FILL' 1;">campaign</span>
+            <h2 class="text-headline-md font-headline-md text-primary mb-sm">Coming Soon</h2>
+            <p class="text-body-md font-body-md text-on-surface-variant mb-lg">The results portal is currently under development. Please check back later!</p>
+            <button onclick="hideComingSoonModal()" class="bg-primary text-on-primary px-lg py-sm rounded-lg hover:bg-primary-container transition-colors font-label-md w-full">Got it</button>
+        </div>
+    </div>
+    <script>
+        function showComingSoonModal(e) {
+            if(e) e.preventDefault();
+            const modal = document.getElementById('comingSoonModal');
+            if(modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+        function hideComingSoonModal() {
+            const modal = document.getElementById('comingSoonModal');
+            if(modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+    </script>
+    </body>
+    </html>
