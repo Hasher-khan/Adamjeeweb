@@ -9,7 +9,30 @@
   .admin-mobile-menu nav { display: grid; gap: .35rem; padding-top: 1rem; }
   .admin-mobile-menu a { padding: .75rem .8rem; border-radius: .6rem; color: rgba(255,255,255,.78); font: 500 .93rem Inter, sans-serif; text-decoration: none; }
   .admin-mobile-menu a[aria-current="page"] { color: #fff; background: rgba(255,255,255,.12); }
-  .admin-mobile-top-space { padding-left: 4.5rem !important; }
+  .admin-mobile-top-space { padding-left: 3.9rem !important; }
   body { overflow-x: hidden; }
+  body > main { width: 100%; min-width: 0; }
+  main > header.glass-panel {
+    display: flex; flex-direction: column; align-items: stretch; gap: .8rem;
+    padding: .9rem 1rem !important;
+  }
+  main > header.glass-panel.admin-mobile-top-space { padding-left: 3.9rem !important; }
+  main > header.glass-panel h2 { font-size: 1.35rem !important; line-height: 1.25; }
+  main > header.glass-panel > div:last-child { display: flex; width: 100%; flex-wrap: wrap; gap: .5rem; }
+  main > header.glass-panel > div:last-child > a,
+  main > header.glass-panel > div:last-child > button {
+    flex: 1 1 130px; min-width: 0; justify-content: center; padding: .65rem .75rem !important;
+  }
+  main > div[class~="p-8"] { padding: 1rem !important; }
+  main .glass-panel[class~="p-8"] { padding: 1rem !important; }
+  main .glass-panel[class~="p-6"] { padding: 1rem !important; }
+  main .glass-panel.rounded-2xl { border-radius: 1rem; }
+  #class-tabs, #day-tabs { flex-wrap: nowrap !important; overflow-x: auto; padding-bottom: .25rem; scrollbar-width: none; }
+  #class-tabs::-webkit-scrollbar, #day-tabs::-webkit-scrollbar { display: none; }
+  #class-tabs button, #day-tabs button { flex: 0 0 auto; white-space: nowrap; }
+  #schedule-table { min-width: 680px; }
+  #teacher-modal { padding: .75rem !important; }
+  #teacher-modal .glass-panel { max-height: calc(100dvh - 1.5rem); }
+  #notice { right: 1rem !important; bottom: 1rem !important; max-width: calc(100% - 2rem) !important; }
   .glass-card:hover { transform: none; }
 }
