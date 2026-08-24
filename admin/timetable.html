@@ -91,6 +91,13 @@
                         </div>
                     </div>
 
+                    <div class="border-b border-white/10 px-6 py-3 bg-white/2">
+                        <div class="flex gap-2" id="gender-tabs">
+                            <button class="tab-btn gender-tab active px-4 py-2 rounded-lg border border-white/10 text-sm font-medium text-white/70" data-group="boys">Boys Section</button>
+                            <button class="tab-btn gender-tab px-4 py-2 rounded-lg border border-white/10 text-sm font-medium text-white/70" data-group="girls">Girls Section</button>
+                        </div>
+                    </div>
+
                     <!-- Day Tabs -->
                     <div class="border-b border-white/10 px-6 py-3 bg-white/2">
                         <div class="flex gap-1 flex-wrap" id="day-tabs">
@@ -145,6 +152,7 @@
         let timetableData = {};
         let activeClass = '9th';
         let activeDay = 'monday';
+        let activeGroup = 'boys';
 
         const CLASSES = ['9th', '10th', '11th', '12th'];
         const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -152,14 +160,20 @@
         const DAY_LABELS = { monday: 'Monday', tuesday: 'Tuesday', wednesday: 'Wednesday', thursday: 'Thursday', friday: 'Friday', saturday: 'Saturday' };
 
         function getSchedule() {
-            return timetableData?.classes?.[activeClass]?.schedule?.[activeDay] || [];
+            const classData = timetableData?.classes?.[activeClass];
+            if (!classData) return [];
+            const schedules = classData.schedules?.[activeGroup] || (activeGroup === 'boys' ? classData.schedule : null);
+            return schedules?.[activeDay] || [];
         }
 
         function setSchedule(rows) {
             if (!timetableData.classes) timetableData.classes = {};
             if (!timetableData.classes[activeClass]) timetableData.classes[activeClass] = { label: CLASS_LABELS[activeClass] + ' Grade', schedule: {} };
-            if (!timetableData.classes[activeClass].schedule) timetableData.classes[activeClass].schedule = {};
-            timetableData.classes[activeClass].schedule[activeDay] = rows;
+            const classData = timetableData.classes[activeClass];
+            if (!classData.schedules) classData.schedules = { boys: classData.schedule || {}, girls: {} };
+            if (!classData.schedules[activeGroup]) classData.schedules[activeGroup] = {};
+            classData.schedules[activeGroup][activeDay] = rows;
+            if (activeGroup === 'boys') classData.schedule = classData.schedules.boys;
         }
 
         function renderTable() {
@@ -216,7 +230,7 @@
                 });
             }
 
-            document.getElementById('schedule-label').innerHTML = `Showing: <span class="text-white font-medium">${CLASS_LABELS[activeClass]} Grade — ${DAY_LABELS[activeDay]}</span>`;
+            document.getElementById('schedule-label').innerHTML = `Showing: <span class="text-white font-medium">${CLASS_LABELS[activeClass]} Grade — ${activeGroup === 'boys' ? 'Boys' : 'Girls'} — ${DAY_LABELS[activeDay]}</span>`;
         }
 
         window.updateRow = (index, field, value) => {
@@ -239,6 +253,15 @@
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             activeClass = btn.dataset.class;
+            renderTable();
+        });
+
+        document.getElementById('gender-tabs').addEventListener('click', (e) => {
+            const btn = e.target.closest('.gender-tab');
+            if (!btn) return;
+            document.querySelectorAll('.gender-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeGroup = btn.dataset.group;
             renderTable();
         });
 
