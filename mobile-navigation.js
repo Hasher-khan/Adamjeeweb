@@ -20,21 +20,17 @@
     const modal = document.getElementById('comingSoonModal');
     if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
   }
-  function improveExistingFacultyMenu() {
+  function removeLegacyFacultyMenu() {
     const menu = document.getElementById('mobileNav');
     if (!menu) return false;
-    const map = { Home: 'index.html', Programs: 'timetable.html', Admissions: 'admissions.html' };
-    menu.querySelectorAll('a').forEach((link) => { const href = map[link.textContent.trim()]; if (href) link.href = href; });
-    const toggle = document.getElementById('menuToggle');
-    const backdrop = document.createElement('button');
-    backdrop.type = 'button'; backdrop.className = 'mobile-site-backdrop'; backdrop.setAttribute('aria-label', 'Close menu');
-    document.body.append(backdrop);
-    toggle?.addEventListener('click', () => { menu.classList.toggle('-translate-x-full'); backdrop.classList.toggle('is-open'); });
-    backdrop.addEventListener('click', () => { menu.classList.add('-translate-x-full'); backdrop.classList.remove('is-open'); });
-    return true;
+    // Faculty originally had a separate mobile menu, so remove it and use the
+    // shared navigation bar to keep every public page consistent.
+    menu.remove();
+    document.getElementById('menuToggle')?.closest('.md\\:hidden')?.remove();
+    return false;
   }
   function buildMenu() {
-    if (improveExistingFacultyMenu()) return;
+    removeLegacyFacultyMenu();
     const active = links.map(([label, href]) => `<a href="${href}"${page === href ? ' aria-current="page"' : ''}>${label}</a>`).join('');
     const header = document.createElement('header');
     header.className = 'mobile-site-header';
