@@ -12,7 +12,16 @@
   "faculty": {
     "title": "Our Expert Faculty",
     "description": "Discover the distinguished educators guiding our students to academic excellence in competitive board examinations.",
-    "teachers": []
+    "teachers": [
+      {
+        "id": 1787590538770,
+        "name": "sir Qammas",
+        "designation": "cs dept",
+        "subject": "Computer Science",
+        "experience": "10 year",
+        "photo": ""
+      }
+    ]
   },
   "timetable": {
     "title": "Class Timetable",

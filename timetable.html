@@ -13,13 +13,15 @@
 <!-- Tailwind Theme Configuration -->
 <script src="tailwind-config.js"></script>
 <script src="firebase-config.js"></script>
+<link rel="stylesheet" href="responsive.css">
+<script defer src="mobile-navigation.js"></script>
 <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
 <body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col">
 <!-- TopNavBar Shared Component -->
-<header class="bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm sticky top-0 z-50 w-full transition-all duration-200">
+<header class="public-desktop-header bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm sticky top-0 z-50 w-full transition-all duration-200">
 <div class="flex justify-between items-center w-full px-gutter py-md max-w-container-max mx-auto">
 <!-- Brand Logo -->
 <a class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tight" href="javascript:void(0)">

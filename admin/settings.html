@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <script src="js/auth.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Adamjee CMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="mobile-menu.css">
+    <script defer src="mobile-menu.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body class="font-['Inter'] antialiased min-h-screen flex text-surface-bright">
+    <aside class="w-64 glass-panel border-r border-white/10 flex flex-col hidden md:flex h-screen sticky top-0">
+        <div class="p-6 border-b border-white/10 flex items-center gap-3"><div class="w-8 h-8 rounded bg-secondary flex items-center justify-center font-bold text-white shadow-lg">A</div><h1 class="text-xl font-bold tracking-tight text-white">Adamjee CMS</h1></div>
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-4">Menu</p>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-dashboard-line text-lg"></i> Dashboard</a>
+            <a href="admissions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-article-line text-lg"></i> Admissions</a>
+            <a href="faculty.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-team-line text-lg"></i> Faculty</a>
+            <a href="timetable.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-calendar-todo-line text-lg"></i> Timetable</a>
+            <a href="student-applications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-user-shared-line text-lg"></i> Student Forms</a>
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-8">System</p>
+            <a href="settings.html" aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white font-medium transition-colors"><i class="ri-settings-3-line text-lg"></i> Settings</a>
+        </nav>
+    </aside>
+    <main class="flex-1 min-h-screen">
+        <header class="glass-panel border-b border-white/10 px-8 py-5 flex items-center justify-between"><h2 class="text-2xl font-semibold text-white">Settings</h2><a href="../index.html" target="_blank" class="px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium text-sm transition"><i class="ri-external-link-line mr-1"></i> View Site</a></header>
+        <section class="p-8 max-w-3xl">
+            <div class="glass-panel rounded-2xl p-6">
+                <div class="flex gap-3 items-start"><div class="w-10 h-10 shrink-0 rounded-lg bg-secondary/20 text-secondary flex items-center justify-center text-xl"><i class="ri-google-line"></i></div><div><h3 class="text-lg font-semibold text-white">Google Apps Script sync</h3><p class="text-sm text-white/60 mt-1">When an application is approved, send its details to your deployed Google Apps Script web app.</p></div></div>
+                <label for="google-script-url" class="block text-sm font-medium text-white mt-6 mb-2">Web app URL</label>
+                <input id="google-script-url" type="url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full rounded-lg bg-white/5 border border-white/15 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-secondary">
+                <p class="text-xs text-white/45 mt-2">Leave empty to disable syncing. Only deployed script.google.com URLs are accepted.</p>
+                <div class="flex items-center gap-4 mt-5"><button id="save-settings-btn" class="px-5 py-2.5 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium text-sm transition"><i class="ri-save-3-line mr-1"></i> Save settings</button><p id="settings-message" class="hidden text-sm" role="status"></p></div>
+            </div>
+        </section>
+    </main>
+    <script src="js/api.js"></script>
+    <script>
+        const input = document.getElementById('google-script-url');
+        const message = document.getElementById('settings-message');
+        async function loadSettings() {
+            const settings = await fetchSettings();
+            if (settings) input.value = settings.googleScriptUrl || '';
+            else showMessage('Could not load settings. Please try again.', false);
+        }
+        function showMessage(text, success) { message.textContent = text; message.className = `text-sm ${success ? 'text-green-300' : 'text-red-300'}`; }
+        document.getElementById('save-settings-btn').addEventListener('click', async event => {
+            const button = event.currentTarget;
+            button.disabled = true;
+            button.textContent = 'Saving...';
+            const result = await saveSettings({ googleScriptUrl: input.value.trim() });
+            button.disabled = false;
+            button.innerHTML = '<i class="ri-save-3-line mr-1"></i> Save settings';
+            showMessage(result.success ? 'Settings saved.' : (result.message || 'Could not save settings.'), Boolean(result.success));
+        });
+        loadSettings();
+    </script>
+</body>
+</html>

@@ -51,7 +51,13 @@ function readData() {
 }
 
 function writeData(data) {
+    // Vercel Serverless Functions have a read-only deployment filesystem.
+    // Do not report a successful CMS save when it cannot be retained.
+    if (process.env.VERCEL) {
+        return false;
+    }
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+    return true;
 }
 
 function cleanText(value, maxLength = 500) {
@@ -75,7 +81,7 @@ app.get('/api/admissions', (req, res) => {
 app.post('/api/admissions', (req, res) => {
     const data = readData();
     data.admissions = req.body;
-    writeData(data);
+    if (!writeData(data)) return res.status(503).json({ success: false, message: 'CMS saving is not configured for this Vercel deployment.' });
     res.json({ success: true, message: "Admissions updated successfully!" });
 });
 
@@ -87,7 +93,7 @@ app.get('/api/faculty', (req, res) => {
 app.post('/api/faculty', (req, res) => {
     const data = readData();
     data.faculty = req.body;
-    writeData(data);
+    if (!writeData(data)) return res.status(503).json({ success: false, message: 'CMS saving is not configured for this Vercel deployment.' });
     res.json({ success: true, message: "Faculty updated successfully!" });
 });
 
@@ -99,7 +105,7 @@ app.get('/api/timetable', (req, res) => {
 app.post('/api/timetable', (req, res) => {
     const data = readData();
     data.timetable = req.body;
-    writeData(data);
+    if (!writeData(data)) return res.status(503).json({ success: false, message: 'Application saving is not configured for this Vercel deployment.' });
     res.json({ success: true, message: "Timetable updated successfully!" });
 });
 
@@ -138,7 +144,7 @@ app.post('/api/student-applications', (req, res) => {
         ...application
     };
     data.student_applications.push(newApp);
-    writeData(data);
+    if (!writeData(data)) return res.status(503).json({ success: false, message: 'Application saving is not configured for this Vercel deployment.' });
     res.json({ success: true, message: "Application submitted successfully!", application: newApp });
 });
 
@@ -188,7 +194,7 @@ app.post('/api/student-applications/:id/action', async (req, res) => {
         }
     }
 
-    writeData(data);
+    if (!writeData(data)) return res.status(503).json({ success: false, message: 'Settings saving is not configured for this Vercel deployment.' });
     res.json({ success: true, message: `Application ${action}d successfully!`, application: app });
 });
 
@@ -248,6 +254,10 @@ app.post('/api/settings', (req, res) => {
     res.json({ success: true, message: "Settings updated successfully!" });
 });
 
-app.listen(PORT, () => {
-    console.log(`Adamjee API Server running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Adamjee API Server running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
