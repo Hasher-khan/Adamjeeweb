@@ -198,7 +198,7 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const res = await fetch('http://localhost:3000/api/faculty');
+                const res = await fetch('/api/faculty');
                 if (res.ok) {
                     const data = await res.json();
                     // Update page heading
