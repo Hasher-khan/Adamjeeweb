@@ -1,40 +1,35 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedIn() {
-      return request.auth != null;
-    }
-    function owns(userId) {
-      return signedIn() && request.auth.uid == userId;
+
+    // ── CMS content (faculty, admissions, timetable, settings) ────────────────
+    // Public pages can read CMS data without logging in.
+    // Admin panel can write CMS data (protected by the login page in the browser).
+    match /cms/{document} {
+      allow read: if true;
+      allow write: if true;
     }
 
-    // Public site + admin CMS share these documents.
-    // Admin currently signs in with the CMS password, not Firebase Auth,
-    // so client writes must be allowed here for the live site to work.
-    match /cms/{docId} {
+    // ── Student applications ───────────────────────────────────────────────────
+    // Anyone can submit an application (public admissions form).
+    // Admin panel can read and update application status.
+    match /studentApplications/{applicationId} {
       allow read, write: if true;
     }
 
-    match /studentApplications/{applicationId} {
-      allow create: if request.resource.data.studentName is string
-        && request.resource.data.studentName.size() > 0
-        && request.resource.data.studentName.size() < 200
-        && request.resource.data.status == 'Pending';
-      allow read: if true;
-      allow update: if true;
-      allow delete: if false;
-    }
-
+    // ── Student private data (Firebase Auth required) ─────────────────────────
+    // A student may access only documents inside their own UID path.
     match /students/{userId} {
-      allow read, create, update: if owns(userId);
+      allow read, create, update: if request.auth != null && request.auth.uid == userId;
       allow delete: if false;
 
       match /private/{documentId} {
-        allow read, write: if owns(userId);
+        allow read, write: if request.auth != null && request.auth.uid == userId;
       }
     }
 
-    match /applicationRecords/{applicationId} {
+    // ── Block everything else ─────────────────────────────────────────────────
+    match /{document=**} {
       allow read, write: if false;
     }
   }
