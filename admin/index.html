@@ -84,6 +84,16 @@
 
         <!-- Dashboard Content -->
         <div class="flex-1 p-8 overflow-y-auto">
+            <div id="cms-setup-banner" class="hidden mb-8 rounded-2xl border border-red-400/30 bg-red-500/10 p-6 text-red-100">
+                <h3 class="text-lg font-semibold text-white mb-2">CMS database is not connected</h3>
+                <p id="cms-setup-message" class="text-sm text-red-100/80 mb-4"></p>
+                <ol class="list-decimal pl-5 space-y-2 text-sm text-white/80">
+                    <li>Open <a class="text-secondary-fixed-dim underline" href="https://console.firebase.google.com/project/adamjeeweb-7fa37/firestore" target="_blank" rel="noopener">Firestore Database</a> and click <strong>Create database</strong>.</li>
+                    <li>Choose <strong>Start in test mode</strong>, pick any location, and create it.</li>
+                    <li>Open the <strong>Rules</strong> tab, paste the contents of <code>firestore.rules</code>, and click <strong>Publish</strong>.</li>
+                    <li>Open <a class="text-secondary-fixed-dim underline" href="https://console.firebase.google.com/project/adamjeeweb-7fa37/authentication/settings" target="_blank" rel="noopener">Authentication → Settings → Authorized domains</a> and add your Vercel domain (for example <code>your-app.vercel.app</code>).</li>
+                </ol>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <!-- Stat Cards -->
@@ -206,7 +216,19 @@
         async function refreshDashboard() {
             const data = await fetchDashboardData();
             const updated = document.getElementById('dashboard-updated');
-            if (!data) { updated.textContent = 'CMS connection unavailable'; updated.className = 'text-sm text-red-300'; return; }
+            if (!data) {
+                updated.textContent = 'CMS connection unavailable';
+                updated.className = 'text-sm text-red-300';
+                const banner = document.getElementById('cms-setup-banner');
+                const message = document.getElementById('cms-setup-message');
+                if (banner && message) {
+                    banner.classList.remove('hidden');
+                    message.textContent = window.CMS_LAST_ERROR || 'Cloud Firestore is not enabled for project adamjeeweb-7fa37.';
+                }
+                return;
+            }
+            const banner = document.getElementById('cms-setup-banner');
+            if (banner) banner.classList.add('hidden');
             document.getElementById('total-applications').textContent = data.stats.totalApplications;
             document.getElementById('pending-applications').textContent = data.stats.pendingApplications;
             document.getElementById('approved-applications').textContent = data.stats.approvedApplications;

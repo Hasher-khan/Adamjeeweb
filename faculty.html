@@ -118,7 +118,7 @@
 </section>
 <div id="faculty-empty" class="hidden text-center py-20 text-on-surface-variant">
     <span class="material-symbols-outlined text-[48px] text-outline-variant mb-sm block">group_off</span>
-    <p class="text-body-lg font-body-lg">No faculty members found for this subject.</p>
+    <p id="faculty-empty-message" class="text-body-lg font-body-lg">No faculty members found for this subject.</p>
 </div>
 
 </main>
@@ -205,6 +205,7 @@
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const data = await fetchCmsData('faculty');
+                const emptyMessage = document.getElementById('faculty-empty-message');
                 if (data) {
                     if (data.title) {
                         const h1 = document.querySelector('h1');
@@ -216,6 +217,9 @@
                         if (desc) desc.innerText = data.description;
                     }
                     allTeachers = data.teachers || [];
+                    if (emptyMessage) emptyMessage.innerText = 'No faculty members found for this subject.';
+                } else if (window.CMS_LAST_ERROR && emptyMessage) {
+                    emptyMessage.innerText = 'Faculty could not load because the CMS database is not connected.';
                 }
                 renderFaculty('all');
             } catch (e) {

@@ -7,6 +7,20 @@
         firebase.initializeApp(window.FIREBASE_CONFIG);
     }
     const db = firebase.firestore();
+    try { db.settings({ ignoreUndefinedProperties: true }); } catch (e) { /* already configured */ }
+
+    window.CMS_LAST_ERROR = '';
+    function explain(error) {
+        const text = String(error && (error.message || error) || '');
+        const code = String(error && error.code || '');
+        if (/SERVICE_DISABLED|has not been used|Cloud Firestore API/i.test(text)) {
+            return 'The live CMS database (Cloud Firestore) is not enabled for this Firebase project.';
+        }
+        if (code === 'permission-denied' || /permission/i.test(text)) {
+            return 'Firestore security rules are blocking this page.';
+        }
+        return text;
+    }
 
     /**
      * Fetch a CMS document from Firestore.
@@ -16,8 +30,10 @@
     window.fetchCmsData = async function (docId) {
         try {
             const snap = await db.collection('cms').doc(docId).get();
+            window.CMS_LAST_ERROR = '';
             return snap.exists ? snap.data() : null;
         } catch (e) {
+            window.CMS_LAST_ERROR = explain(e);
             console.error('CMS fetch error:', e);
             return null;
         }
@@ -45,10 +61,12 @@
                 status: 'Pending',
                 submittedAt: new Date().toISOString()
             });
+            window.CMS_LAST_ERROR = '';
             return { success: true, message: 'Application submitted successfully!' };
         } catch (e) {
+            window.CMS_LAST_ERROR = explain(e);
             console.error('Application submit error:', e);
-            return { success: false, message: e.message };
+            return { success: false, message: window.CMS_LAST_ERROR || e.message };
         }
     };
 })();

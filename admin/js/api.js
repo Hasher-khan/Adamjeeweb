@@ -8,14 +8,30 @@
         firebase.initializeApp(window.FIREBASE_CONFIG);
     }
     const db = firebase.firestore();
+    try { db.settings({ ignoreUndefinedProperties: true }); } catch (e) { /* already configured */ }
+
+    window.CMS_LAST_ERROR = '';
+    window.explainCmsError = function (error) {
+        const text = String(error && (error.message || error) || '');
+        const code = String(error && error.code || '');
+        if (/SERVICE_DISABLED|has not been used|Cloud Firestore API/i.test(text) || code === 'unavailable') {
+            return 'Firestore is not created in this Firebase project. Open Firebase Console → Firestore Database → Create database (test mode), then paste and publish the rules from firestore.rules.';
+        }
+        if (code === 'permission-denied' || /permission/i.test(text)) {
+            return 'Firestore rules are blocking the CMS. In Firebase Console → Firestore → Rules, publish the rules from firestore.rules.';
+        }
+        return text || 'Could not reach the CMS database.';
+    };
 
     // ── Helpers ──────────────────────────────────────────────────────────────
 
     async function getCmsDoc(docId) {
         try {
             const snap = await db.collection('cms').doc(docId).get();
+            window.CMS_LAST_ERROR = '';
             return snap.exists ? snap.data() : null;
         } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
             console.error('Firestore read error:', e);
             return null;
         }
@@ -27,10 +43,12 @@
                 ...data,
                 updatedAt: new Date().toISOString()
             });
+            window.CMS_LAST_ERROR = '';
             return { success: true };
         } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
             console.error('Firestore write error:', e);
-            return { success: false, message: e.message };
+            return { success: false, message: window.CMS_LAST_ERROR };
         }
     }
 
@@ -83,6 +101,7 @@
                 .map(d => ({ id: d.id, ...d.data() }))
                 .sort((a, b) => new Date(b.submittedAt || 0) - new Date(a.submittedAt || 0));
         } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
             console.error('Firestore read error:', e);
             return null;
         }
@@ -95,10 +114,12 @@
                 status,
                 actionedAt: new Date().toISOString()
             });
+            window.CMS_LAST_ERROR = '';
             return { success: true, message: `Application ${action}d successfully!`, application: { status } };
         } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
             console.error('Firestore update error:', e);
-            return { success: false, message: e.message };
+            return { success: false, message: window.CMS_LAST_ERROR };
         }
     };
 
@@ -150,6 +171,7 @@
                 activity
             };
         } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
             console.error('Dashboard fetch error:', e);
             return null;
         }
