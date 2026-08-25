@@ -8,6 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <script src="tailwind-config.js"></script>
 <script src="firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="cms-client.js"></script>
 <link rel="stylesheet" href="responsive.css">
 <script defer src="mobile-navigation.js"></script>
 <style>
@@ -46,6 +49,7 @@
 <header class="mb-xxl text-center max-w-3xl mx-auto">
 <h1 id="public-title" class="text-display-hero font-display-hero text-primary mb-md">Join Our Academic Community</h1>
 <p id="public-instructions" class="text-body-lg font-body-lg text-on-surface-variant">Take the first step towards academic excellence. Our streamlined admission process is designed to evaluate student potential and ensure a perfect fit for our rigorous programs.</p>
+<div id="public-admission-meta" class="mt-lg flex flex-wrap justify-center gap-md text-body-md font-body-md text-on-surface-variant"></div>
 </header>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-xl items-start">
 <!-- Left Column: Main Content -->
@@ -163,7 +167,7 @@
 <span class="material-symbols-outlined text-secondary" data-icon="inventory">inventory</span>
 <h3 class="text-headline-md font-headline-md text-primary">Required Documents</h3>
 </div>
-<ul class="space-y-sm">
+<ul id="public-documents" class="space-y-sm">
 <li class="flex items-start gap-sm">
 <span class="material-symbols-outlined text-secondary text-sm mt-xs" data-icon="check_circle">check_circle</span>
 <span class="text-body-md font-body-md text-on-surface-variant">2 Passport size photographs</span>
@@ -300,7 +304,6 @@
 </div>
 
 <script>
-    const API_BASE_URL = '/api';
     function showComingSoonModal(e) {
         if(e) e.preventDefault();
         const modal = document.getElementById('comingSoonModal');
@@ -317,19 +320,40 @@
         }
     }
 
+    function renderDocuments(documents) {
+        const list = document.getElementById('public-documents');
+        if (!list || !Array.isArray(documents) || documents.length === 0) return;
+        list.innerHTML = documents.map((item) => {
+            const text = String(item).replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[char]));
+            return `
+            <li class="flex items-start gap-sm">
+                <span class="material-symbols-outlined text-secondary text-sm mt-xs" data-icon="check_circle">check_circle</span>
+                <span class="text-body-md font-body-md text-on-surface-variant">${text}</span>
+            </li>`;
+        }).join('');
+    }
+
     document.addEventListener('DOMContentLoaded', async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/admissions`);
-            if (response.ok) {
-                const data = await response.json();
-                if (data.title) {
-                    document.getElementById('public-title').innerText = data.title;
-                    document.title = data.title + " - Adamjee Coaching";
-                }
-                if (data.instructions) {
-                    document.getElementById('public-instructions').innerText = data.instructions;
-                }
+            const data = await fetchCmsData('admissions');
+            if (!data) return;
+            if (data.title) {
+                document.getElementById('public-title').innerText = data.title;
+                document.title = data.title + " - Adamjee Coaching";
             }
+            if (data.instructions) {
+                document.getElementById('public-instructions').innerText = data.instructions;
+            }
+            const meta = document.getElementById('public-admission-meta');
+            if (meta) {
+                const bits = [];
+                if (data.deadline) bits.push(`Deadline: ${data.deadline}`);
+                if (data.fee) bits.push(`Application fee: PKR ${data.fee}`);
+                meta.innerText = bits.join('  ·  ');
+            }
+            renderDocuments(data.documents);
         } catch (error) {
             console.error("Error fetching dynamic data:", error);
         }
@@ -412,21 +436,13 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = `<span>Submitting...</span><span class="material-symbols-outlined text-sm animate-spin">sync</span>`;
             
-            const response = await fetch(`${API_BASE_URL}/student-applications`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
+            const result = await submitStudentApplication(formData);
             
-            const result = await response.json();
-            
-            if (response.ok && result.success) {
+            if (result && result.success) {
                 showToast("Success!", "Your application has been submitted successfully to the admission panel.", true);
                 document.getElementById('admissionForm').reset();
             } else {
-                throw new Error(result.message || "Failed to submit application");
+                throw new Error(result?.message || "Failed to submit application");
             }
         } catch (error) {
             console.error("Form submission error:", error);

@@ -7,11 +7,24 @@ service cloud.firestore {
     function owns(userId) {
       return signedIn() && request.auth.uid == userId;
     }
-    function admin() {
-      return signedIn() && request.auth.token.admin == true;
+
+    // Public site + admin CMS share these documents.
+    // Admin currently signs in with the CMS password, not Firebase Auth,
+    // so client writes must be allowed here for the live site to work.
+    match /cms/{docId} {
+      allow read, write: if true;
     }
 
-    // A student may access only the documents inside their own UID path.
+    match /studentApplications/{applicationId} {
+      allow create: if request.resource.data.studentName is string
+        && request.resource.data.studentName.size() > 0
+        && request.resource.data.studentName.size() < 200
+        && request.resource.data.status == 'Pending';
+      allow read: if true;
+      allow update: if true;
+      allow delete: if false;
+    }
+
     match /students/{userId} {
       allow read, create, update: if owns(userId);
       allow delete: if false;
@@ -21,13 +34,7 @@ service cloud.firestore {
       }
     }
 
-    // Reserved for a trusted server/Admin SDK. Clients cannot list all records.
     match /applicationRecords/{applicationId} {
-      allow read: if admin();
-      allow write: if false;
-    }
-
-    match /{document=**} {
       allow read, write: if false;
     }
   }

@@ -10,6 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="tailwind-config.js"></script>
 <script src="firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="cms-client.js"></script>
 <link rel="stylesheet" href="responsive.css">
 <script defer src="mobile-navigation.js"></script>
 </head>
@@ -156,7 +159,10 @@
             const emptyState = document.getElementById('faculty-empty');
             const filtered = filter === 'all'
                 ? allTeachers
-                : allTeachers.filter(t => t.subject.toLowerCase().replace(' ', '_') === filter || t.subject.toLowerCase() === filter);
+                : allTeachers.filter(t => {
+                    const subject = String(t.subject || '').toLowerCase();
+                    return subject.replace(/\s+/g, '_') === filter || subject === filter;
+                });
 
             grid.innerHTML = '';
             if (filtered.length === 0) {
@@ -198,10 +204,8 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const res = await fetch('/api/faculty');
-                if (res.ok) {
-                    const data = await res.json();
-                    // Update page heading
+                const data = await fetchCmsData('faculty');
+                if (data) {
                     if (data.title) {
                         const h1 = document.querySelector('h1');
                         if (h1) h1.innerText = data.title;
@@ -212,10 +216,11 @@
                         if (desc) desc.innerText = data.description;
                     }
                     allTeachers = data.teachers || [];
-                    renderFaculty('all');
                 }
+                renderFaculty('all');
             } catch (e) {
                 console.error('Faculty fetch error:', e);
+                renderFaculty('all');
             }
 
             // Subject filter
