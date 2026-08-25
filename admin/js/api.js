@@ -123,6 +123,18 @@
         }
     };
 
+    window.deleteStudentApplication = async function (id) {
+        try {
+            await db.collection('studentApplications').doc(id).delete();
+            window.CMS_LAST_ERROR = '';
+            return { success: true, message: 'Application deleted.' };
+        } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
+            console.error('Firestore delete error:', e);
+            return { success: false, message: window.CMS_LAST_ERROR };
+        }
+    };
+
     // ── Dashboard ─────────────────────────────────────────────────────────────
 
     window.fetchDashboardData = async function () {
