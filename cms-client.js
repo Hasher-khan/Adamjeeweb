@@ -41,7 +41,7 @@
 
     /**
      * Submit a student application to Firestore.
-     * Returns { success: true } or { success: false, message: string }
+     * Returns { success: true, applicationId: string, message: string } or { success: false, message: string }
      * @param {object} formData
      */
     window.submitStudentApplication = async function (formData) {
@@ -62,11 +62,41 @@
                 submittedAt: new Date().toISOString()
             });
             window.CMS_LAST_ERROR = '';
-            return { success: true, message: 'Application submitted successfully!' };
+            return { success: true, applicationId: id, message: 'Application submitted successfully!' };
         } catch (e) {
             window.CMS_LAST_ERROR = explain(e);
             console.error('Application submit error:', e);
             return { success: false, message: window.CMS_LAST_ERROR || e.message };
+        }
+    };
+
+    /**
+     * Check application status by Application ID.
+     * Returns { success: true, status: string, name: string } or { success: false, message: string }
+     * @param {string} applicationId
+     */
+    window.checkApplicationStatus = async function (applicationId) {
+        try {
+            if (!applicationId || !applicationId.trim()) {
+                return { success: false, message: 'Please provide a valid Application Tracking ID.' };
+            }
+            const snap = await db.collection('studentApplications').doc(applicationId.trim()).get();
+            
+            if (!snap.exists) {
+                return { success: false, message: 'Application not found. Please check your Tracking ID.' };
+            }
+            
+            const data = snap.data();
+            return { 
+                success: true, 
+                status: data.status || 'Pending',
+                name: data.studentName || 'Student',
+                date: data.submittedAt
+            };
+        } catch (e) {
+            window.CMS_LAST_ERROR = explain(e);
+            console.error('Check status error:', e);
+            return { success: false, message: 'Could not check status right now. ' + (window.CMS_LAST_ERROR || e.message) };
         }
     };
 })();
