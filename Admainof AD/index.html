@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adamjee CMS - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="mobile-menu.css">
+    <script defer src="mobile-menu.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body class="font-['Inter'] antialiased min-h-screen flex text-surface-bright">
+
+    <!-- Sidebar -->
+    <aside class="w-64 glass-panel border-r border-white/10 flex flex-col hidden md:flex h-screen sticky top-0">
+        <div class="p-6 border-b border-white/10 flex items-center gap-3">
+            <div class="w-8 h-8 rounded bg-secondary flex items-center justify-center font-bold text-white shadow-lg">A</div>
+            <h1 class="text-xl font-bold tracking-tight text-white">Adamjee CMS</h1>
+        </div>
+        
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-4">Menu</p>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white font-medium transition-colors">
+                <i class="ri-dashboard-line text-lg"></i> Dashboard
+            </a>
+            <a href="admissions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors">
+                <i class="ri-article-line text-lg"></i> Admissions
+            </a>
+            <a href="faculty.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors">
+                <i class="ri-team-line text-lg"></i> Faculty
+            </a>
+            <a href="timetable.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors">
+                <i class="ri-calendar-todo-line text-lg"></i> Timetable
+            </a>
+            
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-8">System</p>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors">
+                <i class="ri-settings-3-line text-lg"></i> Settings
+            </a>
+        </nav>
+        
+        <div class="p-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-3 py-2">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=115cb9&color=fff" alt="User" class="w-10 h-10 rounded-full border border-white/20">
+                <div>
+                    <p class="text-sm font-medium text-white">Admin User</p>
+                    <p class="text-xs text-white/50">admin@adamjee.edu</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-h-screen overflow-hidden relative z-10">
+        
+        <!-- Header -->
+        <header class="glass-panel border-b border-white/10 px-8 py-5 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button type="button" data-admin-mobile-toggle class="md:hidden text-white/70 hover:text-white">
+                    <i class="ri-menu-2-line text-2xl"></i>
+                </button>
+                <h2 class="text-2xl font-semibold text-white">Overview</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition">
+                    <i class="ri-notification-3-line"></i>
+                </button>
+                <a href="../index.html" target="_blank" class="px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium text-sm transition shadow-lg shadow-secondary/20 flex items-center gap-2">
+                    <i class="ri-external-link-line"></i> View Site
+                </a>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="flex-1 p-8 overflow-y-auto">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Stat Cards -->
+                <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.1s;">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-white/60 mb-1">Total Views</p>
+                            <h3 class="text-3xl font-bold text-white">12,450</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">
+                            <i class="ri-eye-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-green-400 flex items-center gap-1"><i class="ri-arrow-up-line"></i> 12% this week</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.2s;">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-white/60 mb-1">Applications</p>
+                            <h3 class="text-3xl font-bold text-white">342</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">
+                            <i class="ri-file-text-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-green-400 flex items-center gap-1"><i class="ri-arrow-up-line"></i> 5% this week</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.3s;">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-white/60 mb-1">Faculty</p>
+                            <h3 class="text-3xl font-bold text-white">86</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl">
+                            <i class="ri-team-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-white/40">Active members</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 fade-in" style="animation-delay: 0.4s;">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-white/60 mb-1">System Status</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">Healthy</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center text-xl">
+                            <i class="ri-server-line"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-white/40">Last updated: Just now</p>
+                </div>
+            </div>
+
+            <!-- Recent Activity & Quick Actions -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <div class="lg:col-span-2 glass-panel rounded-2xl p-6 fade-in" style="animation-delay: 0.5s;">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold text-white">Recent Activity</h3>
+                        <button class="text-sm text-secondary-fixed-dim hover:text-white transition">View all</button>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex gap-4 items-start p-3 rounded-xl hover:bg-white/5 transition border border-transparent hover:border-white/10">
+                            <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+                                <i class="ri-edit-line"></i>
+                            </div>
+                            <div>
+                                <p class="text-white text-sm font-medium">Admissions page updated</p>
+                                <p class="text-white/50 text-xs mt-1">Changed deadline dates for Fall semester.</p>
+                                <p class="text-white/30 text-xs mt-2">2 hours ago by Admin User</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start p-3 rounded-xl hover:bg-white/5 transition border border-transparent hover:border-white/10">
+                            <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 shrink-0">
+                                <i class="ri-user-add-line"></i>
+                            </div>
+                            <div>
+                                <p class="text-white text-sm font-medium">New Faculty Member Added</p>
+                                <p class="text-white/50 text-xs mt-1">Dr. Sarah Ahmed added to Science Dept.</p>
+                                <p class="text-white/30 text-xs mt-2">Yesterday</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start p-3 rounded-xl hover:bg-white/5 transition border border-transparent hover:border-white/10">
+                            <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 shrink-0">
+                                <i class="ri-calendar-line"></i>
+                            </div>
+                            <div>
+                                <p class="text-white text-sm font-medium">Timetable Published</p>
+                                <p class="text-white/50 text-xs mt-1">Spring 2027 timetable is now live.</p>
+                                <p class="text-white/30 text-xs mt-2">Aug 20, 2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6 fade-in" style="animation-delay: 0.6s;">
+                    <h3 class="text-lg font-semibold text-white mb-6">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <a href="admissions.html" class="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-white/10 flex items-center justify-center text-white">
+                                    <i class="ri-article-line"></i>
+                                </div>
+                                <span class="font-medium text-sm text-white">Edit Admissions</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all"></i>
+                        </a>
+                        <button class="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-white/10 flex items-center justify-center text-white">
+                                    <i class="ri-team-line"></i>
+                                </div>
+                                <span class="font-medium text-sm text-white">Manage Faculty</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all"></i>
+                        </button>
+                        <button class="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-white/10 flex items-center justify-center text-white">
+                                    <i class="ri-calendar-todo-line"></i>
+                                </div>
+                                <span class="font-medium text-sm text-white">Update Timetable</span>
+                            </div>
+                            <i class="ri-arrow-right-s-line text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

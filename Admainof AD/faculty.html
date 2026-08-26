@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Faculty - Adamjee CMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="mobile-menu.css">
+    <script defer src="mobile-menu.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #115cb9; box-shadow: 0 0 0 1px #115cb9; }
+        .teacher-card { transition: all 0.3s ease; }
+        .teacher-card:hover { transform: translateY(-3px); }
+        .photo-drop-zone { transition: all 0.2s ease; border: 2px dashed rgba(255,255,255,0.15); }
+        .photo-drop-zone.drag-over { border-color: #115cb9; background: rgba(17,92,185,0.1); }
+        /* Modal */
+        #teacher-modal { display: none; }
+        #teacher-modal.open { display: flex; }
+    </style>
+</head>
+<body class="font-['Inter'] antialiased min-h-screen flex text-surface-bright">
+
+    <!-- Sidebar -->
+    <aside class="w-64 glass-panel border-r border-white/10 flex flex-col hidden md:flex h-screen sticky top-0">
+        <div class="p-6 border-b border-white/10 flex items-center gap-3">
+            <div class="w-8 h-8 rounded bg-secondary flex items-center justify-center font-bold text-white shadow-lg">A</div>
+            <h1 class="text-xl font-bold tracking-tight text-white">Adamjee CMS</h1>
+        </div>
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-4">Menu</p>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-dashboard-line text-lg"></i> Dashboard</a>
+            <a href="admissions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-article-line text-lg"></i> Admissions</a>
+            <a href="faculty.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white font-medium transition-colors"><i class="ri-team-line text-lg"></i> Faculty</a>
+            <a href="timetable.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-calendar-todo-line text-lg"></i> Timetable</a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-h-screen overflow-hidden relative z-10">
+        <!-- Header -->
+        <header class="glass-panel border-b border-white/10 px-8 py-5 flex items-center justify-between sticky top-0 z-20">
+            <div>
+                <h2 class="text-2xl font-semibold text-white">Faculty Management</h2>
+                <p id="teacher-count" class="text-sm text-white/50 mt-0.5">0 teachers</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="http://localhost:8080/faculty.html" target="_blank" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium text-sm transition flex items-center gap-2">
+                    <i class="ri-external-link-line"></i> View Live
+                </a>
+                <button id="add-teacher-btn" class="px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium text-sm transition shadow-lg flex items-center gap-2">
+                    <i class="ri-user-add-line"></i> Add Teacher
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-6xl mx-auto">
+
+                <!-- Page Info -->
+                <div class="glass-panel rounded-2xl p-6 mb-6 fade-in">
+                    <h3 class="text-base font-semibold text-white mb-4 flex items-center gap-2"><i class="ri-settings-3-line text-secondary"></i> Page Settings</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-white/50 mb-1.5">Faculty Page Title</label>
+                            <input id="inp-title" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-white/50 mb-1.5">Page Description</label>
+                            <input id="inp-desc" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm">
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button id="save-settings-btn" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition flex items-center gap-2">
+                            <i class="ri-save-3-line"></i> Save Settings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Teacher Grid -->
+                <div id="teachers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 fade-in" style="animation-delay: 0.1s;">
+                    <!-- Cards rendered by JS -->
+                </div>
+
+                <div id="empty-state" class="hidden text-center py-20 text-white/30">
+                    <i class="ri-team-line text-5xl mb-3 block"></i>
+                    <p class="text-lg">No teachers yet.</p>
+                    <p class="text-sm mt-1">Click <strong class="text-white/50">Add Teacher</strong> to get started.</p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ADD / EDIT TEACHER MODAL -->
+    <div id="teacher-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+        <div class="glass-panel border border-white/15 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-white/10 flex items-center justify-between">
+                <h3 id="modal-title" class="text-lg font-semibold text-white">Add New Teacher</h3>
+                <button id="close-modal-btn" class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition">
+                    <i class="ri-close-line text-lg"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Photo Upload -->
+                <div>
+                    <label class="block text-sm font-medium text-white/70 mb-2">Profile Photo</label>
+                    <div class="flex gap-4 items-start">
+                        <!-- Preview -->
+                        <div class="w-24 h-24 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                            <img id="photo-preview" src="" alt="Preview" class="w-full h-full object-cover hidden">
+                            <i id="photo-placeholder" class="ri-user-line text-3xl text-white/20"></i>
+                        </div>
+                        <div class="flex-1">
+                            <!-- Drop Zone -->
+                            <div id="photo-drop-zone" class="photo-drop-zone rounded-xl p-4 text-center cursor-pointer hover:bg-white/5 transition">
+                                <i class="ri-image-add-line text-2xl text-white/30 mb-1 block"></i>
+                                <p class="text-sm text-white/50">Drag & drop an image or click to upload</p>
+                                <p class="text-xs text-white/30 mt-1">PNG, JPG, GIF up to 5MB</p>
+                                <input type="file" id="photo-file-input" accept="image/*" class="hidden">
+                            </div>
+                            <!-- OR: URL Input -->
+                            <div class="mt-3">
+                                <label class="block text-xs text-white/40 mb-1.5">Or paste an image URL</label>
+                                <input id="photo-url-input" type="url" placeholder="https://example.com/photo.jpg" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-white/70 mb-1.5">Full Name *</label>
+                        <input id="modal-name" type="text" placeholder="e.g. Prof. Syed Ali" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-white/70 mb-1.5">Designation *</label>
+                        <input id="modal-designation" type="text" placeholder="e.g. Head of Physics Dept." class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-white/70 mb-1.5">Subject *</label>
+                        <select id="modal-subject" class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm">
+                            <option value="Physics">Physics</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Biology">Biology</option>
+                            <option value="English">English</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Urdu">Urdu</option>
+                            <option value="Pakistan Studies">Pakistan Studies</option>
+                            <option value="Islamiyat">Islamiyat</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-white/70 mb-1.5">Experience</label>
+                        <input id="modal-experience" type="text" placeholder="e.g. 15+ Years Experience" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 border-t border-white/10 flex justify-end gap-3">
+                <button id="cancel-modal-btn" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition">Cancel</button>
+                <button id="save-teacher-btn" class="px-5 py-2 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium text-sm transition shadow-lg flex items-center gap-2">
+                    <i class="ri-check-line"></i> Save Teacher
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-[100] hidden">
+        <div class="bg-green-500/90 text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-2 text-sm font-medium">
+            <i class="ri-check-circle-line text-lg"></i>
+            <span id="toast-text">Changes saved!</span>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        let teachers = [];
+        let editingIndex = -1; // -1 = new, >=0 = editing
+
+        const modal = document.getElementById('teacher-modal');
+        const grid = document.getElementById('teachers-grid');
+        const emptyState = document.getElementById('empty-state');
+
+        function showToast(msg = 'Changes saved!', isError = false) {
+            const toast = document.getElementById('toast');
+            const toastEl = toast.querySelector('div');
+            document.getElementById('toast-text').innerText = msg;
+            toastEl.className = `${isError ? 'bg-red-500/90' : 'bg-green-500/90'} text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-2 text-sm font-medium`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        function renderGrid() {
+            grid.innerHTML = '';
+            document.getElementById('teacher-count').innerText = `${teachers.length} teacher${teachers.length !== 1 ? 's' : ''}`;
+
+            if (teachers.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            teachers.forEach((t, i) => {
+                const card = document.createElement('div');
+                card.className = 'teacher-card glass-card rounded-2xl overflow-hidden';
+                const photoHtml = t.photo
+                    ? `<img src="${t.photo}" alt="${t.name}" class="w-full h-full object-cover object-top">`
+                    : `<div class="w-full h-full flex items-center justify-center"><i class="ri-user-line text-4xl text-white/20"></i></div>`;
+                card.innerHTML = `
+                    <div class="aspect-square bg-white/5 relative overflow-hidden">
+                        ${photoHtml}
+                        <div class="absolute top-2 left-2 bg-secondary/80 backdrop-blur px-2.5 py-1 rounded-full text-xs font-medium text-white">
+                            ${t.subject}
+                        </div>
+                        <div class="absolute top-2 right-2 flex gap-1">
+                            <button onclick="editTeacher(${i})" class="w-7 h-7 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white transition" title="Edit">
+                                <i class="ri-edit-line text-xs"></i>
+                            </button>
+                            <button onclick="deleteTeacher(${i})" class="w-7 h-7 rounded-full bg-red-500/30 hover:bg-red-500/70 flex items-center justify-center text-white transition" title="Delete">
+                                <i class="ri-delete-bin-line text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-white text-base mb-0.5">${t.name}</h3>
+                        <p class="text-secondary-fixed-dim text-xs font-medium mb-2">${t.designation}</p>
+                        <p class="text-white/50 text-xs flex items-center gap-1">
+                            <i class="ri-time-line"></i> ${t.experience}
+                        </p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(forIndex = -1) {
+            editingIndex = forIndex;
+            document.getElementById('modal-title').innerText = forIndex >= 0 ? 'Edit Teacher' : 'Add New Teacher';
+
+            // Reset form
+            document.getElementById('modal-name').value = '';
+            document.getElementById('modal-designation').value = '';
+            document.getElementById('modal-subject').value = 'Physics';
+            document.getElementById('modal-experience').value = '';
+            document.getElementById('photo-url-input').value = '';
+            updatePhotoPreview('');
+
+            if (forIndex >= 0) {
+                const t = teachers[forIndex];
+                document.getElementById('modal-name').value = t.name;
+                document.getElementById('modal-designation').value = t.designation;
+                document.getElementById('modal-subject').value = t.subject;
+                document.getElementById('modal-experience').value = t.experience;
+                document.getElementById('photo-url-input').value = t.photo || '';
+                updatePhotoPreview(t.photo || '');
+            }
+
+            modal.classList.add('open');
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+        }
+
+        function updatePhotoPreview(src) {
+            const preview = document.getElementById('photo-preview');
+            const placeholder = document.getElementById('photo-placeholder');
+            if (src) {
+                preview.src = src;
+                preview.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            } else {
+                preview.src = '';
+                preview.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            }
+        }
+
+        window.editTeacher = (i) => openModal(i);
+
+        window.deleteTeacher = (i) => {
+            if (!confirm(`Delete "${teachers[i].name}"? This cannot be undone.`)) return;
+            teachers.splice(i, 1);
+            renderGrid();
+            saveToApi();
+        };
+
+        async function saveToApi() {
+            const payload = {
+                title: document.getElementById('inp-title').value,
+                description: document.getElementById('inp-desc').value,
+                teachers
+            };
+            const res = await saveFacultyData(payload);
+            if (res && res.success) showToast('Faculty saved to live site!');
+            else showToast('Error saving data.', true);
+        }
+
+        // Modal events
+        document.getElementById('add-teacher-btn').addEventListener('click', () => openModal(-1));
+        document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+        document.getElementById('cancel-modal-btn').addEventListener('click', closeModal);
+
+        // Photo URL live preview
+        document.getElementById('photo-url-input').addEventListener('input', (e) => {
+            updatePhotoPreview(e.target.value);
+        });
+
+        // Photo file upload → convert to base64
+        const dropZone = document.getElementById('photo-drop-zone');
+        const fileInput = document.getElementById('photo-file-input');
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file) readFile(file);
+        });
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) readFile(e.target.files[0]);
+        });
+
+        function readFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const dataUrl = e.target.result;
+                document.getElementById('photo-url-input').value = dataUrl;
+                updatePhotoPreview(dataUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Save teacher from modal
+        document.getElementById('save-teacher-btn').addEventListener('click', () => {
+            const name = document.getElementById('modal-name').value.trim();
+            const designation = document.getElementById('modal-designation').value.trim();
+            if (!name || !designation) { showToast('Name and designation are required.', true); return; }
+
+            const teacher = {
+                id: editingIndex >= 0 ? teachers[editingIndex].id : Date.now(),
+                name,
+                designation,
+                subject: document.getElementById('modal-subject').value,
+                experience: document.getElementById('modal-experience').value.trim(),
+                photo: document.getElementById('photo-url-input').value.trim()
+            };
+
+            if (editingIndex >= 0) {
+                teachers[editingIndex] = teacher;
+            } else {
+                teachers.push(teacher);
+            }
+
+            renderGrid();
+            closeModal();
+            saveToApi();
+        });
+
+        // Save settings button
+        document.getElementById('save-settings-btn').addEventListener('click', saveToApi);
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const data = await fetchFacultyData();
+            if (data) {
+                document.getElementById('inp-title').value = data.title || '';
+                document.getElementById('inp-desc').value = data.description || '';
+                teachers = data.teachers || [];
+                renderGrid();
+            }
+        });
+    </script>
+</body>
+</html>
