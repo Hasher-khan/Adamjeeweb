@@ -6,7 +6,6 @@
 <title>Adamjee Coaching Maymar</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="tailwind-config.js"></script>
 <script src="firebase-config.js"></script>
@@ -28,32 +27,78 @@
         }
         
         .gold-highlight {
-            color: #C5A059; /* Custom gold for highlight as per brand */
+            color: #C5A059;
         }
         .gold-bg {
             background-color: #C5A059;
         }
+
+        /* ── Logo / Brand styles ── */
+        .brand-logo {
+            height: 56px;
+            width: 56px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(120, 0, 0, 0.20));
+            transition: transform 0.3s cubic-bezier(.4,0,.2,1), filter 0.3s;
+            border-radius: 50%;
+            background: #fff;
+            padding: 2px;
+        }
+        .brand-logo:hover {
+            transform: scale(1.07) rotate(-3deg);
+            filter: drop-shadow(0 4px 16px rgba(120, 0, 0, 0.35));
+        }
+        .brand-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #7B0000;
+            line-height: 1.15;
+            letter-spacing: 0.01em;
+        }
+        .brand-sub {
+            font-size: 0.70rem;
+            color: #C5A059;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-secondary/20 selection:text-secondary">
-<nav class="hidden md:flex sticky top-0 z-50 flex justify-between items-center w-full px-gutter py-md max-w-container-max mx-auto bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm transition-transform duration-150">
-<div class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">
-            Adamjee Coaching Maymar
+
+<!-- ── Desktop Navigation ── -->
+<nav class="hidden md:flex sticky top-0 z-50 justify-between items-center w-full px-gutter py-md max-w-container-max mx-auto bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm transition-transform duration-150">
+
+    <!-- Brand / Logo -->
+    <a href="index.html" class="flex items-center gap-3 no-underline group">
+        <img
+            src="images/adamjee-logo.png"
+            alt="Adamjee Coaching Centre Logo"
+            class="brand-logo"
+        />
+        <div class="flex flex-col justify-center">
+            <span class="brand-name">Adamjee Coaching</span>
+            <span class="brand-sub">Maymar Campus</span>
         </div>
-<div class="flex items-center space-x-lg">
-<a class="text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary pb-1 text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="index.html">Home</a>
-<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="timetable.html">Programs</a>
-<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="faculty.html">Faculty</a>
-<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" onclick="showComingSoonModal(event)" href="javascript:void(0)">Results</a>
-<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="admissions.html">Admissions</a>
-<a href="student-login.html" class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md hover:bg-primary-container transition-colors">Student Login</a>
-    <a href="admin/index.html" id="adminPanelBtn" title="Admin Panel" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-on-primary transition-all duration-200 text-label-sm font-label-sm font-semibold shadow-sm hover:shadow-md group">
-        <span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:rotate-12" style="font-variation-settings:'FILL' 1;">admin_panel_settings</span>
-        Admin Panel
-        <span class="inline-flex items-center justify-center w-2 h-2 rounded-full bg-green-500 animate-pulse ml-0.5" title="System Online"></span>
     </a>
-</div>
+
+    <!-- Nav links -->
+    <div class="flex items-center space-x-lg">
+        <a class="text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary pb-1 text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="index.html">Home</a>
+        <a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="timetable.html">Programs</a>
+        <a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="faculty.html">Faculty</a>
+        <a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" onclick="showComingSoonModal(event)" href="javascript:void(0)">Results</a>
+        <a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="admissions.html">Admissions</a>
+        <a href="student-login.html" class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md hover:bg-primary-container transition-colors">Student Login</a>
+        <a href="admin/index.html" id="adminPanelBtn" title="Admin Panel" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-on-primary transition-all duration-200 text-label-sm font-label-sm font-semibold shadow-sm hover:shadow-md group">
+            <span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:rotate-12" style="font-variation-settings:'FILL' 1;">admin_panel_settings</span>
+            Admin Panel
+            <span class="inline-flex items-center justify-center w-2 h-2 rounded-full bg-green-500 animate-pulse ml-0.5" title="System Online"></span>
+        </a>
+    </div>
 </nav>
+
+<!-- ── Hero Section ── -->
 <main class="w-full">
 <section class="max-w-container-max mx-auto px-gutter py-xxl grid grid-cols-1 md:grid-cols-2 gap-xl items-center min-h-[80vh]">
 <div class="flex flex-col space-y-lg relative z-10">
@@ -94,7 +139,7 @@
 </div>
 <div class="relative h-[500px] rounded-xl overflow-hidden premium-shadow">
 <div class="absolute inset-0 bg-primary/5 z-10"></div>
-<img class="w-full h-full object-cover" data-alt="A wide, high-quality photograph of a modern, well-lit classroom filled with attentive students sitting at neat wooden desks facing a whiteboard. The environment is clean, professional, and academic, featuring cool natural lighting and a serious, achievement-oriented aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp-Qi1X8QGjaaSSYDDGViZjpqz3k61INGYmUe6hpv2up_UBVkU_tcjLBHfM5digFbsfrwbZrLwEFj_5szELFS2NtbHneHSEongiiRqNmhri5FgfO2lC7uwKg6LTAG_XoHG8IX8HMrFODAIYctKpJRWwY1xdt_tnX9PvHFTwfrRofuc4bzY9V30LdCtdjz0bonznH6EGTh1IdzxQU88q3WyxLp-MT8jiAOEyCqRp_MK9j6qYn6-ySLziQ"/>
+<img class="w-full h-full object-cover" alt="Adamjee Coaching Maymar Campus Building" src="images/maymar-campus.jpg"/>
 <div class="absolute -bottom-6 -left-6 w-32 h-32 rounded-full gold-bg opacity-20 blur-2xl"></div>
 <div class="absolute -top-6 -right-6 w-40 h-40 rounded-full bg-secondary opacity-20 blur-3xl"></div>
 </div>
