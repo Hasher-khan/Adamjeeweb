@@ -34,7 +34,7 @@
     const active = links.map(([label, href]) => `<a href="${href}"${page === href ? ' aria-current="page"' : ''}>${label}</a>`).join('');
     const header = document.createElement('header');
     header.className = 'mobile-site-header';
-    header.innerHTML = '<a class="mobile-site-brand" href="index.html">Adamjee Coaching<small>Maymar Campus</small></a><button type="button" class="mobile-site-menu-button" aria-label="Open menu">☰ Menu</button>';
+    header.innerHTML = '<a class="mobile-site-brand" href="index.html"><img class="mobile-site-brand-logo" src="images/adamjee-logo.png" alt="Adamjee Coaching logo"><span class="mobile-site-brand-copy">Adamjee Coaching<small>Maymar Campus</small></span></a><button type="button" class="mobile-site-menu-button" aria-label="Open menu">&#9776; Menu</button>';
     const tabs = document.createElement('nav');
     tabs.className = 'mobile-site-tabs';
     tabs.setAttribute('aria-label', 'Primary navigation');
@@ -42,7 +42,7 @@
     tabs.innerHTML = tabLinks;
     const menu = document.createElement('aside');
     menu.className = 'mobile-site-menu';
-    menu.innerHTML = `<div class="mobile-site-menu-head"><strong>Navigation</strong><button type="button" class="mobile-site-close" aria-label="Close menu">×</button></div><nav class="mobile-site-links">${active}<button type="button" data-results>Results <span style="margin-left:auto">Soon</span></button></nav><div class="mobile-site-actions"><a href="student-login.html">Student Login</a><a href="admin/index.html">Admin Panel</a></div>`;
+    menu.innerHTML = `<div class="mobile-site-menu-head"><strong>Navigation</strong><button type="button" class="mobile-site-close" aria-label="Close menu">&times;</button></div><nav class="mobile-site-links">${active}<button type="button" data-results>Results <span style="margin-left:auto">Soon</span></button></nav><div class="mobile-site-actions"><a href="student-login.html">Student Login</a><a href="admin/index.html">Admin Panel</a></div>`;
     const backdrop = document.createElement('button');
     backdrop.type = 'button'; backdrop.className = 'mobile-site-backdrop'; backdrop.setAttribute('aria-label', 'Close menu');
     document.body.prepend(menu); document.body.prepend(backdrop); document.body.prepend(tabs); document.body.prepend(header);
