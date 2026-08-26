@@ -10,6 +10,34 @@ body {
     color: #fbf9f8; /* 'surface-bright' */
 }
 
+/* Keep the application shell usable when Tailwind's CDN utilities are delayed. */
+body > aside {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    body {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    body > aside {
+        display: flex;
+        flex: 0 0 16rem;
+        width: 16rem;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        flex-direction: column;
+    }
+
+    body > main {
+        flex: 1 1 auto;
+        width: calc(100% - 16rem);
+        min-width: 0;
+    }
+}
+
 .glass-panel {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(16px);
