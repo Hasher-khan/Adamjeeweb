@@ -1,5 +1,6 @@
 (function () {
   function init() {
+    if (document.getElementById('admin-mobile-menu')) return;
     const page = location.pathname.split('/').pop() || 'index.html';
     const items = [
       ['Dashboard', 'index.html'],
@@ -61,5 +62,11 @@
     document.querySelector('main header')?.classList.add('admin-mobile-top-space');
   }
 
-  document.addEventListener('DOMContentLoaded', init);
+  // A mobile browser may restore this page from cache after DOMContentLoaded
+  // has already fired. Initialise immediately in that case as well.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
 }());
