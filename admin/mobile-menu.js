@@ -20,7 +20,7 @@
 
     // Use the hamburger already present in a page header.  Older pages without
     // one receive the same control as a fallback.
-    let trigger = document.querySelector('main header button.md\\:hidden');
+    let trigger = document.querySelector('[data-admin-mobile-toggle]');
     if (!trigger) {
       trigger = document.createElement('button');
       trigger.className = 'admin-mobile-trigger';
@@ -49,7 +49,10 @@
     };
 
     document.body.append(overlay, panel);
-    trigger.addEventListener('click', open);
+    trigger.addEventListener('click', () => {
+      if (panel.classList.contains('is-open')) close();
+      else open();
+    });
     overlay.addEventListener('click', close);
     closeButton.addEventListener('click', close);
     document.addEventListener('keydown', (event) => {
