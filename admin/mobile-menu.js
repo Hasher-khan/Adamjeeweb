@@ -2,6 +2,9 @@
   function init() {
     if (document.getElementById('admin-mobile-menu')) return;
     const page = location.pathname.split('/').pop() || 'index.html';
+    const adminBase = location.pathname.endsWith('/')
+      ? location.pathname
+      : `${location.pathname.slice(0, location.pathname.lastIndexOf('/') + 1) || `${location.pathname}/`}`;
     const items = [
       ['Dashboard', 'index.html'],
       ['Admissions', 'admissions.html'],
@@ -17,7 +20,7 @@
     const panel = document.createElement('aside');
     panel.className = 'admin-mobile-menu';
     panel.setAttribute('aria-label', 'Admin navigation');
-    panel.innerHTML = `<header><strong>Adamjee CMS</strong><button type="button" aria-label="Close menu">&times;</button></header><nav>${items.map(([label, href]) => `<a href="${href}"${page === href ? ' aria-current="page"' : ''}>${label}</a>`).join('')}</nav>`;
+    panel.innerHTML = `<header><strong>Adamjee CMS</strong><button type="button" aria-label="Close menu">&times;</button></header><nav>${items.map(([label, href]) => `<a href="${adminBase}${href}"${page === href ? ' aria-current="page"' : ''}>${label}</a>`).join('')}</nav>`;
 
     // Use the hamburger already present in a page header.  Older pages without
     // one receive the same control as a fallback.
@@ -60,6 +63,7 @@
     });
     overlay.addEventListener('click', close);
     closeButton.addEventListener('click', close);
+    panel.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && panel.classList.contains('is-open')) close();
     });
