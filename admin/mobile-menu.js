@@ -13,6 +13,11 @@
       ['Student Forms', 'student-applications.html'],
       ['Settings', 'settings.html']
     ];
+    const quickItems = [
+      ['New Admission', 'admissions.html#application-form'],
+      ['Student Forms', 'student-applications.html'],
+      ['Settings', 'settings.html']
+    ];
     const overlay = document.createElement('div');
     overlay.className = 'admin-mobile-overlay';
     overlay.setAttribute('aria-hidden', 'true');
@@ -20,7 +25,7 @@
     const panel = document.createElement('aside');
     panel.className = 'admin-mobile-menu';
     panel.setAttribute('aria-label', 'Admin navigation');
-    panel.innerHTML = `<header><strong>Adamjee CMS</strong><button type="button" aria-label="Close menu">&times;</button></header><nav>${items.map(([label, href]) => `<a href="${adminBase}${href}"${page === href ? ' aria-current="page"' : ''}>${label}</a>`).join('')}</nav>`;
+    panel.innerHTML = `<header><strong>Adamjee CMS</strong><span><button type="button" data-admin-back aria-label="Go back">&#8592;</button><button type="button" data-admin-close aria-label="Close menu">&times;</button></span></header><p class="admin-mobile-menu__label">Menu</p><nav>${items.map(([label, href]) => `<a href="${adminBase}${href}"${page === href ? ' aria-current="page"' : ''}>${label}</a>`).join('')}</nav><p class="admin-mobile-menu__label">Quick Access</p><nav>${quickItems.map(([label, href]) => `<a href="${adminBase}${href}">${label}</a>`).join('')}</nav>`;
 
     // Use the hamburger already present in a page header.  Older pages without
     // one receive the same control as a fallback.
@@ -38,7 +43,8 @@
     trigger.setAttribute('aria-controls', 'admin-mobile-menu');
     panel.id = 'admin-mobile-menu';
 
-    const closeButton = panel.querySelector('button');
+    const closeButton = panel.querySelector('[data-admin-close]');
+    const backButton = panel.querySelector('[data-admin-back]');
     const setOpen = (open) => {
       panel.classList.toggle('is-open', open);
       overlay.classList.toggle('is-open', open);
@@ -63,6 +69,11 @@
     });
     overlay.addEventListener('click', close);
     closeButton.addEventListener('click', close);
+    backButton.addEventListener('click', () => {
+      close();
+      if (history.length > 1) history.back();
+      else window.location.href = `${adminBase}index.html`;
+    });
     panel.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && panel.classList.contains('is-open')) close();

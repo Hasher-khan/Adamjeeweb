@@ -7,7 +7,9 @@
   .admin-mobile-menu.is-open { transform: translateX(0); }
   body.admin-mobile-menu-open { overflow: hidden; }
   .admin-mobile-menu header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,.12); color: #fff; }
+  .admin-mobile-menu header > span { display: flex; gap: .4rem; }
   .admin-mobile-menu button { border: 0; border-radius: 8px; background: rgba(255,255,255,.1); color: #fff; width: 36px; height: 36px; font-size: 1.25rem; }
+  .admin-mobile-menu__label { margin: 1rem 0 .35rem; color: rgba(255,255,255,.45); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
   .admin-mobile-menu nav { display: grid; gap: .35rem; padding-top: 1rem; }
   .admin-mobile-menu a { padding: .75rem .8rem; border-radius: .6rem; color: rgba(255,255,255,.78); font: 500 .93rem Inter, sans-serif; text-decoration: none; }
   .admin-mobile-menu a[aria-current="page"] { color: #fff; background: rgba(255,255,255,.12); }
