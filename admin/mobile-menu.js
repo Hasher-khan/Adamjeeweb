@@ -36,21 +36,25 @@
     panel.id = 'admin-mobile-menu';
 
     const closeButton = panel.querySelector('button');
+    const setOpen = (open) => {
+      panel.classList.toggle('is-open', open);
+      overlay.classList.toggle('is-open', open);
+      document.body.classList.toggle('admin-mobile-menu-open', open);
+      overlay.setAttribute('aria-hidden', String(!open));
+      trigger.setAttribute('aria-expanded', String(open));
+    };
     const close = () => {
-      panel.classList.remove('is-open');
-      overlay.classList.remove('is-open');
-      trigger.setAttribute('aria-expanded', 'false');
+      setOpen(false);
       trigger.focus();
     };
     const open = () => {
-      panel.classList.add('is-open');
-      overlay.classList.add('is-open');
-      trigger.setAttribute('aria-expanded', 'true');
+      setOpen(true);
       closeButton.focus();
     };
 
     document.body.append(overlay, panel);
-    trigger.addEventListener('click', () => {
+    trigger.addEventListener('click', (event) => {
+      event.preventDefault();
       if (panel.classList.contains('is-open')) close();
       else open();
     });
