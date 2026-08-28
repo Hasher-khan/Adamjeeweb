@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="mobile-menu.css">
     <script defer src="mobile-menu.js?v=7"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Firebase compat (must load before any firebase usage) -->
     <script src="../firebase-config.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -66,19 +67,25 @@
         </header>
 
         <div class="flex-1 p-8 overflow-y-auto">
+            <!-- Stats -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div class="glass-card rounded-2xl p-5 fade-in"><p class="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1">Total</p><h3 id="stat-total" class="text-3xl font-bold text-white">-</h3><p class="text-xs text-white/40 mt-1">All reviews</p></div>
                 <div class="glass-card rounded-2xl p-5 fade-in"><p class="text-xs font-semibold text-yellow-400/80 uppercase tracking-wider mb-1">Pending</p><h3 id="stat-pending" class="text-3xl font-bold text-yellow-300">-</h3><p class="text-xs text-white/40 mt-1">Awaiting moderation</p></div>
                 <div class="glass-card rounded-2xl p-5 fade-in"><p class="text-xs font-semibold text-green-400/80 uppercase tracking-wider mb-1">Approved</p><h3 id="stat-approved" class="text-3xl font-bold text-green-300">-</h3><p class="text-xs text-white/40 mt-1">Shown publicly</p></div>
                 <div class="glass-card rounded-2xl p-5 fade-in"><p class="text-xs font-semibold text-yellow-300/80 uppercase tracking-wider mb-1">Avg Rating</p><h3 id="stat-avg" class="text-3xl font-bold text-yellow-300">-</h3><p class="text-xs text-white/40 mt-1">Out of 5 stars</p></div>
             </div>
+            <!-- Filter Tabs -->
             <div class="flex gap-2 mb-6">
                 <button onclick="setFilter('all')" id="tab-all" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition bg-white/10 text-white border border-white/20">All</button>
                 <button onclick="setFilter('Pending')" id="tab-pending" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition text-white/50 hover:text-white hover:bg-white/5">Pending</button>
                 <button onclick="setFilter('Approved')" id="tab-approved" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition text-white/50 hover:text-white hover:bg-white/5">Approved</button>
             </div>
+            <!-- Reviews List -->
             <div id="reviews-list" class="space-y-4">
-                <div class="glass-panel rounded-2xl p-10 text-center text-white/50"><i class="ri-loader-4-line text-3xl animate-spin mb-3 block"></i><p>Loading reviews...</p></div>
+                <div class="glass-panel rounded-2xl p-10 text-center text-white/50">
+                    <i class="ri-loader-4-line text-3xl animate-spin mb-3 block"></i>
+                    <p>Loading reviews...</p>
+                </div>
             </div>
         </div>
     </main>
@@ -103,37 +110,211 @@
         </div>
     </div>
 
-    <script src="js/api.js"></script>
     <script>
-        var allReviews = [], currentFilter = 'all', replyTargetId = null;
-        function escHtml(v) { return String(v||'').replace(/[&<>'"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]||c;}); }
-        function stars(n) { var s=''; for(var i=1;i<=5;i++) s+='<i class="ri-star-fill '+(i<=n?'star-filled':'star-empty')+'"></i>'; return s; }
-        function relTime(d) { if(!d)return''; var diff=Math.floor((Date.now()-new Date(d))/1000); if(diff<60)return'just now'; if(diff<3600)return Math.floor(diff/60)+' min ago'; if(diff<86400)return Math.floor(diff/3600)+' hr ago'; return Math.floor(diff/86400)+' days ago'; }
-        function badgeHtml(s) { var cls=s==='Approved'?'badge-approved':'badge-pending'; return '<span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold '+cls+'">'+escHtml(s)+'</span>'; }
-        function setFilter(f) {
-            currentFilter=f;
-            document.querySelectorAll('.filter-tab').forEach(function(el){el.className='filter-tab px-4 py-2 rounded-lg text-sm font-medium transition text-white/50 hover:text-white hover:bg-white/5';});
-            document.getElementById('tab-'+(f==='all'?'all':f.toLowerCase())).className='filter-tab px-4 py-2 rounded-lg text-sm font-medium transition bg-white/10 text-white border border-white/20';
+    // ── Firebase init (inline, no dependency on api.js for reviews) ──────────
+    (function () {
+        if (!window.FIREBASE_CONFIG) {
+            console.error('FIREBASE_CONFIG missing — firebase-config.js not loaded');
+            return;
+        }
+        if (!firebase.apps.length) {
+            firebase.initializeApp(window.FIREBASE_CONFIG);
+        }
+    })();
+
+    function getDb() {
+        return firebase.firestore();
+    }
+
+    // ── State ────────────────────────────────────────────────────────────────
+    var allReviews = [], currentFilter = 'all', replyTargetId = null;
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function escHtml(v) {
+        return String(v || '').replace(/[&<>'"]/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c] || c;
+        });
+    }
+    function stars(n) {
+        var s = '';
+        for (var i = 1; i <= 5; i++) s += '<i class="ri-star-fill ' + (i <= n ? 'star-filled' : 'star-empty') + '"></i>';
+        return s;
+    }
+    function relTime(d) {
+        if (!d) return '';
+        var diff = Math.floor((Date.now() - new Date(d)) / 1000);
+        if (diff < 60) return 'just now';
+        if (diff < 3600) return Math.floor(diff / 60) + ' min ago';
+        if (diff < 86400) return Math.floor(diff / 3600) + ' hr ago';
+        return Math.floor(diff / 86400) + ' days ago';
+    }
+    function badgeHtml(s) {
+        var cls = s === 'Approved' ? 'badge-approved' : 'badge-pending';
+        return '<span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ' + cls + '">' + escHtml(s) + '</span>';
+    }
+
+    // ── Filter tabs ──────────────────────────────────────────────────────────
+    function setFilter(f) {
+        currentFilter = f;
+        document.querySelectorAll('.filter-tab').forEach(function (el) {
+            el.className = 'filter-tab px-4 py-2 rounded-lg text-sm font-medium transition text-white/50 hover:text-white hover:bg-white/5';
+        });
+        var tabId = 'tab-' + (f === 'all' ? 'all' : f.toLowerCase());
+        document.getElementById(tabId).className = 'filter-tab px-4 py-2 rounded-lg text-sm font-medium transition bg-white/10 text-white border border-white/20';
+        renderReviews();
+    }
+
+    // ── Render ───────────────────────────────────────────────────────────────
+    function renderReviews() {
+        var list = document.getElementById('reviews-list');
+        var filtered = currentFilter === 'all' ? allReviews : allReviews.filter(function (r) { return r.status === currentFilter; });
+        if (!filtered.length) {
+            list.innerHTML = '<div class="glass-panel rounded-2xl p-10 text-center text-white/40"><i class="ri-star-off-line text-4xl block mb-3"></i><p class="font-medium">No reviews found</p><p class="text-sm mt-1">Reviews submitted by visitors will appear here.</p></div>';
+            return;
+        }
+        list.innerHTML = filtered.map(function (r) {
+            var rb = r.reply
+                ? '<div class="mt-4 p-4 rounded-xl bg-secondary/10 border border-secondary/20"><div class="flex items-center gap-2 mb-2"><i class="ri-shield-user-line text-secondary text-sm"></i><span class="text-secondary text-xs font-semibold">Admin Reply</span><span class="text-white/30 text-xs ml-auto">' + relTime(r.repliedAt) + '</span></div><p class="text-white/70 text-sm">' + escHtml(r.reply) + '</p></div>'
+                : '<p class="text-white/25 text-xs mt-2 italic">No admin reply yet</p>';
+            var ab = r.status !== 'Approved'
+                ? '<button onclick="doApprove(\'' + escHtml(r.id) + '\')" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-green-500/15 text-green-300 hover:bg-green-500/25 text-xs font-semibold transition"><i class="ri-checkbox-circle-line"></i> Approve</button>'
+                : '<span class="px-3 py-2 text-green-300/50 text-xs"><i class="ri-checkbox-circle-fill"></i> Approved</span>';
+            return '<div class="glass-panel rounded-2xl p-6 border border-white/8 hover:bg-white/5 transition-all">' +
+                '<div class="flex flex-col sm:flex-row sm:items-start gap-4">' +
+                '<div class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center shrink-0 text-secondary font-bold text-xl">' + escHtml((r.reviewerName || 'A')[0].toUpperCase()) + '</div>' +
+                '<div class="flex-1 min-w-0">' +
+                '<div class="flex flex-wrap items-center gap-3 mb-1"><span class="font-semibold text-white">' + escHtml(r.reviewerName || 'Anonymous') + '</span>' + badgeHtml(r.status || 'Pending') + '<span class="text-white/30 text-xs ml-auto">' + relTime(r.createdAt) + '</span></div>' +
+                '<div class="flex gap-0.5 mb-3 text-base">' + stars(r.rating || 5) + '</div>' +
+                '<p class="text-white/80 text-sm leading-relaxed">' + escHtml(r.comment) + '</p>' + rb +
+                '</div></div>' +
+                '<div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-white/8">' + ab +
+                '<button onclick="openReplyModal(\'' + escHtml(r.id) + '\',\'' + escHtml(r.reviewerName || '') + '\',\'' + escHtml(r.comment || '') + '\',' + (r.rating || 5) + ')" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary/15 text-secondary hover:bg-secondary/25 text-xs font-semibold transition"><i class="ri-reply-line"></i> ' + (r.reply ? 'Edit Reply' : 'Reply') + '</button>' +
+                '<button onclick="doDelete(\'' + escHtml(r.id) + '\')" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-red-500/10 text-red-300 hover:bg-red-500/20 text-xs font-semibold transition ml-auto"><i class="ri-delete-bin-6-line"></i> Delete</button>' +
+                '</div></div>';
+        }).join('');
+    }
+
+    function updateStats() {
+        var t = allReviews.length;
+        var p = allReviews.filter(function (r) { return r.status === 'Pending'; }).length;
+        var a = allReviews.filter(function (r) { return r.status === 'Approved'; }).length;
+        var avg = t ? (allReviews.reduce(function (s, r) { return s + (Number(r.rating) || 0); }, 0) / t).toFixed(1) : '—';
+        document.getElementById('stat-total').textContent = t;
+        document.getElementById('stat-pending').textContent = p;
+        document.getElementById('stat-approved').textContent = a;
+        document.getElementById('stat-avg').textContent = t ? avg : '—';
+    }
+
+    // ── Load reviews directly from Firestore ─────────────────────────────────
+    async function loadReviews() {
+        var list = document.getElementById('reviews-list');
+        list.innerHTML = '<div class="glass-panel rounded-2xl p-10 text-center text-white/50"><i class="ri-loader-4-line text-3xl animate-spin mb-3 block"></i><p>Loading reviews...</p></div>';
+        try {
+            var db = getDb();
+            var snap = await db.collection('reviews').get();
+            allReviews = snap.docs
+                .map(function (d) { return Object.assign({ id: d.id }, d.data()); })
+                .sort(function (a, b) { return new Date(b.createdAt || 0) - new Date(a.createdAt || 0); });
+            updateStats();
             renderReviews();
+        } catch (e) {
+            console.error('Error loading reviews:', e);
+            var msg = e.message || String(e);
+            if (/permission/i.test(msg)) msg = 'Firestore permission denied. Check firestore.rules.';
+            else if (/unavailable|network/i.test(msg)) msg = 'Network error. Check your internet connection and try again.';
+            list.innerHTML = '<div class="glass-panel rounded-2xl p-10 text-center">' +
+                '<i class="ri-error-warning-line text-4xl block mb-3 text-red-400"></i>' +
+                '<p class="text-red-300 font-semibold mb-2">Could not load reviews</p>' +
+                '<p class="text-white/40 text-sm mb-4">' + escHtml(msg) + '</p>' +
+                '<button onclick="loadReviews()" class="px-5 py-2 rounded-lg bg-secondary text-white text-sm font-medium hover:bg-secondary/80 transition">Retry</button>' +
+                '</div>';
         }
-        function renderReviews() {
-            var list=document.getElementById('reviews-list');
-            var filtered=currentFilter==='all'?allReviews:allReviews.filter(function(r){return r.status===currentFilter;});
-            if(!filtered.length){list.innerHTML='<div class="glass-panel rounded-2xl p-10 text-center text-white/40"><i class="ri-star-off-line text-4xl block mb-3"></i><p class="font-medium">No reviews found</p><p class="text-sm mt-1">Reviews submitted by visitors will appear here.</p></div>';return;}
-            list.innerHTML=filtered.map(function(r){
-                var rb=r.reply?'<div class="mt-4 p-4 rounded-xl bg-secondary/10 border border-secondary/20"><div class="flex items-center gap-2 mb-2"><i class="ri-shield-user-line text-secondary text-sm"></i><span class="text-secondary text-xs font-semibold">Admin Reply</span><span class="text-white/30 text-xs ml-auto">'+relTime(r.repliedAt)+'</span></div><p class="text-white/70 text-sm">'+escHtml(r.reply)+'</p></div>':'<p class="text-white/25 text-xs mt-2 italic">No admin reply yet</p>';
-                var ab=r.status!=='Approved'?'<button onclick="doApprove(''+escHtml(r.id)+'')" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-green-500/15 text-green-300 hover:bg-green-500/25 text-xs font-semibold transition"><i class="ri-checkbox-circle-line"></i> Approve</button>':'<span class="px-3 py-2 text-green-300/50 text-xs"><i class="ri-checkbox-circle-fill"></i> Approved</span>';
-                return '<div class="glass-panel rounded-2xl p-6 border border-white/8 hover:bg-white/5 transition-all"><div class="flex flex-col sm:flex-row sm:items-start gap-4"><div class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center shrink-0 text-secondary font-bold text-xl">'+escHtml((r.reviewerName||'A')[0].toUpperCase())+'</div><div class="flex-1 min-w-0"><div class="flex flex-wrap items-center gap-3 mb-1"><span class="font-semibold text-white">'+escHtml(r.reviewerName||'Anonymous')+'</span>'+badgeHtml(r.status||'Pending')+'<span class="text-white/30 text-xs ml-auto">'+relTime(r.createdAt)+'</span></div><div class="flex gap-0.5 mb-3 text-base">'+stars(r.rating||5)+'</div><p class="text-white/80 text-sm leading-relaxed">'+escHtml(r.comment)+'</p>'+rb+'</div></div><div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-white/8">'+ab+'<button onclick="openReplyModal(''+escHtml(r.id)+'',''+escHtml(r.reviewerName||'')+'',''+escHtml(r.comment||'')+'',' +(r.rating||5)+')" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary/15 text-secondary hover:bg-secondary/25 text-xs font-semibold transition"><i class="ri-reply-line"></i> '+(r.reply?'Edit Reply':'Reply')+'</button><button onclick="doDelete(''+escHtml(r.id)+'')" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-red-500/10 text-red-300 hover:bg-red-500/20 text-xs font-semibold transition ml-auto"><i class="ri-delete-bin-6-line"></i> Delete</button></div></div>';
-            }).join('');
+    }
+
+    // ── Actions ──────────────────────────────────────────────────────────────
+    async function doApprove(id) {
+        if (!confirm('Approve this review? It will be shown publicly.')) return;
+        try {
+            await getDb().collection('reviews').doc(id).update({ status: 'Approved' });
+            var r = allReviews.find(function (x) { return x.id === id; });
+            if (r) r.status = 'Approved';
+            updateStats();
+            renderReviews();
+        } catch (e) {
+            alert('Error approving: ' + e.message);
         }
-        function updateStats(){var t=allReviews.length,p=allReviews.filter(function(r){return r.status==='Pending';}).length,a=allReviews.filter(function(r){return r.status==='Approved';}).length;var avg=t?(allReviews.reduce(function(s,r){return s+(Number(r.rating)||0);},0)/t).toFixed(1):'—';document.getElementById('stat-total').textContent=t;document.getElementById('stat-pending').textContent=p;document.getElementById('stat-approved').textContent=a;document.getElementById('stat-avg').textContent=t?avg:'—';}
-        async function loadReviews(){document.getElementById('reviews-list').innerHTML='<div class="glass-panel rounded-2xl p-10 text-center text-white/50"><i class="ri-loader-4-line text-3xl animate-spin mb-3 block"></i><p>Loading...</p></div>';var data=await fetchAdminReviews();if(!data){document.getElementById('reviews-list').innerHTML='<div class="glass-panel rounded-2xl p-10 text-center text-red-300"><i class="ri-error-warning-line text-4xl block mb-3"></i><p>Could not load reviews.</p></div>';return;}allReviews=data;updateStats();renderReviews();}
-        async function doApprove(id){if(!confirm('Approve this review? It will be shown publicly.'))return;var res=await approveReview(id);if(res.success){var r=allReviews.find(function(x){return x.id===id;});if(r)r.status='Approved';updateStats();renderReviews();}else alert('Error: '+res.message);}
-        async function doDelete(id){if(!confirm('Permanently delete this review?'))return;var res=await deleteReview(id);if(res.success){allReviews=allReviews.filter(function(x){return x.id!==id;});updateStats();renderReviews();}else alert('Error: '+res.message);}
-        function openReplyModal(id,name,comment,rating){replyTargetId=id;document.getElementById('reply-review-preview').innerHTML='<div class="flex gap-0.5 mb-2 text-sm">'+stars(rating)+'</div><p class="text-white/60 text-xs font-semibold mb-1">'+escHtml(name)+'</p><p class="text-white/80 text-sm">'+escHtml(comment)+'</p>';var existing=allReviews.find(function(r){return r.id===id;});document.getElementById('reply-text').value=existing&&existing.reply?existing.reply:'';document.getElementById('reply-msg').classList.add('hidden');var modal=document.getElementById('reply-modal');modal.classList.remove('hidden');modal.classList.add('flex');document.getElementById('reply-text').focus();}
-        function closeReplyModal(){var modal=document.getElementById('reply-modal');modal.classList.add('hidden');modal.classList.remove('flex');replyTargetId=null;}
-        async function submitReplyModal(){var text=document.getElementById('reply-text').value.trim();var btn=document.getElementById('reply-submit-btn');var msg=document.getElementById('reply-msg');if(!text){msg.textContent='Reply cannot be empty.';msg.className='mt-3 text-sm text-center text-red-300';msg.classList.remove('hidden');return;}btn.disabled=true;btn.innerHTML='<i class="ri-loader-4-line animate-spin"></i> Posting...';var res=await replyToReview(replyTargetId,text);btn.disabled=false;btn.innerHTML='<i class="ri-send-plane-line"></i> Post Reply';if(res.success){var r=allReviews.find(function(x){return x.id===replyTargetId;});if(r){r.reply=text;r.repliedAt=new Date().toISOString();r.status='Approved';}updateStats();renderReviews();closeReplyModal();}else{msg.textContent='Error: '+res.message;msg.className='mt-3 text-sm text-center text-red-300';msg.classList.remove('hidden');}}
+    }
+
+    async function doDelete(id) {
+        if (!confirm('Permanently delete this review? This cannot be undone.')) return;
+        try {
+            await getDb().collection('reviews').doc(id).delete();
+            allReviews = allReviews.filter(function (x) { return x.id !== id; });
+            updateStats();
+            renderReviews();
+        } catch (e) {
+            alert('Error deleting: ' + e.message);
+        }
+    }
+
+    function openReplyModal(id, name, comment, rating) {
+        replyTargetId = id;
+        document.getElementById('reply-review-preview').innerHTML =
+            '<div class="flex gap-0.5 mb-2 text-sm">' + stars(rating) + '</div>' +
+            '<p class="text-white/60 text-xs font-semibold mb-1">' + escHtml(name) + '</p>' +
+            '<p class="text-white/80 text-sm">' + escHtml(comment) + '</p>';
+        var existing = allReviews.find(function (r) { return r.id === id; });
+        document.getElementById('reply-text').value = existing && existing.reply ? existing.reply : '';
+        document.getElementById('reply-msg').classList.add('hidden');
+        var modal = document.getElementById('reply-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.getElementById('reply-text').focus();
+    }
+
+    function closeReplyModal() {
+        var modal = document.getElementById('reply-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        replyTargetId = null;
+    }
+
+    async function submitReplyModal() {
+        var text = document.getElementById('reply-text').value.trim();
+        var btn = document.getElementById('reply-submit-btn');
+        var msg = document.getElementById('reply-msg');
+        if (!text) {
+            msg.textContent = 'Reply cannot be empty.';
+            msg.className = 'mt-3 text-sm text-center text-red-300';
+            msg.classList.remove('hidden');
+            return;
+        }
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ri-loader-4-line animate-spin"></i> Posting...';
+        try {
+            await getDb().collection('reviews').doc(replyTargetId).update({
+                reply: text,
+                repliedAt: new Date().toISOString(),
+                status: 'Approved'
+            });
+            var r = allReviews.find(function (x) { return x.id === replyTargetId; });
+            if (r) { r.reply = text; r.repliedAt = new Date().toISOString(); r.status = 'Approved'; }
+            updateStats();
+            renderReviews();
+            closeReplyModal();
+        } catch (e) {
+            msg.textContent = 'Error: ' + e.message;
+            msg.className = 'mt-3 text-sm text-center text-red-300';
+            msg.classList.remove('hidden');
+        }
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ri-send-plane-line"></i> Post Reply';
+    }
+
+    // ── Boot ─────────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
         loadReviews();
+    });
     </script>
 </body>
 </html>
