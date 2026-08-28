@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Adamjee Coaching Maymar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed-dim": "#aec7f6",
+                      "on-secondary-fixed-variant": "#004491",
+                      "outline": "#74777f",
+                      "on-primary-fixed-variant": "#2d476f",
+                      "on-tertiary-fixed": "#341100",
+                      "inverse-primary": "#aec7f6",
+                      "on-tertiary-container": "#b97958",
+                      "surface-bright": "#fbf9f8",
+                      "on-surface": "#1b1c1c",
+                      "on-tertiary-fixed-variant": "#6c391d",
+                      "tertiary-container": "#3d1500",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#180500",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f6f3f2",
+                      "surface-container": "#f0eded",
+                      "tertiary-fixed": "#ffdbcb",
+                      "inverse-on-surface": "#f3f0f0",
+                      "on-background": "#1b1c1c",
+                      "outline-variant": "#c4c6cf",
+                      "primary-container": "#002147",
+                      "surface-tint": "#465f88",
+                      "on-primary-fixed": "#001b3d",
+                      "on-secondary-container": "#003370",
+                      "surface-variant": "#e4e2e1",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed": "#d6e3ff",
+                      "surface": "#fbf9f8",
+                      "on-secondary-fixed": "#001a40",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed": "#d7e2ff",
+                      "on-surface-variant": "#44474e",
+                      "inverse-surface": "#303030",
+                      "background": "#fbf9f8",
+                      "secondary": "#115cb9",
+                      "error": "#ba1a1a",
+                      "surface-container-high": "#eae8e7",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "primary": "#000a1e",
+                      "surface-dim": "#dcd9d9",
+                      "surface-container-highest": "#e4e2e1",
+                      "on-secondary": "#ffffff",
+                      "on-primary-container": "#708ab5",
+                      "tertiary-fixed-dim": "#ffb691",
+                      "secondary-fixed-dim": "#acc7ff",
+                      "secondary-container": "#659dfe"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "gutter": "24px",
+                      "xl": "40px",
+                      "base": "8px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "xs": "4px",
+                      "container-max": "1200px",
+                      "xxl": "80px"
+              },
+              "fontFamily": {
+                      "display-hero-mobile": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "display-hero": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "display-hero-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-hero": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        .premium-shadow {
+            box-shadow: 0 4px 15px rgba(0, 33, 71, 0.08);
+        }
+        
+        .premium-shadow-hover:hover {
+            box-shadow: 0 8px 25px rgba(0, 33, 71, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .gold-highlight {
+            color: #C5A059; /* Custom gold for highlight as per brand */
+        }
+        .gold-bg {
+            background-color: #C5A059;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-secondary/20 selection:text-secondary">
+<nav class="hidden md:flex sticky top-0 z-50 flex justify-between items-center w-full px-gutter py-md max-w-container-max mx-auto bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm transition-transform duration-150">
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+            Adamjee Coaching Maymar
+        </div>
+<div class="flex items-center space-x-lg">
+<a class="text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary pb-1 text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="#">Programs</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="#">Faculty</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="#">Results</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors text-label-md font-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200" href="#">Admissions</a>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md hover:bg-primary-container transition-colors">Apply Now</button>
+</div>
+</nav>
+<main class="w-full">
+<section class="max-w-container-max mx-auto px-gutter py-xxl grid grid-cols-1 md:grid-cols-2 gap-xl items-center min-h-[80vh]">
+<div class="flex flex-col space-y-lg relative z-10">
+<div class="inline-flex items-center space-x-sm bg-surface-container-highest px-md py-sm rounded-full w-fit">
+<span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Admissions Open 2024-25</span>
+</div>
+<h1 class="font-display-hero text-display-hero text-primary">
+<span class="gold-highlight">Adamjee Coaching</span> Maymar
+                </h1>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">
+                    Building Knowledge. Shaping Futures.
+                </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Join Karachi's premier coaching network. We provide expert faculty, comprehensive study materials, and a proven track record of academic excellence for secondary and higher secondary students.
+                </p>
+<div class="flex flex-col sm:flex-row gap-md pt-sm">
+<button class="gold-bg text-primary px-lg py-md rounded-lg font-label-md text-label-md hover:bg-opacity-90 transition-colors premium-shadow w-full sm:w-auto text-center font-bold">Apply for Admission</button>
+<button class="bg-surface border-2 border-secondary text-secondary px-lg py-md rounded-lg font-label-md text-label-md hover:bg-secondary hover:text-on-secondary transition-colors w-full sm:w-auto text-center font-semibold">Explore Programs</button>
+</div>
+<div class="pt-lg flex items-center space-x-md border-t border-outline-variant/30 mt-sm">
+<div class="flex -space-x-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait photograph of a confident young South Asian male student wearing a neat school uniform, smiling gently in a bright, modern classroom setting with soft natural lighting and a high-key professional academic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsonMw65BKTZXzR4XqRITWDOUSZnbVcnmIO7iLr2Z9zQleZT8r2JgfjpXX9J9pvyATSMYHs4qjgnBzX_YqKypYaEAswM9yko2b8ZGfL5HvE9bnPpDI_ZqsCo0R7fSRlq5yvzS7Ol5Kc8xAWga6fl26fomDTrkv9nhH9yaWjhZDRWUy6ph1ETSHTiLqJ3bbO7HBJSmHKDkDLOe3hPKTuYhE4TjLmgjzaWEqtRcvTKpysOp-ojimvNg6OA"/>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait photograph of an intelligent South Asian female student in a white uniform shirt, holding a textbook, looking engaged in a well-lit library environment with shallow depth of field emphasizing a serious educational mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzQBDS1ODS2xyIy55u787M3GPVWLY11HlGbbfMz5smBri3cCR2OIsDqx57V6ZmnLupxZ88rvowraSzdoqBftTL50j5TWGW7revL8_BwghZBBhMR97_ApD1zYhCtynysfYdyPCxRWBoiUGw8C5CMoeesA8tyHHmoRr_eTigFnGa6Eh7zk1n_WL8398tggYWOveoh9ndDWC16b3RJ_1IPwC4S7Wf_vlSXWQ_oVVf8__V7fBWD-9nwpkNNA"/>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a thoughtful parent, a South Asian professional man in his 40s, standing in a brightly lit modern educational facility corridor, expressing trust and satisfaction with the academic environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmkbYpa7vtdEhVho_U_s5cu8i24-p_k_Cpc8-pnnKUaUDw2sYxrsBGJjnX3n8BvTLYdNZC-b_nS620k13KEmmvRzOxe068d46Be01q4WHPkrJ_fGCY8rWal9HdkiB5S63ylrwFb-DRn6re5PyLC6uAta7mjtSEuFYZWRWsIiZtG_dka88vil2EtUlmBMLTox-TclE58qd9UvdPOoI1vbOL4eUZCzsbLDtGHUvisGCMh7HphsgLf7aHYw"/>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface flex items-center justify-center bg-secondary text-on-secondary font-label-sm text-label-sm">
+                            +5k
+                        </div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Trusted by Students &amp; Parents</p>
+</div>
+</div>
+<div class="relative h-[500px] rounded-xl overflow-hidden premium-shadow">
+<div class="absolute inset-0 bg-primary/5 z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A wide, high-quality photograph of a modern, well-lit classroom filled with attentive students sitting at neat wooden desks facing a whiteboard. The environment is clean, professional, and academic, featuring cool natural lighting and a serious, achievement-oriented aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp-Qi1X8QGjaaSSYDDGViZjpqz3k61INGYmUe6hpv2up_UBVkU_tcjLBHfM5digFbsfrwbZrLwEFj_5szELFS2NtbHneHSEongiiRqNmhri5FgfO2lC7uwKg6LTAG_XoHG8IX8HMrFODAIYctKpJRWwY1xdt_tnX9PvHFTwfrRofuc4bzY9V30LdCtdjz0bonznH6EGTh1IdzxQU88q3WyxLp-MT8jiAOEyCqRp_MK9j6qYn6-ySLziQ"/>
+<div class="absolute -bottom-6 -left-6 w-32 h-32 rounded-full gold-bg opacity-20 blur-2xl"></div>
+<div class="absolute -top-6 -right-6 w-40 h-40 rounded-full bg-secondary opacity-20 blur-3xl"></div>
+</div>
+</section>
+
+<section id="campus-location" class="max-w-container-max mx-auto px-gutter py-xxl border-t border-outline-variant/30">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
+        <!-- Info Column -->
+        <div class="flex flex-col space-y-lg">
+            <div class="inline-flex items-center space-x-sm bg-surface-container-highest px-md py-sm rounded-full w-fit">
+                <span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">location_on</span>
+                <span class="font-label-md text-label-md text-on-surface-variant">Our Campus Location</span>
+            </div>
+            <h2 class="font-headline-lg text-headline-lg text-primary">
+                Visit Us at <span class="gold-highlight">Maymar Campus</span>
+            </h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                Conveniently situated in Gulshan-e-Maymar, Karachi. Our campus features modern classrooms, fully equipped laboratories, and a dedicated learning environment for all secondary and higher secondary programs.
+            </p>
+            
+            <div class="space-y-md">
+                <div class="flex items-start space-x-md">
+                    <span class="material-symbols-outlined text-secondary mt-1">pin_drop</span>
+                    <div>
+                        <h4 class="font-semibold text-on-surface">Address</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">A-196, Sector Z-6, Opposite Mohsin Food, Gulshan-e-Maymar, Karachi</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-md">
+                    <span class="material-symbols-outlined text-secondary mt-1">call</span>
+                    <div>
+                        <h4 class="font-semibold text-on-surface">Contact Numbers</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">021-36832666 / 0323-2326533 / 0333-3998606</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-sm">
+                <a href="https://www.google.com/maps/place/Adamjee+Maymar+Campus+11/data=!4m2!3m1!1s0x0:0x7d20f7c864cf6865?sa=X&ved=1t:2428&ictx=111" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 gold-bg text-primary px-lg py-md rounded-lg font-label-md text-label-md hover:bg-opacity-90 hover:scale-[1.02] transition-all duration-300 premium-shadow font-bold">
+                    <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">directions</span>
+                    Get Directions on Google Maps
+                </a>
+            </div>
+        </div>
+        
+        <!-- Map Column -->
+        <div class="relative h-[400px] rounded-xl overflow-hidden premium-shadow border border-outline-variant/30 transition-all duration-300 hover:shadow-lg">
+            <iframe 
+                class="w-full h-full border-0"
+                src="https://maps.google.com/maps?q=Adamjee%20Maymar%20Campus%2011&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+</section>
+</main>
+<footer class="w-full py-xxl px-gutter flex flex-col md:flex-row justify-between items-start max-w-container-max mx-auto bg-primary dark:bg-surface-container-lowest border-t border-outline/20">
+<div class="flex flex-col space-y-md">
+<div class="text-headline-md font-headline-md font-bold text-on-primary dark:text-on-surface">Adamjee Coaching</div>
+<p class="text-on-primary/80 dark:text-on-surface-variant text-label-sm font-label-sm">© 2024 Adamjee Coaching Maymar. All rights reserved.</p>
+</div>
+<div class="flex space-x-lg mt-lg md:mt-0">
+<a class="text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4 text-label-sm font-label-sm" href="#">Programs</a>
+<a class="text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4 text-label-sm font-label-sm" href="#">About</a>
+<a class="text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4 text-label-sm font-label-sm" href="#">Contact</a>
+<a class="text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4 text-label-sm font-label-sm" href="#">Privacy Policy</a>
+</div>
+</footer>
+</body></html>

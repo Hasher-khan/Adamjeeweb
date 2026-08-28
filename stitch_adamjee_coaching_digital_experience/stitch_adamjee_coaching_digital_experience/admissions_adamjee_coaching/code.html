@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admissions - Adamjee Coaching Maymar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#aec7f6",
+                        "on-secondary-fixed-variant": "#004491",
+                        "outline": "#74777f",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "on-tertiary-fixed": "#341100",
+                        "inverse-primary": "#aec7f6",
+                        "on-tertiary-container": "#b97958",
+                        "surface-bright": "#fbf9f8",
+                        "on-surface": "#1b1c1c",
+                        "on-tertiary-fixed-variant": "#6c391d",
+                        "tertiary-container": "#3d1500",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#180500",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-container": "#f0eded",
+                        "tertiary-fixed": "#ffdbcb",
+                        "inverse-on-surface": "#f3f0f0",
+                        "on-background": "#1b1c1c",
+                        "outline-variant": "#c4c6cf",
+                        "primary-container": "#002147",
+                        "surface-tint": "#465f88",
+                        "on-primary-fixed": "#001b3d",
+                        "on-secondary-container": "#003370",
+                        "surface-variant": "#e4e2e1",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#d6e3ff",
+                        "surface": "#fbf9f8",
+                        "on-secondary-fixed": "#001a40",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#d7e2ff",
+                        "on-surface-variant": "#44474e",
+                        "inverse-surface": "#303030",
+                        "background": "#fbf9f8",
+                        "secondary": "#115cb9",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#eae8e7",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "primary": "#000a1e",
+                        "surface-dim": "#dcd9d9",
+                        "surface-container-highest": "#e4e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#708ab5",
+                        "tertiary-fixed-dim": "#ffb691",
+                        "secondary-fixed-dim": "#acc7ff",
+                        "secondary-container": "#659dfe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "xl": "40px",
+                        "base": "8px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "container-max": "1200px",
+                        "xxl": "80px"
+                    },
+                    "fontFamily": {
+                        "display-hero-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-hero": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-hero-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "display-hero": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #fbf9f8; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined[data-weight="fill"] { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar (Web) -->
+<nav class="hidden md:flex sticky top-0 z-50 justify-between items-center w-full px-gutter py-md max-w-container-max mx-auto bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<div class="text-headline-md font-headline-md font-bold text-primary tracking-tight">Adamjee Coaching Maymar</div>
+<ul class="flex items-center gap-lg">
+<li><a class="text-on-surface-variant text-label-md font-label-md hover:text-primary transition-colors hover:bg-surface-container-low px-sm py-xs rounded" href="#">Home</a></li>
+<li><a class="text-on-surface-variant text-label-md font-label-md hover:text-primary transition-colors hover:bg-surface-container-low px-sm py-xs rounded" href="#">Programs</a></li>
+<li><a class="text-on-surface-variant text-label-md font-label-md hover:text-primary transition-colors hover:bg-surface-container-low px-sm py-xs rounded" href="#">Faculty</a></li>
+<li><a class="text-on-surface-variant text-label-md font-label-md hover:text-primary transition-colors hover:bg-surface-container-low px-sm py-xs rounded" href="#">Results</a></li>
+<li><a class="text-secondary font-bold text-label-md font-label-md border-b-2 border-secondary pb-1 scale-95 transition-transform duration-150" href="#">Admissions</a></li>
+</ul>
+<button class="bg-primary text-on-primary text-label-md font-label-md px-lg py-sm rounded-lg hover:bg-primary-container transition-colors shadow-sm">Apply Now</button>
+</nav>
+<!-- SideNavBar (Mobile Fallback - Suppressed on Desktop) -->
+<div class="md:hidden">
+<!-- Assuming mobile nav would go here, omitting for desktop focus as per instruction to prioritize layout, but adding shell for completeness -->
+</div>
+<!-- Main Content Canvas -->
+<main class="max-w-container-max mx-auto px-gutter py-xl md:py-xxl">
+<!-- Hero Section -->
+<header class="mb-xxl text-center max-w-3xl mx-auto">
+<h1 class="text-display-hero font-display-hero text-primary mb-md">Join Our Academic Community</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Take the first step towards academic excellence. Our streamlined admission process is designed to evaluate student potential and ensure a perfect fit for our rigorous programs.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl items-start">
+<!-- Left Column: Main Content -->
+<div class="lg:col-span-8 flex flex-col gap-xxl">
+<!-- 4-Step Process (Bento Style) -->
+<section>
+<h2 class="text-headline-lg font-headline-lg text-primary mb-lg">Admission Process</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Step 1 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/50 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-md opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="text-display-hero font-display-hero text-secondary">01</span>
+</div>
+<span class="material-symbols-outlined text-secondary mb-sm text-3xl" data-icon="edit_document">edit_document</span>
+<h3 class="text-headline-md font-headline-md text-primary mb-xs">Submit Application</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Complete the detailed admission form below with accurate academic history.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/50 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-md opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="text-display-hero font-display-hero text-secondary">02</span>
+</div>
+<span class="material-symbols-outlined text-secondary mb-sm text-3xl" data-icon="fact_check">fact_check</span>
+<h3 class="text-headline-md font-headline-md text-primary mb-xs">Assessment Test</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Candidates must clear a preliminary assessment testing fundamental concepts.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/50 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-md opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="text-display-hero font-display-hero text-secondary">03</span>
+</div>
+<span class="material-symbols-outlined text-secondary mb-sm text-3xl" data-icon="forum">forum</span>
+<h3 class="text-headline-md font-headline-md text-primary mb-xs">Interview</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">A brief interview with faculty to gauge the student's dedication and goals.</p>
+</div>
+<!-- Step 4 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/50 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-md opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="text-display-hero font-display-hero text-secondary">04</span>
+</div>
+<span class="material-symbols-outlined text-secondary mb-sm text-3xl" data-icon="how_to_reg">how_to_reg</span>
+<h3 class="text-headline-md font-headline-md text-primary mb-xs">Enrollment</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Upon selection, submit required documents and secure your seat.</p>
+</div>
+</div>
+</section>
+<!-- Detailed Admission Form -->
+<section class="scroll-mt-xxl" id="application-form">
+<div class="bg-surface-container-lowest p-xl rounded-xl border border-outline-variant/50 shadow-sm">
+<div class="mb-lg border-b border-outline-variant/30 pb-md">
+<h2 class="text-headline-lg font-headline-lg text-primary">Application Form</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-xs">Please fill out all mandatory fields marked with an asterisk (*).</p>
+</div>
+<form class="space-y-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-xs" for="studentName">Student Name *</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all" id="studentName" placeholder="Enter full name" type="text"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-xs" for="fatherName">Father's Name *</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all" id="fatherName" placeholder="Enter father's name" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-xs" for="phone">Phone Number *</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all" id="phone" placeholder="03XX-XXXXXXX" type="tel"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-xs" for="prevSchool">Previous School *</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all" id="prevSchool" placeholder="Last attended school" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-xs" for="currentClass">Applying For Class *</label>
+<select class="w-full bg-surface-bright border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all" id="currentClass">
+<option disabled="" selected="" value="">Select Class</option>
+<option value="9">Class IX</option>
+<option value="10">Class X</option>
+<option value="11">Class XI</option>
+<option value="12">Class XII</option>
+</select>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-xs" for="program">Selected Program *</label>
+<select class="w-full bg-surface-bright border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all" id="program">
+<option disabled="" selected="" value="">Select Program</option>
+<option value="science">Pre-Engineering</option>
+<option value="medical">Pre-Medical</option>
+<option value="computer">Computer Science</option>
+<option value="commerce">Commerce</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-xs" for="message">Additional Message (Optional)</label>
+<textarea class="w-full bg-surface-bright border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all" id="message" placeholder="Any specific queries or academic history details..." rows="4"></textarea>
+</div>
+<div class="pt-sm">
+<button class="w-full md:w-auto bg-primary text-on-primary text-label-md font-label-md px-xl py-md rounded-lg hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-sm" type="submit">
+<span>Submit Application</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</section>
+<!-- Document Checklist & FAQ (Side by Side on larger screens within this column) -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-lg">
+<!-- Checklist -->
+<section class="bg-surface-container-low p-lg rounded-xl">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-secondary" data-icon="inventory">inventory</span>
+<h3 class="text-headline-md font-headline-md text-primary">Required Documents</h3>
+</div>
+<ul class="space-y-sm">
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary text-sm mt-xs" data-icon="check_circle">check_circle</span>
+<span class="text-body-md font-body-md text-on-surface-variant">2 Passport size photographs</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary text-sm mt-xs" data-icon="check_circle">check_circle</span>
+<span class="text-body-md font-body-md text-on-surface-variant">Copy of Last Marksheet</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary text-sm mt-xs" data-icon="check_circle">check_circle</span>
+<span class="text-body-md font-body-md text-on-surface-variant">Copy of Student's B-Form or CNIC</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary text-sm mt-xs" data-icon="check_circle">check_circle</span>
+<span class="text-body-md font-body-md text-on-surface-variant">Copy of Father's CNIC</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary text-sm mt-xs" data-icon="check_circle">check_circle</span>
+<span class="text-body-md font-body-md text-on-surface-variant">School Leaving Certificate (if applicable)</span>
+</li>
+</ul>
+</section>
+<!-- FAQs -->
+<section class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-secondary" data-icon="help">help</span>
+<h3 class="text-headline-md font-headline-md text-primary">Parent FAQs</h3>
+</div>
+<div class="space-y-md">
+<details class="group cursor-pointer">
+<summary class="flex justify-between items-center font-label-md text-label-md text-primary list-none">
+                                    What is the fee structure?
+                                    <span class="material-symbols-outlined transition-transform group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</summary>
+<p class="text-body-md font-body-md text-on-surface-variant mt-sm pl-xs border-l-2 border-secondary/30">Fee structures vary by class and program. Please contact the administration office or check our detailed fee schedule available on campus.</p>
+</details>
+<details class="group cursor-pointer">
+<summary class="flex justify-between items-center font-label-md text-label-md text-primary list-none">
+                                    Do you offer scholarships?
+                                    <span class="material-symbols-outlined transition-transform group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</summary>
+<p class="text-body-md font-body-md text-on-surface-variant mt-sm pl-xs border-l-2 border-secondary/30">Yes, merit-based scholarships are available for students who perform exceptionally well in their board exams or our internal assessment test.</p>
+</details>
+<details class="group cursor-pointer">
+<summary class="flex justify-between items-center font-label-md text-label-md text-primary list-none">
+                                    What are the campus timings?
+                                    <span class="material-symbols-outlined transition-transform group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</summary>
+<p class="text-body-md font-body-md text-on-surface-variant mt-sm pl-xs border-l-2 border-secondary/30">Classes typically run in morning and afternoon shifts. Specific timings will be provided upon enrollment based on your selected program.</p>
+</details>
+</div>
+</section>
+</div>
+</div>
+<!-- Right Column: Sidebar (Sticky) -->
+<aside class="lg:col-span-4 sticky top-[100px]">
+<div class="bg-primary-container text-on-primary-container p-xl rounded-xl shadow-lg relative overflow-hidden">
+<!-- Decorative element -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-secondary opacity-20 rounded-full blur-2xl"></div>
+<h3 class="text-headline-md font-headline-md mb-sm relative z-10">Need Assistance?</h3>
+<p class="text-body-md font-body-md opacity-90 mb-lg relative z-10">Our admissions counselors are available to answer your queries and guide you through the process.</p>
+<div class="space-y-md relative z-10">
+<div class="flex items-center gap-md bg-surface/10 p-md rounded-lg">
+<div class="bg-surface/20 p-sm rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</div>
+<div>
+<p class="text-label-sm font-label-sm opacity-70">Call Us</p>
+<p class="text-body-md font-body-md font-medium">+92 21 34567890</p>
+</div>
+</div>
+<div class="flex items-center gap-md bg-surface/10 p-md rounded-lg">
+<div class="bg-surface/20 p-sm rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+</div>
+<div>
+<p class="text-label-sm font-label-sm opacity-70">Visit Campus</p>
+<p class="text-body-md font-body-md font-medium">Maymar Sector X, Karachi</p>
+</div>
+</div>
+</div>
+<div class="mt-xl relative z-10">
+<a class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white text-label-md font-label-md px-md py-md rounded-lg transition-colors flex items-center justify-center gap-sm shadow-md" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+                            Chat on WhatsApp
+                        </a>
+<p class="text-label-sm font-label-sm text-center mt-sm opacity-70">Instant replies during working hours</p>
+</div>
+</div>
+<!-- Campus Image Placeholder -->
+<div class="mt-lg rounded-xl overflow-hidden shadow-sm border border-outline-variant/30 h-64 relative group">
+<img class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105" data-alt="A high-quality, brightly lit photograph of a modern educational coaching center building exterior in Karachi. The architecture is professional and clean, featuring large glass windows and an academic atmosphere. The lighting is sunny and daytime, casting soft shadows, creating a welcoming, pristine, and serious learning environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmMTCPih8Y_IVA6cXy3qVlv7Sa270qmKFDXRit9OwFyd6QIPCOEMMphULxsPTWMX3c511hMRPv_DK3Y2AqPUqBiwEGfOorAeyZ_0wXzaJU7Zr413BibvtDLw7yWfe81gxjaOe0mhiyrzIVtFFsT4WmBkKustKlr0l2W-kwPeozpzT2vjJplxkzHWTLMrhGfI3VRzuAxr66TWyY5J5ZrWb7CCX-5EKwXH2QUXW7qc61ECQzx4rQIppsaA"/>
+<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-md">
+<p class="text-on-primary text-label-md font-label-md">Maymar Campus</p>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xxl px-gutter flex flex-col md:flex-row justify-between items-start max-w-container-max mx-auto bg-primary dark:bg-surface-container-lowest border-t border-outline/20">
+<div>
+<div class="text-headline-md font-headline-md font-bold text-on-primary dark:text-on-surface mb-sm">Adamjee Coaching Maymar</div>
+<p class="text-body-md font-body-md text-on-primary/80 dark:text-on-surface-variant">© 2024 Adamjee Coaching Maymar. All rights reserved.</p>
+</div>
+<ul class="flex flex-wrap gap-md mt-lg md:mt-0">
+<li><a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">Programs</a></li>
+<li><a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">About</a></li>
+<li><a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">Contact</a></li>
+<li><a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</footer>
+</body></html>

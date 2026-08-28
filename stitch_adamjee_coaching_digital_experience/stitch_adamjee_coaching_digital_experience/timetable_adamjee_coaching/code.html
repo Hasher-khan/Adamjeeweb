@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Timetable - Adamjee Coaching Maymar</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed-dim": "#aec7f6",
+                        "on-secondary-fixed-variant": "#004491",
+                        "outline": "#74777f",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "on-tertiary-fixed": "#341100",
+                        "inverse-primary": "#aec7f6",
+                        "on-tertiary-container": "#b97958",
+                        "surface-bright": "#fbf9f8",
+                        "on-surface": "#1b1c1c",
+                        "on-tertiary-fixed-variant": "#6c391d",
+                        "tertiary-container": "#3d1500",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#180500",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-container": "#f0eded",
+                        "tertiary-fixed": "#ffdbcb",
+                        "inverse-on-surface": "#f3f0f0",
+                        "on-background": "#1b1c1c",
+                        "outline-variant": "#c4c6cf",
+                        "primary-container": "#002147",
+                        "surface-tint": "#465f88",
+                        "on-primary-fixed": "#001b3d",
+                        "on-secondary-container": "#003370",
+                        "surface-variant": "#e4e2e1",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#d6e3ff",
+                        "surface": "#fbf9f8",
+                        "on-secondary-fixed": "#001a40",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#d7e2ff",
+                        "on-surface-variant": "#44474e",
+                        "inverse-surface": "#303030",
+                        "background": "#fbf9f8",
+                        "secondary": "#115cb9",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#eae8e7",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "primary": "#000a1e",
+                        "surface-dim": "#dcd9d9",
+                        "surface-container-highest": "#e4e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#708ab5",
+                        "tertiary-fixed-dim": "#ffb691",
+                        "secondary-fixed-dim": "#acc7ff",
+                        "secondary-container": "#659dfe"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "xl": "40px",
+                        "base": "8px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "container-max": "1200px",
+                        "xxl": "80px"
+                    },
+                    fontFamily: {
+                        "display-hero-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-hero": ["Inter"]
+                    },
+                    fontSize: {
+                        "display-hero-mobile": ["32px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "headline-lg": ["32px", { lineHeight: "1.3", fontWeight: "600" }],
+                        "headline-md": ["24px", { lineHeight: "1.4", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "label-md": ["14px", { lineHeight: "1.2", letterSpacing: "0.01em", fontWeight: "500" }],
+                        "label-sm": ["12px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "display-hero": ["48px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TopNavBar Shared Component -->
+<header class="bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm sticky top-0 z-50 w-full transition-all duration-200">
+<div class="flex justify-between items-center w-full px-gutter py-md max-w-container-max mx-auto">
+<!-- Brand Logo -->
+<a class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tight" href="#">
+                Adamjee Coaching Maymar
+            </a>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center space-x-lg">
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-sm py-xs rounded-DEFAULT" href="#">Home</a>
+<!-- Active Link (Programs semantically matches Timetable) -->
+<a class="text-label-md font-label-md text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary pb-1 px-sm py-xs transition-transform duration-150 scale-95" href="#">Programs</a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-sm py-xs rounded-DEFAULT" href="#">Faculty</a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-sm py-xs rounded-DEFAULT" href="#">Results</a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-sm py-xs rounded-DEFAULT" href="#">Admissions</a>
+</nav>
+<!-- Trailing Action -->
+<div class="hidden md:block">
+<button class="bg-[#D4AF37] text-primary text-label-md font-label-md px-md py-sm rounded-lg hover:brightness-105 transition-all shadow-sm">
+                    Apply Now
+                </button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-gutter py-xxl flex flex-col gap-xl">
+<!-- Header Section -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
+<div>
+<h1 class="text-display-hero font-display-hero text-primary tracking-tight">Class Timetable</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant mt-sm max-w-2xl">
+                    View the weekly schedule for all classes. Use the filters below to find your specific subject timings, assigned faculty, and room allocations.
+                </p>
+</div>
+</section>
+<!-- Filters Section (Glassmorphism Card) -->
+<section class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-lg shadow-[0_4px_15px_rgba(0,33,71,0.08)] flex flex-col md:flex-row gap-lg items-end">
+<div class="w-full md:w-1/3 flex flex-col gap-sm">
+<label class="text-label-md font-label-md text-primary" for="class-filter">Select Class</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border border-outline-variant rounded-lg px-md py-sm text-body-md font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-shadow" id="class-filter">
+<option value="9th">9th Grade (Matric)</option>
+<option selected="" value="10th">10th Grade (Matric)</option>
+<option value="11th">11th Grade (Intermediate)</option>
+<option value="12th">12th Grade (Intermediate)</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-md text-outline">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/3 flex flex-col gap-sm">
+<label class="text-label-md font-label-md text-primary" for="day-filter">Select Day</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border border-outline-variant rounded-lg px-md py-sm text-body-md font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-shadow" id="day-filter">
+<option selected="" value="monday">Monday</option>
+<option value="tuesday">Tuesday</option>
+<option value="wednesday">Wednesday</option>
+<option value="thursday">Thursday</option>
+<option value="friday">Friday</option>
+<option value="saturday">Saturday</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-md text-outline">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<div class="w-full md:w-auto mt-4 md:mt-0 ml-auto">
+<button class="w-full md:w-auto bg-primary text-on-primary text-label-md font-label-md px-lg py-sm rounded-lg hover:bg-on-primary-fixed-variant transition-colors shadow-sm flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined" style="font-size: 18px;">filter_list</span>
+                    Apply Filters
+                </button>
+</div>
+</section>
+<!-- Timetable Grid Section -->
+<section class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-[0_4px_15px_rgba(0,33,71,0.08)]">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-primary text-on-primary text-label-md font-label-md uppercase tracking-wider">
+<th class="py-md px-lg w-1/4">Time</th>
+<th class="py-md px-lg w-1/4">Subject</th>
+<th class="py-md px-lg w-1/4">Teacher</th>
+<th class="py-md px-lg w-1/4">Room Number</th>
+</tr>
+</thead>
+<tbody class="text-body-md font-body-md text-on-surface divide-y divide-outline-variant/30">
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150">
+<td class="py-md px-lg font-medium text-primary">03:00 PM - 04:00 PM</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<span class="w-1 h-4 bg-[#D4AF37] rounded-full"></span>
+                                    Physics
+                                </div>
+</td>
+<td class="py-md px-lg">Sir Ahmed Raza</td>
+<td class="py-md px-lg">Room 101</td>
+</tr>
+<tr class="bg-surface-container-low hover:bg-surface-variant transition-colors duration-150">
+<td class="py-md px-lg font-medium text-primary">04:00 PM - 05:00 PM</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<span class="w-1 h-4 bg-[#D4AF37] rounded-full"></span>
+                                    Chemistry
+                                </div>
+</td>
+<td class="py-md px-lg">Miss Fatima Ali</td>
+<td class="py-md px-lg">Room 104</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150">
+<td class="py-md px-lg font-medium text-primary">05:00 PM - 05:30 PM</td>
+<td class="py-md px-lg text-on-surface-variant italic" colspan="3">
+                                Prayer & Refreshment Break
+                            </td>
+</tr>
+<tr class="bg-surface-container-low hover:bg-surface-variant transition-colors duration-150">
+<td class="py-md px-lg font-medium text-primary">05:30 PM - 06:30 PM</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<span class="w-1 h-4 bg-[#D4AF37] rounded-full"></span>
+                                    Mathematics
+                                </div>
+</td>
+<td class="py-md px-lg">Sir Tariq Mehmood</td>
+<td class="py-md px-lg">Room 102</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150">
+<td class="py-md px-lg font-medium text-primary">06:30 PM - 07:30 PM</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<span class="w-1 h-4 bg-outline rounded-full"></span>
+                                    English (Optional)
+                                </div>
+</td>
+<td class="py-md px-lg">Miss Sana Khan</td>
+<td class="py-md px-lg">Room 205</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Information / Support Note -->
+<section class="bg-surface-container-low border-l-4 border-secondary p-lg rounded-r-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-md mt-sm">
+<div class="flex items-start gap-md">
+<span class="material-symbols-outlined text-secondary mt-1" style="font-variation-settings: 'FILL' 1;">info</span>
+<div>
+<h3 class="text-headline-md font-headline-md text-primary text-base">Schedule Updates & Changes</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mt-xs">
+                        Timetables are subject to occasional changes due to faculty availability or public holidays. In case of unexpected changes, registered students will be notified via SMS.
+                    </p>
+</div>
+</div>
+<button class="whitespace-nowrap border border-secondary text-secondary text-label-md font-label-md px-md py-sm rounded-lg hover:bg-secondary-fixed-dim/20 transition-colors">
+                Contact Support
+            </button>
+</section>
+</main>
+<!-- Footer Shared Component -->
+<footer class="bg-primary dark:bg-surface-container-lowest border-t border-outline/20 w-full py-xxl px-gutter mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-start max-w-container-max mx-auto gap-xl">
+<div class="flex flex-col gap-sm max-w-xs">
+<span class="text-headline-md font-headline-md font-bold text-on-primary dark:text-on-surface">Adamjee Coaching Maymar</span>
+<p class="text-body-md font-body-md text-on-primary/80 dark:text-on-surface-variant">
+                    Providing premium educational support and competitive exam preparation to students in Karachi.
+                </p>
+</div>
+<div class="flex flex-col md:flex-row gap-xl md:gap-xxl">
+<div class="flex flex-col gap-md">
+<span class="text-label-md font-label-md text-secondary-fixed-dim font-bold">Quick Links</span>
+<nav class="flex flex-col gap-sm">
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">Programs</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">About</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">Contact</a>
+</nav>
+</div>
+<div class="flex flex-col gap-md">
+<span class="text-label-md font-label-md text-secondary-fixed-dim font-bold">Legal</span>
+<nav class="flex flex-col gap-sm">
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary hover:underline underline-offset-4 transition-colors" href="#">Terms of Service</a>
+</nav>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto mt-xl pt-lg border-t border-on-primary/10">
+<p class="text-label-sm font-label-sm text-on-primary/60 dark:text-on-surface-variant/60 text-center md:text-left">
+                © 2024 Adamjee Coaching Maymar. All rights reserved.
+            </p>
+</div>
+</footer>
+</body></html>

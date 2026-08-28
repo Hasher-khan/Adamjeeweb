@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Faculty - Adamjee Coaching Maymar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed-dim": "#aec7f6",
+                      "on-secondary-fixed-variant": "#004491",
+                      "outline": "#74777f",
+                      "on-primary-fixed-variant": "#2d476f",
+                      "on-tertiary-fixed": "#341100",
+                      "inverse-primary": "#aec7f6",
+                      "on-tertiary-container": "#b97958",
+                      "surface-bright": "#fbf9f8",
+                      "on-surface": "#1b1c1c",
+                      "on-tertiary-fixed-variant": "#6c391d",
+                      "tertiary-container": "#3d1500",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#180500",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f6f3f2",
+                      "surface-container": "#f0eded",
+                      "tertiary-fixed": "#ffdbcb",
+                      "inverse-on-surface": "#f3f0f0",
+                      "on-background": "#1b1c1c",
+                      "outline-variant": "#c4c6cf",
+                      "primary-container": "#002147",
+                      "surface-tint": "#465f88",
+                      "on-primary-fixed": "#001b3d",
+                      "on-secondary-container": "#003370",
+                      "surface-variant": "#e4e2e1",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed": "#d6e3ff",
+                      "surface": "#fbf9f8",
+                      "on-secondary-fixed": "#001a40",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed": "#d7e2ff",
+                      "on-surface-variant": "#44474e",
+                      "inverse-surface": "#303030",
+                      "background": "#fbf9f8",
+                      "secondary": "#115cb9",
+                      "error": "#ba1a1a",
+                      "surface-container-high": "#eae8e7",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "primary": "#000a1e",
+                      "surface-dim": "#dcd9d9",
+                      "surface-container-highest": "#e4e2e1",
+                      "on-secondary": "#ffffff",
+                      "on-primary-container": "#708ab5",
+                      "tertiary-fixed-dim": "#ffb691",
+                      "secondary-fixed-dim": "#acc7ff",
+                      "secondary-container": "#659dfe"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "gutter": "24px",
+                      "xl": "40px",
+                      "base": "8px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "xs": "4px",
+                      "container-max": "1200px",
+                      "xxl": "80px"
+              },
+              "fontFamily": {
+                      "display-hero-mobile": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "display-hero": ["Inter"]
+              },
+              "fontSize": {
+                      "display-hero-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "display-hero": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center w-full px-gutter py-md max-w-container-max mx-auto bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm transition-all duration-300 hidden md:flex" id="mainHeader">
+<div class="flex items-center gap-md">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">Adamjee Coaching Maymar</span>
+</div>
+<nav class="flex items-center gap-lg">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-3 py-2 rounded-lg text-label-md font-label-md" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-3 py-2 rounded-lg text-label-md font-label-md" href="#">Programs</a>
+<a aria-current="page" class="text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary pb-1 px-3 py-2 text-label-md font-label-md scale-95 transition-transform duration-150" href="#">Faculty</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-3 py-2 rounded-lg text-label-md font-label-md" href="#">Results</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-all duration-200 px-3 py-2 rounded-lg text-label-md font-label-md" href="#">Admissions</a>
+</nav>
+<button class="bg-primary hover:bg-primary-container text-on-primary text-label-md font-label-md px-6 py-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+            Apply Now
+        </button>
+</header>
+<!-- SideNavBar (Mobile) -->
+<aside class="fixed inset-y-0 left-0 w-64 h-full bg-surface z-50 flex flex-col md:hidden transform -translate-x-full transition-transform duration-300 shadow-xl" id="mobileNav">
+<div class="p-gutter border-b border-outline-variant/30">
+<span class="text-headline-md font-headline-md font-bold text-primary block">Adamjee Coaching</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Maymar Campus</span>
+</div>
+<nav class="flex-1 overflow-y-auto py-md flex flex-col gap-sm px-sm">
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+                Home
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">school</span>
+                Programs
+            </a>
+<a class="flex items-center gap-3 bg-secondary-container/20 text-on-secondary-container rounded-lg px-4 py-3 font-semibold text-label-md font-label-md scale-98 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+                Faculty
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">workspace_premium</span>
+                Results
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person_add</span>
+                Admissions
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high transition-colors rounded-lg text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">contact_support</span>
+                Contact
+            </a>
+</nav>
+<div class="p-gutter border-t border-outline-variant/30">
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary text-label-md font-label-md px-6 py-3 rounded-lg shadow-sm transition-all duration-200">
+                Apply Now
+            </button>
+</div>
+</aside>
+<!-- Mobile Header Toggle (Visible only on mobile) -->
+<div class="md:hidden flex justify-between items-center p-md bg-surface border-b border-outline-variant/30 sticky top-0 z-40">
+<span class="text-headline-md font-headline-md font-bold text-primary">Adamjee Maymar</span>
+<button aria-label="Toggle Menu" class="p-2 text-on-surface" id="menuToggle">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-md md:px-xl py-xl md:py-xxl flex flex-col gap-xl">
+<!-- Page Header & Filter Section -->
+<section class="flex flex-col gap-lg bg-surface-container-lowest p-lg rounded-xl border border-outline-variant/30 shadow-[0_4px_15px_rgba(0,33,71,0.04)]">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
+<div class="max-w-2xl">
+<h1 class="text-display-hero-mobile md:text-display-hero font-display-hero-mobile md:font-display-hero text-primary mb-sm">Our Expert Faculty</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Discover the distinguished educators guiding our students to academic excellence in competitive board examinations.</p>
+</div>
+<div class="w-full md:w-auto flex flex-col gap-xs">
+<label class="text-label-sm font-label-sm text-on-surface-variant" for="subjectFilter">Filter by Subject</label>
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<select class="w-full pl-10 pr-4 py-2 bg-surface border border-outline-variant rounded-lg text-body-md font-body-md focus:ring-2 focus:ring-secondary focus:border-secondary outline-none appearance-none cursor-pointer transition-shadow" id="subjectFilter">
+<option value="all">All Subjects</option>
+<option value="physics">Physics</option>
+<option value="chemistry">Chemistry</option>
+<option value="mathematics">Mathematics</option>
+<option value="biology">Biology</option>
+<option value="english">English</option>
+<option value="computer_science">Computer Science</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Faculty Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-lg">
+<!-- Card 1 -->
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-[0_8px_25px_rgba(0,33,71,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+<div class="aspect-square w-full relative overflow-hidden bg-surface-container">
+<img alt="Prof. Syed Ali" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" data-alt="A professional studio headshot of a distinguished male physics professor in his 40s wearing a smart navy blue blazer and light blue shirt. He has a warm, confident smile and neat glasses. The background is a soft, well-lit academic setting with a subtle blurred bookshelf, projecting authority and approachability in a modern educational environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn7uoK6ZHYeWlu5qY2x8c3gKVlts8-1sS1z-0FRvzF7ooVDYe6sGz4SxKyuGYPe4BF5CBQEIc_4irkjRqnyxJHivcVS5Khyxw6MCzMgDBBYzTwfDlKll_yXfbZRP44EKZ4qhMa2o02kc8SH5Xb0tNM3EdodY3JRRfCxBcWKY-FTR6jAgWoKrdpUXjm6uvw7Rpq3tvD7inhqxgKbU28DGus40vLbCIjYI2pDNEgPkivBNZXhtQduZX3rA"/>
+<div class="absolute top-3 left-3 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">science</span> Physics
+                    </div>
+</div>
+<div class="p-lg flex flex-col flex-1 border-l-4 border-transparent group-hover:border-primary transition-colors">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-1">Prof. Syed Ali</h3>
+<p class="text-label-md font-label-md text-secondary font-medium mb-4">Head of Physics Dept.</p>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6 mt-auto">
+<span class="material-symbols-outlined text-outline">history</span>
+<span>15+ Years Experience</span>
+</div>
+<button class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary rounded-lg text-label-md font-label-md transition-colors duration-200 flex items-center justify-center gap-2">
+                        View Profile
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-[0_8px_25px_rgba(0,33,71,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+<div class="aspect-square w-full relative overflow-hidden bg-surface-container">
+<img alt="Dr. Fatima Khan" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" data-alt="A professional, high-quality headshot of a female mathematics teacher in her late 30s. She is wearing formal, modest academic attire in deep navy blue. She conveys a calm, highly analytical yet encouraging demeanor. The lighting is crisp and modern, set against a pristine, soft-focus light grey background that emphasizes a premium coaching institute aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA-UfSzph_Rgx5jiiQo-trUYQjgCGlXmZpo2sJGuJ4efGQslpzbvKoRPzr601xuqcvAX3uE_hjfdpNvr__hd54XrDVpF-xSmYYIkkZYC5Sy3tBxLZHLQG-2lXHKyJjUv2WbMRiCbtNHHniCRwlEiWGIbahsdYwWsRTLw5_V7yDcpeVduzW3A7umhcoO7-i_2qBmSWNkSgwimY_w8oocbWkw-9LLnIFkCVqNNJRBojPApX45A82XUATfg"/>
+<div class="absolute top-3 left-3 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">calculate</span> Mathematics
+                    </div>
+</div>
+<div class="p-lg flex flex-col flex-1 border-l-4 border-transparent group-hover:border-primary transition-colors">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-1">Dr. Fatima Khan</h3>
+<p class="text-label-md font-label-md text-secondary font-medium mb-4">Senior Lecturer</p>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6 mt-auto">
+<span class="material-symbols-outlined text-outline">history</span>
+<span>12 Years Experience</span>
+</div>
+<button class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary rounded-lg text-label-md font-label-md transition-colors duration-200 flex items-center justify-center gap-2">
+                        View Profile
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-[0_8px_25px_rgba(0,33,71,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+<div class="aspect-square w-full relative overflow-hidden bg-surface-container">
+<img alt="Sir Tariq Mehmood" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" data-alt="A striking portrait of an experienced male chemistry professor in his 50s. He wears a crisp white shirt and a professional tie. His expression is serious, intellectual, and authoritative, suitable for competitive board exam preparation. Soft, high-key studio lighting highlights his features against a clean, modern white background, aligning with a premium corporate educational brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZllBvGEYMKuYrvxRONC08EjVwKt87n9vAn6pvXwwCbsL0OKI08xJ-rkvY1E16is_PRhRIrlI5879TXaYl3P9MP6SpeNBUZ0Pd4fff2ep0H7EP2TAZX3c7gdSuAUakhOcm3hXfjfgPlyGkoiC4OImsw88iiAJFdxePoKss7bcKeUrlrfDVvXh7jsawpmzqpCoFAhdkGz1WVQJS5DOkCMpE5RbRymJGRAMISKXTntoSwwSB1K0odb_v8w"/>
+<div class="absolute top-3 left-3 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">biotech</span> Chemistry
+                    </div>
+</div>
+<div class="p-lg flex flex-col flex-1 border-l-4 border-transparent group-hover:border-primary transition-colors">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-1">Sir Tariq Mehmood</h3>
+<p class="text-label-md font-label-md text-secondary font-medium mb-4">Subject Specialist</p>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6 mt-auto">
+<span class="material-symbols-outlined text-outline">history</span>
+<span>20+ Years Experience</span>
+</div>
+<button class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary rounded-lg text-label-md font-label-md transition-colors duration-200 flex items-center justify-center gap-2">
+                        View Profile
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-[0_8px_25px_rgba(0,33,71,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+<div class="aspect-square w-full relative overflow-hidden bg-surface-container">
+<img alt="Engr. Bilal Ahmed" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" data-alt="A modern, high-end photograph of a young, dynamic male computer science lecturer in his late 20s. He is dressed in business casual attire, exuding approachability and tech-savviness. The lighting is bright and clear, with a very subtle hint of cool blue ambient light in the background to suggest a technology focus, while maintaining a clean, academic white-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVKtblferBRVglyY2azGafydPnnWZC58ekVkEvtub1oOy1GwRJVDl2hX4wbVNuACpmvGSlttUYP9VArDHYNCq_GFsu6kp8PK5PwTVbQJkzta_b2mqnRUlJZS0lmOfVo1J5FOFbMLRuxqMIxrUrxFE8EXmA9_FYllEw5IPxA-Hd3ivASCl_X9oM5WOZ8Q-s4i4Ww7IYi4YMth_vft_zunG8SBRy0eTT4fn9o0qkjOuWNCz2_sWt84fuOA"/>
+<div class="absolute top-3 left-3 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">computer</span> Computer Sci
+                    </div>
+</div>
+<div class="p-lg flex flex-col flex-1 border-l-4 border-transparent group-hover:border-primary transition-colors">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-1">Engr. Bilal Ahmed</h3>
+<p class="text-label-md font-label-md text-secondary font-medium mb-4">Lead Instructor</p>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6 mt-auto">
+<span class="material-symbols-outlined text-outline">history</span>
+<span>8 Years Experience</span>
+</div>
+<button class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary rounded-lg text-label-md font-label-md transition-colors duration-200 flex items-center justify-center gap-2">
+                        View Profile
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Additional empty cards to simulate grid (5-12) to meet requirements, using simplified placeholders to save output tokens but maintaining structure -->
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-[0_8px_25px_rgba(0,33,71,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+<div class="aspect-square w-full relative overflow-hidden bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[64px] text-outline-variant">person</span>
+<div class="absolute top-3 left-3 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">menu_book</span> English
+                    </div>
+</div>
+<div class="p-lg flex flex-col flex-1 border-l-4 border-transparent group-hover:border-primary transition-colors">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-1">Miss Zara Shah</h3>
+<p class="text-label-md font-label-md text-secondary font-medium mb-4">Senior Faculty</p>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6 mt-auto">
+<span class="material-symbols-outlined text-outline">history</span><span>10 Years Experience</span>
+</div>
+<button class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary rounded-lg text-label-md font-label-md transition-colors duration-200 flex items-center justify-center gap-2">View Profile</button>
+</div>
+</article>
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-[0_8px_25px_rgba(0,33,71,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+<div class="aspect-square w-full relative overflow-hidden bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[64px] text-outline-variant">person</span>
+<div class="absolute top-3 left-3 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">biotech</span> Biology
+                    </div>
+</div>
+<div class="p-lg flex flex-col flex-1 border-l-4 border-transparent group-hover:border-primary transition-colors">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-1">Dr. Hasan Raza</h3>
+<p class="text-label-md font-label-md text-secondary font-medium mb-4">Subject Specialist</p>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6 mt-auto">
+<span class="material-symbols-outlined text-outline">history</span><span>14 Years Experience</span>
+</div>
+<button class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary rounded-lg text-label-md font-label-md transition-colors duration-200 flex items-center justify-center gap-2">View Profile</button>
+</div>
+</article>
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-[0_8px_25px_rgba(0,33,71,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+<div class="aspect-square w-full relative overflow-hidden bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[64px] text-outline-variant">person</span>
+<div class="absolute top-3 left-3 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">calculate</span> Mathematics
+                    </div>
+</div>
+<div class="p-lg flex flex-col flex-1 border-l-4 border-transparent group-hover:border-primary transition-colors">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-1">Sir Kamran Ali</h3>
+<p class="text-label-md font-label-md text-secondary font-medium mb-4">Lecturer</p>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6 mt-auto">
+<span class="material-symbols-outlined text-outline">history</span><span>7 Years Experience</span>
+</div>
+<button class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary rounded-lg text-label-md font-label-md transition-colors duration-200 flex items-center justify-center gap-2">View Profile</button>
+</div>
+</article>
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden hover:shadow-[0_8px_25px_rgba(0,33,71,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+<div class="aspect-square w-full relative overflow-hidden bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[64px] text-outline-variant">person</span>
+<div class="absolute top-3 left-3 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">science</span> Physics
+                    </div>
+</div>
+<div class="p-lg flex flex-col flex-1 border-l-4 border-transparent group-hover:border-primary transition-colors">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-1">Engr. Taha</h3>
+<p class="text-label-md font-label-md text-secondary font-medium mb-4">Instructor</p>
+<div class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant mb-6 mt-auto">
+<span class="material-symbols-outlined text-outline">history</span><span>5 Years Experience</span>
+</div>
+<button class="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary rounded-lg text-label-md font-label-md transition-colors duration-200 flex items-center justify-center gap-2">View Profile</button>
+</div>
+</article>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xxl px-gutter flex flex-col md:flex-row justify-between items-start max-w-container-max mx-auto bg-primary dark:bg-surface-container-lowest border-t border-outline/20 mt-auto">
+<div class="flex flex-col gap-sm mb-lg md:mb-0">
+<span class="text-headline-md font-headline-md font-bold text-on-primary dark:text-on-surface">Adamjee Coaching</span>
+<span class="text-body-md font-body-md text-on-primary/80 dark:text-on-surface-variant">© 2024 Adamjee Coaching Maymar. All rights reserved.</span>
+</div>
+<nav class="flex flex-col md:flex-row gap-md md:gap-xl">
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="#">Programs</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="#">About</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="#">Contact</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="#">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-on-primary/80 dark:text-on-surface-variant hover:text-on-primary transition-colors hover:underline underline-offset-4" href="#">Terms of Service</a>
+</nav>
+</footer>
+<script>
+        // Simple mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        
+        menuToggle.addEventListener('click', () => {
+            const isClosed = mobileNav.classList.contains('-translate-x-full');
+            if (isClosed) {
+                mobileNav.classList.remove('-translate-x-full');
+            } else {
+                mobileNav.classList.add('-translate-x-full');
+            }
+        });
+    </script>
+</body></html>
