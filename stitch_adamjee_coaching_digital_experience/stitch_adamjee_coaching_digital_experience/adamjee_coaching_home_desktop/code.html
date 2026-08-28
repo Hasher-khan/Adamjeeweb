@@ -8,6 +8,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="cms-client.js"></script>
 <script id="tailwind-config">
         tailwind.config = {
           darkMode: "class",
@@ -304,6 +308,252 @@
         </div>
     </div>
 </section>
+<!-- ── Reviews Section ── -->
+<section id="reviews-section" class="max-w-container-max mx-auto px-gutter py-xxl border-t border-outline-variant/30">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
+        <div class="flex flex-col space-y-sm">
+            <div class="inline-flex items-center space-x-sm bg-surface-container-highest px-md py-sm rounded-full w-fit">
+                <span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">reviews</span>
+                <span class="font-label-md text-label-md text-on-surface-variant">Feedback & Testimonials</span>
+            </div>
+            <h2 class="font-headline-lg text-headline-lg text-primary">
+                What Our <span class="gold-highlight">Students & Parents</span> Say
+            </h2>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-lg">
+                Read authentic reviews from our campus community. Average Rating: <span id="public-avg-rating" class="font-bold text-secondary">...</span> / 5 based on <span id="public-total-count" class="font-bold text-secondary">...</span> reviews.
+            </p>
+        </div>
+        <button onclick="showReviewModal()" class="gold-bg text-primary px-lg py-md rounded-lg font-label-md text-label-md hover:bg-opacity-90 transition-all duration-300 premium-shadow font-bold flex items-center gap-2 self-start md:self-auto">
+            <span class="material-symbols-outlined">rate_review</span>
+            Write a Review
+        </button>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div id="public-reviews-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+        <div class="col-span-full py-xl text-center text-on-surface-variant/60">
+            <span class="material-symbols-outlined animate-spin text-3xl mb-sm block">sync</span>
+            <p class="font-body-md">Loading reviews...</p>
+        </div>
+    </div>
+</section>
+</main>
+
+<!-- ── Review Submission Modal ── -->
+<div id="reviewModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity">
+    <div class="bg-surface p-xl rounded-xl shadow-2xl max-w-md w-full mx-4 border border-outline-variant/30 relative">
+        <button onclick="hideReviewModal()" class="absolute top-md right-md text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        
+        <div class="text-center mb-lg">
+            <span class="material-symbols-outlined text-secondary text-[40px] mb-xs" style="font-variation-settings: 'FILL' 1;">rate_review</span>
+            <h3 class="text-headline-md font-headline-md text-primary">Share Your Experience</h3>
+            <p class="text-body-sm font-body-sm text-on-surface-variant mt-xs">Your review helps other students and will be visible after admin approval.</p>
+        </div>
+
+        <form id="public-review-form" onsubmit="handleReviewSubmit(event)" class="space-y-md">
+            <div>
+                <label for="review-name" class="block font-label-md text-label-md text-on-surface-variant mb-xs">Your Name</label>
+                <input type="text" id="review-name" required placeholder="e.g. Muhammad Ali / Parent" 
+                    class="w-full bg-surface-container border border-outline-variant/50 rounded-lg px-md py-sm text-on-surface placeholder-on-surface-variant/40 focus:outline-none focus:border-secondary transition-colors">
+            </div>
+
+            <div>
+                <label class="block font-label-md text-label-md text-on-surface-variant mb-xs">Rating</label>
+                <div class="flex items-center space-x-sm pt-xs" id="star-selector">
+                    <button type="button" onclick="setSelectRating(1)" class="star-select-btn text-outline-variant hover:scale-110 transition-transform"><span class="material-symbols-outlined text-[28px] pointer-events-none">star</span></button>
+                    <button type="button" onclick="setSelectRating(2)" class="star-select-btn text-outline-variant hover:scale-110 transition-transform"><span class="material-symbols-outlined text-[28px] pointer-events-none">star</span></button>
+                    <button type="button" onclick="setSelectRating(3)" class="star-select-btn text-outline-variant hover:scale-110 transition-transform"><span class="material-symbols-outlined text-[28px] pointer-events-none">star</span></button>
+                    <button type="button" onclick="setSelectRating(4)" class="star-select-btn text-outline-variant hover:scale-110 transition-transform"><span class="material-symbols-outlined text-[28px] pointer-events-none">star</span></button>
+                    <button type="button" onclick="setSelectRating(5)" class="star-select-btn text-outline-variant hover:scale-110 transition-transform"><span class="material-symbols-outlined text-[28px] pointer-events-none">star</span></button>
+                </div>
+                <input type="hidden" id="review-rating" value="5">
+            </div>
+
+            <div>
+                <label for="review-comment" class="block font-label-md text-label-md text-on-surface-variant mb-xs">Comment / Review</label>
+                <textarea id="review-comment" required rows="4" placeholder="Share details of your experience with faculty, facilities, or study environment..." 
+                    class="w-full bg-surface-container border border-outline-variant/50 rounded-lg px-md py-sm text-on-surface placeholder-on-surface-variant/40 focus:outline-none focus:border-secondary resize-none transition-colors"></textarea>
+            </div>
+
+            <button type="submit" id="review-submit-btn" 
+                class="bg-primary text-on-primary w-full py-md rounded-lg hover:bg-opacity-90 font-bold transition-all flex items-center justify-center gap-2">
+                Submit Review
+            </button>
+            <p id="review-status-msg" class="text-label-sm font-label-sm text-center hidden"></p>
+        </form>
+    </div>
+</div>
+
+<script>
+    let selectedReviewRating = 5;
+
+    function showReviewModal() {
+        const m = document.getElementById('reviewModal');
+        if(m) {
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            setSelectRating(5);
+            document.getElementById('public-review-form').reset();
+            document.getElementById('review-status-msg').classList.add('hidden');
+        }
+    }
+
+    function hideReviewModal() {
+        const m = document.getElementById('reviewModal');
+        if(m) {
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+    }
+
+    function setSelectRating(r) {
+        selectedReviewRating = r;
+        document.getElementById('review-rating').value = r;
+        const buttons = document.querySelectorAll('.star-select-btn');
+        buttons.forEach((btn, idx) => {
+            const star = btn.querySelector('.material-symbols-outlined');
+            if (idx < r) {
+                star.style.fontVariationSettings = "'FILL' 1";
+                star.classList.add('text-secondary');
+                star.classList.remove('text-outline-variant');
+            } else {
+                star.style.fontVariationSettings = "'FILL' 0";
+                star.classList.add('text-outline-variant');
+                star.classList.remove('text-secondary');
+            }
+        });
+    }
+
+    function escReviewHtml(str = '') {
+        return String(str).replace(/[&<>'"`]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;','`':'&#96;'})[c]);
+    }
+
+    function renderReviewStars(rating) {
+        let s = '';
+        for (let i = 1; i <= 5; i++) {
+            const filled = i <= rating ? 1 : 0;
+            s += `<span class="material-symbols-outlined text-[20px] text-secondary" style="font-variation-settings: 'FILL' ${filled};">star</span>`;
+        }
+        return s;
+    }
+
+    function formatReviewTime(d) {
+        if(!d) return '';
+        const diff = Math.floor((Date.now() - new Date(d)) / 1000);
+        if (diff < 60) return 'just now';
+        if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+        if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+        return Math.floor(diff/86400) + 'd ago';
+    }
+
+    async function loadApprovedReviews() {
+        const grid = document.getElementById('public-reviews-grid');
+        if (!grid) return;
+        
+        const reviews = await window.fetchApprovedReviews();
+        if (!reviews || !reviews.length) {
+            grid.innerHTML = `
+                <div class="col-span-full py-xl text-center text-on-surface-variant/60">
+                    <span class="material-symbols-outlined text-4xl mb-sm block">star_outline</span>
+                    <p class="font-body-md">No reviews posted yet. Be the first to write one!</p>
+                </div>
+            `;
+            document.getElementById('public-avg-rating').textContent = '5.0';
+            document.getElementById('public-total-count').textContent = '0';
+            return;
+        }
+        
+        const total = reviews.length;
+        const avg = (reviews.reduce((sum, r) => sum + (Number(r.rating) || 5), 0) / total).toFixed(1);
+        document.getElementById('public-avg-rating').textContent = avg;
+        document.getElementById('public-total-count').textContent = total;
+        
+        grid.innerHTML = reviews.map(r => {
+            const initial = escReviewHtml((r.reviewerName || 'A')[0].toUpperCase());
+            const name = escReviewHtml(r.reviewerName || 'Anonymous');
+            const starsHtml = renderReviewStars(r.rating || 5);
+            const timeHtml = formatReviewTime(r.createdAt);
+            const comment = escReviewHtml(r.comment);
+            
+            let replyBlock = '';
+            if (r.reply) {
+                const replyTime = formatReviewTime(r.repliedAt);
+                replyBlock = `
+                    <div class="mt-md p-md rounded-lg bg-secondary/5 border-l-4 border-secondary/50">
+                        <div class="flex items-center gap-xs mb-xs">
+                            <span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">shield_person</span>
+                            <span class="font-label-sm text-label-sm text-secondary font-bold">Admin Response</span>
+                            <span class="font-label-sm text-[10px] text-on-surface-variant/50 ml-auto">${replyTime}</span>
+                        </div>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant">${escReviewHtml(r.reply)}</p>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="bg-surface-container/60 border border-outline-variant/30 rounded-xl p-lg flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:border-outline-variant/60">
+                    <div>
+                        <div class="flex items-center gap-md mb-md">
+                            <div class="w-10 h-10 rounded-full bg-secondary/15 flex items-center justify-center text-secondary font-bold font-label-md shrink-0">
+                                ${initial}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-on-surface leading-tight">${name}</h4>
+                                <div class="flex mt-[2px]">${starsHtml}</div>
+                            </div>
+                            <span class="font-label-sm text-[10px] text-on-surface-variant/50 ml-auto self-start">${timeHtml}</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant">${comment}</p>
+                    </div>
+                    ${replyBlock}
+                </div>
+            `;
+        }).join('');
+    }
+
+    async function handleReviewSubmit(e) {
+        e.preventDefault();
+        const btn = document.getElementById('review-submit-btn');
+        const msg = document.getElementById('review-status-msg');
+        
+        const reviewerName = document.getElementById('review-name').value.trim();
+        const rating = selectedReviewRating;
+        const comment = document.getElementById('review-comment').value.trim();
+        
+        if(!reviewerName || !comment) {
+            msg.textContent = 'Please fill in all fields.';
+            msg.className = 'text-label-sm font-label-sm text-center text-error mt-sm';
+            msg.classList.remove('hidden');
+            return;
+        }
+        
+        btn.disabled = true;
+        btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg">sync</span> Submitting...`;
+        
+        const res = await window.submitReview({ reviewerName, rating, comment });
+        btn.disabled = false;
+        btn.innerHTML = 'Submit Review';
+        
+        if (res.success) {
+            msg.textContent = 'Your review was submitted! It will appear on the site once approved by an admin.';
+            msg.className = 'text-label-sm font-label-sm text-center text-secondary mt-sm font-semibold';
+            msg.classList.remove('hidden');
+            document.getElementById('public-review-form').reset();
+            setSelectRating(5);
+            setTimeout(hideReviewModal, 3000);
+        } else {
+            msg.textContent = 'Submission failed: ' + res.message;
+            msg.className = 'text-label-sm font-label-sm text-center text-error mt-sm';
+            msg.classList.remove('hidden');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadApprovedReviews();
+    });
+</script>
 </main>
 <footer class="w-full py-xxl px-gutter flex flex-col md:flex-row justify-between items-start max-w-container-max mx-auto bg-primary dark:bg-surface-container-lowest border-t border-outline/20">
 <div class="flex flex-col space-y-md">
