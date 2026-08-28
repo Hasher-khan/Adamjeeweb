@@ -11,6 +11,7 @@
       ['Faculty', 'faculty.html'],
       ['Timetable', 'timetable.html'],
       ['Student Forms', 'student-applications.html'],
+      ['Manage Reviews', 'reviews.html'],
       ['Settings', 'settings.html']
     ];
     const quickItems = [

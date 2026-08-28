@@ -17,6 +17,13 @@ service cloud.firestore {
       allow read, write: if true;
     }
 
+    // ── Reviews ───────────────────────────────────────────────────────────────
+    // Anyone can read and submit reviews.
+    // Admin panel can moderate, reply, and delete reviews.
+    match /reviews/{reviewId} {
+      allow read, write: if true;
+    }
+
     // ── Student private data (Firebase Auth required) ─────────────────────────
     // A student may access only documents inside their own UID path.
     match /students/{userId} {

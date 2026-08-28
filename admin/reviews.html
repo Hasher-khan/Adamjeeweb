@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <script src="js/auth.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adamjee CMS - Manage Reviews</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind-config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="mobile-menu.css">
+    <script defer src="mobile-menu.js?v=7"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="../firebase-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <style>
+        .star-filled { color: #C5A059; }
+        .star-empty  { color: rgba(255,255,255,0.2); }
+        .badge-pending  { background: rgba(234,179,8,0.15);  color: #FCD34D; }
+        .badge-approved { background: rgba(34,197,94,0.15);  color: #86EFAC; }
+        #reply-modal-backdrop { backdrop-filter: blur(6px); background: rgba(0,0,0,0.6); }
+    </style>
+</head>
+<body class="font-['Inter'] antialiased min-h-screen flex text-surface-bright">
+    <!-- Sidebar -->
+    <aside class="w-64 glass-panel border-r border-white/10 flex flex-col hidden md:flex h-screen sticky top-0">
+        <div class="p-6 border-b border-white/10 flex items-center gap-3">
+            <div class="w-8 h-8 rounded bg-secondary flex items-center justify-center font-bold text-white shadow-lg">A</div>
+            <h1 class="text-xl font-bold tracking-tight text-white">Adamjee CMS</h1>
+        </div>
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-4">Menu</p>
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-dashboard-line text-lg"></i> Dashboard</a>
+            <a href="admissions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-article-line text-lg"></i> Admissions</a>
+            <a href="faculty.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-team-line text-lg"></i> Faculty</a>
+            <a href="timetable.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-calendar-todo-line text-lg"></i> Timetable</a>
+            <a href="student-applications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-user-shared-line text-lg"></i> Student Forms</a>
+            <a href="reviews.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white font-medium transition-colors"><i class="ri-star-fill text-lg text-yellow-400"></i> Reviews</a>
+            <p class="text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 px-3 mt-8">System</p>
+            <a href="settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-settings-3-line text-lg"></i> Settings</a>
+        </nav>
+        <div class="p-4 border-t border-white/10">
+            <div class="flex items-center gap-3 px-3 py-2">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=115cb9&color=fff" alt="User" class="w-10 h-10 rounded-full border border-white/20">
+                <div><p class="text-sm font-medium text-white">Admin User</p><p class="text-xs text-white/50">admin@adamjee.edu</p></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 flex flex-col min-h-screen overflow-hidden relative z-10">
+        <header class="glass-panel border-b border-white/10 px-8 py-5 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <button type="button" data-admin-mobile-toggle class="md:hidden text-white/70 hover:text-white"><i class="ri-menu-2-line text-2xl"></i></button>
+                <div>
+                    <h2 class="text-2xl font-semibold text-white">Manage Reviews</h2>
+                    <p class="text-sm text-white/50 mt-0.5">Moderate, reply and manage student and parent reviews</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="refresh-btn" onclick="loadReviews()" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition" title="Refresh"><i class="ri-refresh-line"></i></button>
+                <a href="../index.html" target="_blank" class="px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/90 text-white font-medium text-sm transition shadow-lg shadow-secondary/20 flex items-center gap-2"><i class="ri-external-link-line"></i> View Site</a>
+            </div>
+        </header>
+
+        <div class="flex-1 p-8 overflow-y-auto">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="glass-card rounded-2xl p-5 fade-in"><p class="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1">Total</p><h3 id="stat-total" class="text-3xl font-bold text-white">-</h3><p class="text-xs text-white/40 mt-1">All reviews</p></div>
+                <div class="glass-card rounded-2xl p-5 fade-in"><p class="text-xs font-semibold text-yellow-400/80 uppercase tracking-wider mb-1">Pending</p><h3 id="stat-pending" class="text-3xl font-bold text-yellow-300">-</h3><p class="text-xs text-white/40 mt-1">Awaiting moderation</p></div>
+                <div class="glass-card rounded-2xl p-5 fade-in"><p class="text-xs font-semibold text-green-400/80 uppercase tracking-wider mb-1">Approved</p><h3 id="stat-approved" class="text-3xl font-bold text-green-300">-</h3><p class="text-xs text-white/40 mt-1">Shown publicly</p></div>
+                <div class="glass-card rounded-2xl p-5 fade-in"><p class="text-xs font-semibold text-yellow-300/80 uppercase tracking-wider mb-1">Avg Rating</p><h3 id="stat-avg" class="text-3xl font-bold text-yellow-300">-</h3><p class="text-xs text-white/40 mt-1">Out of 5 stars</p></div>
+            </div>
+            <div class="flex gap-2 mb-6">
+                <button onclick="setFilter('all')" id="tab-all" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition bg-white/10 text-white border border-white/20">All</button>
+                <button onclick="setFilter('Pending')" id="tab-pending" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition text-white/50 hover:text-white hover:bg-white/5">Pending</button>
+                <button onclick="setFilter('Approved')" id="tab-approved" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition text-white/50 hover:text-white hover:bg-white/5">Approved</button>
+            </div>
+            <div id="reviews-list" class="space-y-4">
+                <div class="glass-panel rounded-2xl p-10 text-center text-white/50"><i class="ri-loader-4-line text-3xl animate-spin mb-3 block"></i><p>Loading reviews...</p></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Reply Modal -->
+    <div id="reply-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+        <div id="reply-modal-backdrop" class="absolute inset-0" onclick="closeReplyModal()"></div>
+        <div class="relative glass-panel rounded-2xl p-8 w-full max-w-lg mx-4 border border-white/10 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-white"><i class="ri-reply-line mr-2 text-secondary"></i>Reply to Review</h3>
+                <button onclick="closeReplyModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition"><i class="ri-close-line"></i></button>
+            </div>
+            <div id="reply-review-preview" class="mb-5 p-4 rounded-xl bg-white/5 border border-white/10"></div>
+            <label class="block text-sm font-medium text-white/70 mb-2">Admin Reply</label>
+            <textarea id="reply-text" rows="4" placeholder="Write a professional, helpful response..."
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm resize-none focus:outline-none focus:border-secondary transition mb-4"></textarea>
+            <div class="flex gap-3">
+                <button onclick="submitReplyModal()" id="reply-submit-btn" class="flex-1 py-3 rounded-xl bg-secondary hover:bg-secondary/90 text-white font-semibold text-sm transition flex items-center justify-center gap-2"><i class="ri-send-plane-line"></i> Post Reply</button>
+                <button onclick="closeReplyModal()" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 hover:text-white text-sm font-medium transition">Cancel</button>
+            </div>
+            <p id="reply-msg" class="mt-3 text-sm text-center hidden"></p>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        var allReviews = [], currentFilter = 'all', replyTargetId = null;
+        function escHtml(v) { return String(v||'').replace(/[&<>'"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]||c;}); }
+        function stars(n) { var s=''; for(var i=1;i<=5;i++) s+='<i class="ri-star-fill '+(i<=n?'star-filled':'star-empty')+'"></i>'; return s; }
+        function relTime(d) { if(!d)return''; var diff=Math.floor((Date.now()-new Date(d))/1000); if(diff<60)return'just now'; if(diff<3600)return Math.floor(diff/60)+' min ago'; if(diff<86400)return Math.floor(diff/3600)+' hr ago'; return Math.floor(diff/86400)+' days ago'; }
+        function badgeHtml(s) { var cls=s==='Approved'?'badge-approved':'badge-pending'; return '<span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold '+cls+'">'+escHtml(s)+'</span>'; }
+        function setFilter(f) {
+            currentFilter=f;
+            document.querySelectorAll('.filter-tab').forEach(function(el){el.className='filter-tab px-4 py-2 rounded-lg text-sm font-medium transition text-white/50 hover:text-white hover:bg-white/5';});
+            document.getElementById('tab-'+(f==='all'?'all':f.toLowerCase())).className='filter-tab px-4 py-2 rounded-lg text-sm font-medium transition bg-white/10 text-white border border-white/20';
+            renderReviews();
+        }
+        function renderReviews() {
+            var list=document.getElementById('reviews-list');
+            var filtered=currentFilter==='all'?allReviews:allReviews.filter(function(r){return r.status===currentFilter;});
+            if(!filtered.length){list.innerHTML='<div class="glass-panel rounded-2xl p-10 text-center text-white/40"><i class="ri-star-off-line text-4xl block mb-3"></i><p class="font-medium">No reviews found</p><p class="text-sm mt-1">Reviews submitted by visitors will appear here.</p></div>';return;}
+            list.innerHTML=filtered.map(function(r){
+                var rb=r.reply?'<div class="mt-4 p-4 rounded-xl bg-secondary/10 border border-secondary/20"><div class="flex items-center gap-2 mb-2"><i class="ri-shield-user-line text-secondary text-sm"></i><span class="text-secondary text-xs font-semibold">Admin Reply</span><span class="text-white/30 text-xs ml-auto">'+relTime(r.repliedAt)+'</span></div><p class="text-white/70 text-sm">'+escHtml(r.reply)+'</p></div>':'<p class="text-white/25 text-xs mt-2 italic">No admin reply yet</p>';
+                var ab=r.status!=='Approved'?'<button onclick="doApprove(''+escHtml(r.id)+'')" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-green-500/15 text-green-300 hover:bg-green-500/25 text-xs font-semibold transition"><i class="ri-checkbox-circle-line"></i> Approve</button>':'<span class="px-3 py-2 text-green-300/50 text-xs"><i class="ri-checkbox-circle-fill"></i> Approved</span>';
+                return '<div class="glass-panel rounded-2xl p-6 border border-white/8 hover:bg-white/5 transition-all"><div class="flex flex-col sm:flex-row sm:items-start gap-4"><div class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center shrink-0 text-secondary font-bold text-xl">'+escHtml((r.reviewerName||'A')[0].toUpperCase())+'</div><div class="flex-1 min-w-0"><div class="flex flex-wrap items-center gap-3 mb-1"><span class="font-semibold text-white">'+escHtml(r.reviewerName||'Anonymous')+'</span>'+badgeHtml(r.status||'Pending')+'<span class="text-white/30 text-xs ml-auto">'+relTime(r.createdAt)+'</span></div><div class="flex gap-0.5 mb-3 text-base">'+stars(r.rating||5)+'</div><p class="text-white/80 text-sm leading-relaxed">'+escHtml(r.comment)+'</p>'+rb+'</div></div><div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-white/8">'+ab+'<button onclick="openReplyModal(''+escHtml(r.id)+'',''+escHtml(r.reviewerName||'')+'',''+escHtml(r.comment||'')+'',' +(r.rating||5)+')" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary/15 text-secondary hover:bg-secondary/25 text-xs font-semibold transition"><i class="ri-reply-line"></i> '+(r.reply?'Edit Reply':'Reply')+'</button><button onclick="doDelete(''+escHtml(r.id)+'')" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-red-500/10 text-red-300 hover:bg-red-500/20 text-xs font-semibold transition ml-auto"><i class="ri-delete-bin-6-line"></i> Delete</button></div></div>';
+            }).join('');
+        }
+        function updateStats(){var t=allReviews.length,p=allReviews.filter(function(r){return r.status==='Pending';}).length,a=allReviews.filter(function(r){return r.status==='Approved';}).length;var avg=t?(allReviews.reduce(function(s,r){return s+(Number(r.rating)||0);},0)/t).toFixed(1):'—';document.getElementById('stat-total').textContent=t;document.getElementById('stat-pending').textContent=p;document.getElementById('stat-approved').textContent=a;document.getElementById('stat-avg').textContent=t?avg:'—';}
+        async function loadReviews(){document.getElementById('reviews-list').innerHTML='<div class="glass-panel rounded-2xl p-10 text-center text-white/50"><i class="ri-loader-4-line text-3xl animate-spin mb-3 block"></i><p>Loading...</p></div>';var data=await fetchAdminReviews();if(!data){document.getElementById('reviews-list').innerHTML='<div class="glass-panel rounded-2xl p-10 text-center text-red-300"><i class="ri-error-warning-line text-4xl block mb-3"></i><p>Could not load reviews.</p></div>';return;}allReviews=data;updateStats();renderReviews();}
+        async function doApprove(id){if(!confirm('Approve this review? It will be shown publicly.'))return;var res=await approveReview(id);if(res.success){var r=allReviews.find(function(x){return x.id===id;});if(r)r.status='Approved';updateStats();renderReviews();}else alert('Error: '+res.message);}
+        async function doDelete(id){if(!confirm('Permanently delete this review?'))return;var res=await deleteReview(id);if(res.success){allReviews=allReviews.filter(function(x){return x.id!==id;});updateStats();renderReviews();}else alert('Error: '+res.message);}
+        function openReplyModal(id,name,comment,rating){replyTargetId=id;document.getElementById('reply-review-preview').innerHTML='<div class="flex gap-0.5 mb-2 text-sm">'+stars(rating)+'</div><p class="text-white/60 text-xs font-semibold mb-1">'+escHtml(name)+'</p><p class="text-white/80 text-sm">'+escHtml(comment)+'</p>';var existing=allReviews.find(function(r){return r.id===id;});document.getElementById('reply-text').value=existing&&existing.reply?existing.reply:'';document.getElementById('reply-msg').classList.add('hidden');var modal=document.getElementById('reply-modal');modal.classList.remove('hidden');modal.classList.add('flex');document.getElementById('reply-text').focus();}
+        function closeReplyModal(){var modal=document.getElementById('reply-modal');modal.classList.add('hidden');modal.classList.remove('flex');replyTargetId=null;}
+        async function submitReplyModal(){var text=document.getElementById('reply-text').value.trim();var btn=document.getElementById('reply-submit-btn');var msg=document.getElementById('reply-msg');if(!text){msg.textContent='Reply cannot be empty.';msg.className='mt-3 text-sm text-center text-red-300';msg.classList.remove('hidden');return;}btn.disabled=true;btn.innerHTML='<i class="ri-loader-4-line animate-spin"></i> Posting...';var res=await replyToReview(replyTargetId,text);btn.disabled=false;btn.innerHTML='<i class="ri-send-plane-line"></i> Post Reply';if(res.success){var r=allReviews.find(function(x){return x.id===replyTargetId;});if(r){r.reply=text;r.repliedAt=new Date().toISOString();r.status='Approved';}updateStats();renderReviews();closeReplyModal();}else{msg.textContent='Error: '+res.message;msg.className='mt-3 text-sm text-center text-red-300';msg.classList.remove('hidden');}}
+        loadReviews();
+    </script>
+</body>
+</html>

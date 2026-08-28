@@ -33,6 +33,7 @@ if (!fs.existsSync(DATA_FILE)) {
             announcement: "Classes begin on September 15th."
         },
         student_applications: [],
+        reviews: [],
         settings: {
             googleScriptUrl: ""
         }
@@ -196,6 +197,91 @@ app.post('/api/student-applications/:id/action', async (req, res) => {
 
     if (!writeData(data)) return res.status(503).json({ success: false, message: 'Settings saving is not configured for this Vercel deployment.' });
     res.json({ success: true, message: `Application ${action}d successfully!`, application: app });
+});
+
+// REVIEWS ROUTES
+app.get('/api/reviews', (req, res) => {
+    const data = readData();
+    res.json(data.reviews || []);
+});
+
+app.get('/api/reviews/approved', (req, res) => {
+    const data = readData();
+    const approved = (data.reviews || []).filter(r => r.status === 'Approved');
+    res.json(approved);
+});
+
+app.post('/api/reviews', (req, res) => {
+    const data = readData();
+    if (!data.reviews) data.reviews = [];
+    
+    const reviewerName = cleanText(req.body.reviewerName, 100);
+    const comment = cleanText(req.body.comment, 1000);
+    const rating = Math.min(5, Math.max(1, Number(req.body.rating) || 5));
+    
+    if (!reviewerName || !comment) {
+        return res.status(400).json({ success: false, message: 'Reviewer name and comment are required.' });
+    }
+    
+    const newReview = {
+        id: `Rev-${Date.now()}`,
+        reviewerName,
+        comment,
+        rating,
+        status: 'Pending',
+        createdAt: new Date().toISOString()
+    };
+    
+    data.reviews.push(newReview);
+    if (!writeData(data)) return res.status(503).json({ success: false, message: 'Review saving is not configured for this Vercel deployment.' });
+    res.json({ success: true, message: 'Review submitted successfully!', review: newReview });
+});
+
+app.post('/api/reviews/:id/approve', (req, res) => {
+    const { id } = req.params;
+    const data = readData();
+    if (!data.reviews) data.reviews = [];
+    
+    const idx = data.reviews.findIndex(r => r.id === id);
+    if (idx === -1) return res.status(404).json({ success: false, message: 'Review not found.' });
+    
+    data.reviews[idx].status = 'Approved';
+    data.reviews[idx].actionedAt = new Date().toISOString();
+    
+    if (!writeData(data)) return res.status(503).json({ success: false, message: 'Database save failed.' });
+    res.json({ success: true, message: 'Review approved successfully!', review: data.reviews[idx] });
+});
+
+app.post('/api/reviews/:id/reply', (req, res) => {
+    const { id } = req.params;
+    const replyText = cleanText(req.body.reply, 1000);
+    if (!replyText) return res.status(400).json({ success: false, message: 'Reply text is required.' });
+    
+    const data = readData();
+    if (!data.reviews) data.reviews = [];
+    
+    const idx = data.reviews.findIndex(r => r.id === id);
+    if (idx === -1) return res.status(404).json({ success: false, message: 'Review not found.' });
+    
+    data.reviews[idx].reply = replyText;
+    data.reviews[idx].repliedAt = new Date().toISOString();
+    data.reviews[idx].status = 'Approved'; // automatically approve if admin replies
+    
+    if (!writeData(data)) return res.status(503).json({ success: false, message: 'Database save failed.' });
+    res.json({ success: true, message: 'Admin reply posted successfully!', review: data.reviews[idx] });
+});
+
+app.delete('/api/reviews/:id', (req, res) => {
+    const { id } = req.params;
+    const data = readData();
+    if (!data.reviews) data.reviews = [];
+    
+    const idx = data.reviews.findIndex(r => r.id === id);
+    if (idx === -1) return res.status(404).json({ success: false, message: 'Review not found.' });
+    
+    data.reviews.splice(idx, 1);
+    if (!writeData(data)) return res.status(503).json({ success: false, message: 'Database save failed.' });
+    res.json({ success: true, message: 'Review deleted successfully!' });
 });
 
 // DASHBOARD ROUTE - derived only from saved CMS records

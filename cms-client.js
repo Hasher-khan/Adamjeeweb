@@ -99,4 +99,47 @@
             return { success: false, message: 'Could not check status right now. ' + (window.CMS_LAST_ERROR || e.message) };
         }
     };
+
+    /**
+     * Fetch approved reviews from Firestore.
+     * Returns an array of reviews, or null on error.
+     */
+    window.fetchApprovedReviews = async function () {
+        try {
+            const snap = await db.collection('reviews')
+                .where('status', '==', 'Approved')
+                .get();
+            return snap.docs
+                .map(d => ({ id: d.id, ...d.data() }))
+                .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        } catch (e) {
+            window.CMS_LAST_ERROR = explain(e);
+            console.error('Reviews fetch error:', e);
+            return null;
+        }
+    };
+
+    /**
+     * Submit a review to Firestore.
+     * Returns { success: true, reviewId: string } or { success: false, message: string }
+     */
+    window.submitReview = async function (formData) {
+        try {
+            const id = `Rev-${Date.now()}`;
+            await db.collection('reviews').doc(id).set({
+                id,
+                reviewerName: String(formData.reviewerName || '').trim(),
+                rating: Number(formData.rating || 5),
+                comment: String(formData.comment || '').trim(),
+                status: 'Pending',
+                createdAt: new Date().toISOString()
+            });
+            window.CMS_LAST_ERROR = '';
+            return { success: true, reviewId: id, message: 'Review submitted successfully and is awaiting moderation.' };
+        } catch (e) {
+            window.CMS_LAST_ERROR = explain(e);
+            console.error('Review submission error:', e);
+            return { success: false, message: window.CMS_LAST_ERROR || e.message };
+        }
+    };
 })();

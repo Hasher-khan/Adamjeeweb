@@ -189,4 +189,61 @@
         }
     };
 
+    // ── Reviews Moderation ───────────────────────────────────────────────────
+
+    window.fetchAdminReviews = async function () {
+        try {
+            const snap = await db.collection('reviews').get();
+            return snap.docs
+                .map(d => ({ id: d.id, ...d.data() }))
+                .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
+            console.error('Firestore read error:', e);
+            return null;
+        }
+    };
+
+    window.approveReview = async function (id) {
+        try {
+            await db.collection('reviews').doc(id).update({
+                status: 'Approved'
+            });
+            window.CMS_LAST_ERROR = '';
+            return { success: true, message: 'Review approved successfully!' };
+        } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
+            console.error('Firestore update error:', e);
+            return { success: false, message: window.CMS_LAST_ERROR };
+        }
+    };
+
+    window.replyToReview = async function (id, replyText) {
+        try {
+            await db.collection('reviews').doc(id).update({
+                reply: String(replyText || '').trim(),
+                repliedAt: new Date().toISOString(),
+                status: 'Approved' // auto-approve when replied
+            });
+            window.CMS_LAST_ERROR = '';
+            return { success: true, message: 'Reply posted successfully!' };
+        } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
+            console.error('Firestore update error:', e);
+            return { success: false, message: window.CMS_LAST_ERROR };
+        }
+    };
+
+    window.deleteReview = async function (id) {
+        try {
+            await db.collection('reviews').doc(id).delete();
+            window.CMS_LAST_ERROR = '';
+            return { success: true, message: 'Review deleted successfully!' };
+        } catch (e) {
+            window.CMS_LAST_ERROR = window.explainCmsError(e);
+            console.error('Firestore delete error:', e);
+            return { success: false, message: window.CMS_LAST_ERROR };
+        }
+    };
+
 })();
