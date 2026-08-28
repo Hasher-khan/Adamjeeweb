@@ -101,13 +101,16 @@
             const passwordInput = document.getElementById('password').value;
             const verificationInput = document.getElementById('verification').value;
             
-            const correctPassword = 'hk786412345';
-            const correctVerification = 'adamjee12345';
+            // Admin access credentials. Both fields must be entered correctly.
+            const ADMIN_CREDENTIALS = Object.freeze({
+                password: 'hk786412345',
+                verification: 'adamjee12345'
+            });
             
             const errorMsg = document.getElementById('error-message');
             const card = document.getElementById('login-card');
 
-            if (passwordInput === correctPassword && verificationInput === correctVerification) {
+            if (passwordInput === ADMIN_CREDENTIALS.password && verificationInput === ADMIN_CREDENTIALS.verification) {
                 // Success path
                 errorMsg.classList.add('hidden');
                 sessionStorage.setItem('admin_authenticated', 'true');
