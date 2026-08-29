@@ -1,5 +1,26 @@
 /* admin.css - Premium Glassmorphism & Animations */
 
+html,
+body,
+main,
+aside,
+.overflow-y-auto,
+.overflow-auto {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+main::-webkit-scrollbar,
+aside::-webkit-scrollbar,
+.overflow-y-auto::-webkit-scrollbar,
+.overflow-auto::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
 body {
     background-color: #000a1e; /* Tailwind config 'primary' */
     background-image: 

@@ -1,5 +1,16 @@
 /* Shared mobile polish for the public site. */
-html, body { max-width: 100%; overflow-x: hidden; }
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
 
 .mobile-site-header { display: none; }
 .mobile-site-menu, .mobile-site-backdrop { display: none; }
