@@ -82,6 +82,16 @@
         return setCmsDoc('timetable', data);
     };
 
+    // ── Monthly Test Timetable ────────────────────────────────────────────────
+    
+    window.fetchMonthlyTestData = async function () {
+        return getCmsDoc('monthlyTest');
+    };
+
+    window.saveMonthlyTestData = async function (data) {
+        return setCmsDoc('monthlyTest', data);
+    };
+
     // ── Settings ──────────────────────────────────────────────────────────────
 
     window.fetchSettings = async function () {

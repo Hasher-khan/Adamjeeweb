@@ -63,6 +63,17 @@
                 </p>
 </div>
 </section>
+<!-- Toggle Section for Schedule Type -->
+<section class="flex justify-center mb-md mt-sm">
+    <div class="inline-flex bg-surface-container-low p-1 rounded-xl border border-outline-variant/30">
+        <button id="tab-weekly" class="px-xl py-sm rounded-lg text-label-md font-label-md transition-all duration-200 bg-primary text-on-primary shadow-sm" onclick="switchScheduleType('weekly')">
+            Weekly Classes
+        </button>
+        <button id="tab-monthly" class="px-xl py-sm rounded-lg text-label-md font-label-md transition-all duration-200 text-on-surface-variant hover:text-primary hover:bg-surface-variant" onclick="switchScheduleType('monthly')">
+            Monthly Tests
+        </button>
+    </div>
+</section>
 <!-- Filters Section (Glassmorphism Card) -->
 <section class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-lg shadow-[0_4px_15px_rgba(0,33,71,0.08)] flex flex-col md:flex-row gap-lg items-end">
 <div class="w-full md:w-1/4 flex flex-col gap-sm">
@@ -190,6 +201,31 @@
     </div>
     <script>
         let timetableApiData = null;
+        let monthlyTestApiData = null;
+        let currentScheduleType = 'weekly';
+
+        function switchScheduleType(type) {
+            currentScheduleType = type;
+            const btnWeekly = document.getElementById('tab-weekly');
+            const btnMonthly = document.getElementById('tab-monthly');
+            const h1 = document.querySelector('h1.text-display-hero');
+            const p = document.querySelector('p.max-w-2xl');
+
+            if (type === 'weekly') {
+                btnWeekly.className = "px-xl py-sm rounded-lg text-label-md font-label-md transition-all duration-200 bg-primary text-on-primary shadow-sm";
+                btnMonthly.className = "px-xl py-sm rounded-lg text-label-md font-label-md transition-all duration-200 text-on-surface-variant hover:text-primary hover:bg-surface-variant";
+                if (h1 && timetableApiData?.title) h1.innerText = timetableApiData.title;
+                else if (h1) h1.innerText = 'Class Timetable';
+                if (p) p.innerText = 'View the weekly schedule for all classes. Use the filters below to find your specific subject timings, assigned faculty, and room allocations.';
+            } else {
+                btnMonthly.className = "px-xl py-sm rounded-lg text-label-md font-label-md transition-all duration-200 bg-primary text-on-primary shadow-sm";
+                btnWeekly.className = "px-xl py-sm rounded-lg text-label-md font-label-md transition-all duration-200 text-on-surface-variant hover:text-primary hover:bg-surface-variant";
+                if (h1 && monthlyTestApiData?.title) h1.innerText = monthlyTestApiData.title;
+                else if (h1) h1.innerText = 'Monthly Test Timetable';
+                if (p) p.innerText = 'View the monthly test schedule for all classes. Select your class and section below.';
+            }
+            applyFilters();
+        }
 
         function renderRows(schedule) {
             const tbody = document.getElementById('schedule-table-body');
@@ -224,11 +260,13 @@
             const groupKey = document.getElementById('group-filter').value;
             const dayKey   = document.getElementById('day-filter').value;
 
-            if (!timetableApiData || !timetableApiData.classes) {
+            const activeData = currentScheduleType === 'weekly' ? timetableApiData : monthlyTestApiData;
+
+            if (!activeData || !activeData.classes) {
                 renderRows([]);
                 return;
             }
-            const classData = timetableApiData.classes[classKey];
+            const classData = activeData.classes[classKey];
             if (!classData || !classData.schedule) {
                 renderRows([]);
                 return;
@@ -246,7 +284,13 @@
 
             // Fetch data then render
             try {
-                timetableApiData = await fetchCmsData('timetable');
+                const [ttData, mtData] = await Promise.all([
+                    fetchCmsData('timetable'),
+                    window.fetchMonthlyTest ? window.fetchMonthlyTest() : fetchCmsData('monthlyTest')
+                ]);
+                timetableApiData = ttData;
+                monthlyTestApiData = mtData;
+                
                 if (timetableApiData && timetableApiData.title) {
                     const h1 = document.querySelector('h1.text-display-hero');
                     if (h1) h1.innerText = timetableApiData.title;

@@ -25,7 +25,7 @@
     /**
      * Fetch a CMS document from Firestore.
      * Returns the document data object, or null on error.
-     * @param {string} docId  e.g. 'faculty' | 'timetable' | 'admissions'
+     * @param {string} docId  e.g. 'faculty' | 'timetable' | 'monthlyTest' | 'admissions'
      */
     window.fetchCmsData = async function (docId) {
         try {
@@ -37,6 +37,13 @@
             console.error('CMS fetch error:', e);
             return null;
         }
+    };
+
+    /**
+     * Fetch the monthly test timetable from Firestore.
+     */
+    window.fetchMonthlyTest = async function () {
+        return window.fetchCmsData('monthlyTest');
     };
 
     /**

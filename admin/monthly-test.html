@@ -4,7 +4,7 @@
     <script src="js/auth.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Timetable - Adamjee CMS</title>
+    <title>Manage Monthly Tests - Adamjee CMS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind-config.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -36,8 +36,8 @@
             <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-dashboard-line text-lg"></i> Dashboard</a>
             <a href="admissions.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-article-line text-lg"></i> Admissions</a>
             <a href="faculty.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-team-line text-lg"></i> Faculty</a>
-            <a href="timetable.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white font-medium transition-colors"><i class="ri-calendar-todo-line text-lg"></i> Timetable</a>
-            <a href="monthly-test.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-survey-line text-lg"></i> Monthly Tests</a>
+            <a href="timetable.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-calendar-todo-line text-lg"></i> Timetable</a>
+            <a href="monthly-test.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white font-medium transition-colors"><i class="ri-survey-line text-lg"></i> Monthly Tests</a>
             <a href="student-applications.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-user-shared-line text-lg"></i> Student Forms</a>
             <a href="reviews.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white font-medium transition-colors"><i class="ri-star-line text-lg"></i> Reviews</a>
             
@@ -60,7 +60,7 @@
         <!-- Header -->
         <header class="glass-panel border-b border-white/10 px-8 py-5 flex items-center justify-between sticky top-0 z-20">
             <div>
-                <h2 class="text-2xl font-semibold text-white">Timetable Management</h2>
+                <h2 class="text-2xl font-semibold text-white">Monthly Test Management</h2>
                 <p class="text-sm text-white/50 mt-0.5">Manage schedules per class and per day</p>
             </div>
             <div class="flex items-center gap-3">
@@ -316,7 +316,7 @@
                 classes: timetableData.classes
             };
 
-            const res = await saveTimetableData(payload);
+            const res = await saveMonthlyTestData(payload);
             if (res && res.success) {
                 saveBtn.innerHTML = '<i class="ri-check-line"></i> Saved!';
             } else {
@@ -325,9 +325,8 @@
             setTimeout(() => saveBtn.innerHTML = orig, 2000);
         });
 
-        // Initial load
         document.addEventListener('DOMContentLoaded', async () => {
-            const data = await fetchTimetableData();
+            const data = await fetchMonthlyTestData();
             if (data) {
                 timetableData = data;
                 document.getElementById('inp-title').value = data.title || '';
