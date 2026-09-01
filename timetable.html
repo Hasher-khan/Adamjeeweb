@@ -131,7 +131,7 @@
 <tr class="bg-primary text-on-primary text-label-md font-label-md uppercase tracking-wider">
 <th class="py-md px-lg w-1/4">Time</th>
 <th class="py-md px-lg w-1/4">Subject</th>
-<th class="py-md px-lg w-1/4">Teacher</th>
+<th id="teacher-th" class="py-md px-lg w-1/4">Teacher</th>
 <th class="py-md px-lg w-1/4">Room Number</th>
 </tr>
 </thead>
@@ -210,6 +210,7 @@
             const btnMonthly = document.getElementById('tab-monthly');
             const h1 = document.querySelector('h1.text-display-hero');
             const p = document.querySelector('p.max-w-2xl');
+            const teacherTh = document.getElementById('teacher-th');
 
             if (type === 'weekly') {
                 btnWeekly.className = "px-xl py-sm rounded-lg text-label-md font-label-md transition-all duration-200 bg-primary text-on-primary shadow-sm";
@@ -217,12 +218,14 @@
                 if (h1 && timetableApiData?.title) h1.innerText = timetableApiData.title;
                 else if (h1) h1.innerText = 'Class Timetable';
                 if (p) p.innerText = 'View the weekly schedule for all classes. Use the filters below to find your specific subject timings, assigned faculty, and room allocations.';
+                if (teacherTh) teacherTh.style.display = 'table-cell';
             } else {
                 btnMonthly.className = "px-xl py-sm rounded-lg text-label-md font-label-md transition-all duration-200 bg-primary text-on-primary shadow-sm";
                 btnWeekly.className = "px-xl py-sm rounded-lg text-label-md font-label-md transition-all duration-200 text-on-surface-variant hover:text-primary hover:bg-surface-variant";
                 if (h1 && monthlyTestApiData?.title) h1.innerText = monthlyTestApiData.title;
                 else if (h1) h1.innerText = 'Monthly Test Timetable';
                 if (p) p.innerText = 'View the monthly test schedule for all classes. Select your class and section below.';
+                if (teacherTh) teacherTh.style.display = 'none';
             }
             applyFilters();
         }
@@ -242,13 +245,15 @@
                 const tr = document.createElement('tr');
                 tr.className = `${bgClass} transition-colors duration-150`;
                 if (row.type === 'break') {
-                    tr.innerHTML = `<td class="py-md px-lg font-medium text-primary">${row.time}</td><td class="py-md px-lg text-on-surface-variant italic" colspan="3">${row.subject}</td>`;
+                    const colspan = currentScheduleType === 'weekly' ? 3 : 2;
+                    tr.innerHTML = `<td class="py-md px-lg font-medium text-primary">${row.time}</td><td class="py-md px-lg text-on-surface-variant italic" colspan="${colspan}">${row.subject}</td>`;
                 } else {
+                    let teacherCell = currentScheduleType === 'weekly' ? `<td class="py-md px-lg">${row.teacher || ''}</td>` : '';
                     tr.innerHTML = `
                         <td class="py-md px-lg font-medium text-primary">${row.time}</td>
                         <td class="py-md px-lg"><div class="flex items-center gap-sm"><span class="w-1 h-4 bg-[#D4AF37] rounded-full"></span>${row.subject}</div></td>
-                        <td class="py-md px-lg">${row.teacher}</td>
-                        <td class="py-md px-lg">${row.room}</td>
+                        ${teacherCell}
+                        <td class="py-md px-lg">${row.room || ''}</td>
                     `;
                 }
                 tbody.appendChild(tr);
