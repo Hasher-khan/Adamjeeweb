@@ -126,8 +126,8 @@
 <!-- Timetable Grid Section -->
 <section class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-[0_4px_15px_rgba(0,33,71,0.08)]">
 <div class="overflow-x-auto">
-<table class="w-full text-left border-collapse min-w-[800px]">
-<thead>
+<table class="block md:table w-full text-left border-collapse">
+<thead class="hidden md:table-header-group">
 <tr class="bg-primary text-on-primary text-label-md font-label-md uppercase tracking-wider">
 <th class="py-md px-lg w-1/4">Time</th>
 <th class="py-md px-lg w-1/4">Subject</th>
@@ -135,7 +135,7 @@
 <th class="py-md px-lg w-1/4">Room Number</th>
 </tr>
 </thead>
-<tbody id="schedule-table-body" class="text-body-md font-body-md text-on-surface divide-y divide-outline-variant/30">
+<tbody id="schedule-table-body" class="block md:table-row-group text-body-md font-body-md text-on-surface md:divide-y md:divide-outline-variant/30">
     <!-- Rows will be injected here via JavaScript -->
 </tbody>
 </table>
@@ -243,17 +243,42 @@
                 const isEven = index % 2 === 0;
                 const bgClass = isEven ? 'bg-surface-container-lowest hover:bg-surface-container-low' : 'bg-surface-container-low hover:bg-surface-variant';
                 const tr = document.createElement('tr');
-                tr.className = `${bgClass} transition-colors duration-150`;
+                tr.className = `block md:table-row ${bgClass} transition-colors duration-150 border md:border-none border-outline-variant/30 p-4 md:p-0 mb-4 md:mb-0 rounded-xl md:rounded-none shadow-sm md:shadow-none`;
+                
                 if (row.type === 'break') {
                     const colspan = currentScheduleType === 'weekly' ? 3 : 2;
-                    tr.innerHTML = `<td class="py-md px-lg font-medium text-primary">${row.time}</td><td class="py-md px-lg text-on-surface-variant italic" colspan="${colspan}">${row.subject}</td>`;
-                } else {
-                    let teacherCell = currentScheduleType === 'weekly' ? `<td class="py-md px-lg">${row.teacher || ''}</td>` : '';
                     tr.innerHTML = `
-                        <td class="py-md px-lg font-medium text-primary">${row.time}</td>
-                        <td class="py-md px-lg"><div class="flex items-center gap-sm"><span class="w-1 h-4 bg-[#D4AF37] rounded-full"></span>${row.subject}</div></td>
+                        <td class="flex md:table-cell justify-between items-center py-2 md:py-md px-0 md:px-lg font-medium text-primary border-b border-outline-variant/10 md:border-none">
+                            <span class="md:hidden font-bold text-on-surface text-label-md">Time</span>
+                            <span>${row.time}</span>
+                        </td>
+                        <td class="flex md:table-cell justify-between items-center py-2 md:py-md px-0 md:px-lg text-on-surface-variant italic" colspan="${colspan}">
+                            <span class="md:hidden font-bold text-on-surface text-label-md mr-2">Break</span>
+                            <span class="text-right md:text-left">${row.subject}</span>
+                        </td>`;
+                } else {
+                    let teacherCell = currentScheduleType === 'weekly' ? `
+                        <td class="flex md:table-cell justify-between items-center py-2 md:py-md px-0 md:px-lg border-b border-outline-variant/10 md:border-none">
+                            <span class="md:hidden font-bold text-on-surface text-label-md">Teacher</span>
+                            <span class="text-right md:text-left">${row.teacher || '-'}</span>
+                        </td>` : '';
+                    tr.innerHTML = `
+                        <td class="flex md:table-cell justify-between items-center py-2 md:py-md px-0 md:px-lg font-medium text-primary border-b border-outline-variant/10 md:border-none">
+                            <span class="md:hidden font-bold text-on-surface text-label-md">Time</span>
+                            <span>${row.time}</span>
+                        </td>
+                        <td class="flex md:table-cell justify-between items-center py-2 md:py-md px-0 md:px-lg border-b border-outline-variant/10 md:border-none">
+                            <span class="md:hidden font-bold text-on-surface text-label-md">Subject</span>
+                            <div class="flex items-center justify-end md:justify-start gap-sm text-right md:text-left">
+                                <span class="hidden md:inline-block w-1 h-4 bg-[#D4AF37] rounded-full"></span>
+                                ${row.subject}
+                            </div>
+                        </td>
                         ${teacherCell}
-                        <td class="py-md px-lg">${row.room || ''}</td>
+                        <td class="flex md:table-cell justify-between items-center py-2 md:py-md px-0 md:px-lg">
+                            <span class="md:hidden font-bold text-on-surface text-label-md">Room</span>
+                            <span class="text-right md:text-left">${row.room || '-'}</span>
+                        </td>
                     `;
                 }
                 tbody.appendChild(tr);
